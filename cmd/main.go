@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"site-api/internal/product"
+	"site-api/pkg/middleware"
 )
 
 func App() http.Handler {
@@ -13,7 +14,13 @@ func App() http.Handler {
 	// Handlers
 	product.NewProductHandler(router, &product.ProductHandlerDeps{})
 
-	return router
+	// Middlewars
+	stack := middleware.Chain(
+		middleware.CORS,
+		middleware.Logging,
+	)
+
+	return stack(router)
 }
 
 func main() {

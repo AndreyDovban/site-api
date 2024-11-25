@@ -1,7 +1,6 @@
 package product
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -22,30 +21,25 @@ func NewProductHandler(router *http.ServeMux, deps *ProductHandlerDeps) {
 
 func (handler *ProductHandler) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("create")
 	}
 }
 
 func (handler *ProductHandler) Update() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("update")
 	}
 }
 
 func (handler *ProductHandler) Delete() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("delete")
 	}
 }
 
 func (handler *ProductHandler) Read() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("read")
 	}
 }
 
 func (handler *ProductHandler) GetAll() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("get all")
 	}
 }
