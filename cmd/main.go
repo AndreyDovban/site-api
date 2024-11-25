@@ -9,6 +9,7 @@ import (
 
 func App() http.Handler {
 
+	// config := configs.LoadConfig()
 	router := http.NewServeMux()
 
 	// Handlers
