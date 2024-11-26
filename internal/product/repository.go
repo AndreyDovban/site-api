@@ -86,7 +86,6 @@ func (repo *ProductRepository) Count() (int64, error) {
 }
 
 func (repo *ProductRepository) GetProds(limit, offset int, columns string) ([]ProductResponse, error) {
-	// var products []Product
 	var products []ProductResponse
 
 	query := repo.Db.

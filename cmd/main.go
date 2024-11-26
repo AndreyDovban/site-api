@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"site-api/configs"
+	"site-api/internal/client"
 	"site-api/internal/file"
+	"site-api/internal/link"
 	"site-api/internal/product"
 	"site-api/pkg/db"
 	"site-api/pkg/middleware"
@@ -19,6 +21,8 @@ func App() http.Handler {
 	// Repositories
 	prodRepository := product.NewProductRepository(db)
 	fileRepository := file.NewFileRepository(db)
+	linkRepository := link.NewLinkRepository(db)
+	clientRepository := client.NewClientRepository(db)
 
 	// Handlers
 	product.NewProductHandler(router, &product.ProductHandlerDeps{
@@ -26,6 +30,12 @@ func App() http.Handler {
 	})
 	file.NewFileHandler(router, &file.FileHandlerDeps{
 		FileRepository: fileRepository,
+	})
+	link.NewLinkHandler(router, &link.LinkHandlerDeps{
+		LinkRepository: linkRepository,
+	})
+	client.NewClientHandler(router, &client.ClientHandlerDeps{
+		ClientRepository: clientRepository,
 	})
 
 	// Middlewars

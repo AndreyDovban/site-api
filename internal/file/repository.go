@@ -85,8 +85,7 @@ func (repo *FileRepository) Count() (int64, error) {
 
 }
 
-func (repo *FileRepository) GetProds(limit, offset int, columns string) ([]FileResponse, error) {
-	// var products []File
+func (repo *FileRepository) GetFiles(limit, offset int, columns string) ([]FileResponse, error) {
 	var files []FileResponse
 
 	query := repo.Db.

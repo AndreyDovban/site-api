@@ -39,15 +39,15 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 
 		file := NewFile(body.Name, body.Description)
 
-		existedProd, _ := handler.FileRepository.FindByName(file.Name)
-		if existedProd != nil {
-			http.Error(w, existedProd.Name+" is already exists", http.StatusBadRequest)
+		existedFile, _ := handler.FileRepository.FindByName(file.Name)
+		if existedFile != nil {
+			http.Error(w, existedFile.Name+" is already exists", http.StatusBadRequest)
 			return
 		}
 
 		for {
-			existedProd, _ = handler.FileRepository.FindByUid(file.Uid)
-			if existedProd == nil {
+			existedFile, _ = handler.FileRepository.FindByUid(file.Uid)
+			if existedFile == nil {
 				break
 			}
 			file.GenerateHash()
@@ -148,7 +148,7 @@ func (handler *FileHandler) GetProds() http.HandlerFunc {
 			return
 		}
 
-		files, err := handler.FileRepository.GetProds(limit, offset, columns)
+		files, err := handler.FileRepository.GetFiles(limit, offset, columns)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
