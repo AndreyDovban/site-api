@@ -10,7 +10,7 @@ type Product struct {
 	gorm.Model
 	Name        string `json:"name"`
 	Description string `json:"decription"`
-	Hash        string `json:"hash" gorm:"uniqueIndex"`
+	Uid         string `json:"uid" gorm:"uniqueIndex"`
 }
 
 func NewProduct(name, description string) *Product {
@@ -23,7 +23,7 @@ func NewProduct(name, description string) *Product {
 }
 
 func (product *Product) GenerateHash() {
-	product.Hash = RandStringRunes(20)
+	product.Uid = RandStringRunes(20)
 }
 
 var letterRunes = []rune("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890")

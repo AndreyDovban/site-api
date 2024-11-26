@@ -4,6 +4,9 @@ import (
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
+	"strconv"
+
+	"gorm.io/gorm"
 )
 
 type ProductHandlerDeps struct {
@@ -19,11 +22,11 @@ func NewProductHandler(router *http.ServeMux, deps *ProductHandlerDeps) {
 		ProductRepository: deps.ProductRepository,
 	}
 	router.HandleFunc("POST /product", handler.Create())
-	router.HandleFunc("PATCH /product/{hash}", handler.Update())
-	router.HandleFunc("DELETE /product/{hash}", handler.Delete())
-	router.HandleFunc("GET /product/{hash}", handler.Read())
+	router.HandleFunc("GET /product/{name}", handler.Read())
+	router.HandleFunc("PATCH /product/{name}", handler.Update())
+	router.HandleFunc("DELETE /product/{name}", handler.Delete())
 
-	router.HandleFunc("GET /product", handler.GetAll())
+	router.HandleFunc("GET /product", handler.GetProds())
 
 }
 
@@ -43,7 +46,7 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 		}
 
 		for {
-			existedProd, _ = handler.ProductRepository.FindByName(product.Name)
+			existedProd, _ = handler.ProductRepository.FindByUid(product.Uid)
 			if existedProd == nil {
 				break
 			}
@@ -53,6 +56,7 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 		createdProd, err := handler.ProductRepository.Create(product)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
 		}
 
 		response.Json(w, createdProd.Name+" success added", http.StatusOK)
@@ -60,22 +64,99 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 	}
 }
 
+func (handler *ProductHandler) Read() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		name := r.PathValue("name")
+
+		existedProd, err := handler.ProductRepository.FindByName(name)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		response.Json(w, existedProd, http.StatusOK)
+	}
+}
+
 func (handler *ProductHandler) Update() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		body, err := request.HandleBody[ProductUpdateRequest](&w, r)
+		if err != nil {
+			return
+		}
+
+		name := r.PathValue("name")
+
+		_, err = handler.ProductRepository.FindByName(name)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		product, err := handler.ProductRepository.Update(name, &Product{
+			Model:       gorm.Model{},
+			Name:        body.Name,
+			Description: body.Description,
+		})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		response.Json(w, product, http.StatusOK)
 	}
 }
 
 func (handler *ProductHandler) Delete() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		name := r.PathValue("name")
+
+		_, err := handler.ProductRepository.FindByName(name)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		_, err = handler.ProductRepository.Delete(name)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		response.Json(w, name+" success deleted", http.StatusOK)
 	}
 }
 
-func (handler *ProductHandler) Read() http.HandlerFunc {
+func (handler *ProductHandler) GetProds() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-	}
-}
+		limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+		if err != nil {
+			http.Error(w, "invalid limit", http.StatusBadRequest)
+			return
+		}
+		offset, err := strconv.Atoi(r.URL.Query().Get("offset"))
+		if err != nil {
+			http.Error(w, "invalid offset", http.StatusBadRequest)
+			return
+		}
 
-func (handler *ProductHandler) GetAll() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+		columns := r.URL.Query().Get("columns")
+
+		count, err := handler.ProductRepository.Count()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		products, err := handler.ProductRepository.GetProds(limit, offset, columns)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		response.Json(w, &GetProductsResponse{
+			Products: products,
+			Count:    count,
+		}, http.StatusOK)
 	}
 }
