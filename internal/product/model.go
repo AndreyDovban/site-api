@@ -1,8 +1,13 @@
 package product
 
-import "math/rand"
+import (
+	"math/rand"
+
+	"gorm.io/gorm"
+)
 
 type Product struct {
+	gorm.Model
 	Name        string `json:"name"`
 	Description string `json:"decription"`
 	Hash        string `json:"hash" gorm:"uniqueIndex"`

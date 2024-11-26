@@ -4,12 +4,18 @@ import (
 	"net/http"
 )
 
-type ProductHandlerDeps struct{}
+type ProductHandlerDeps struct {
+	ProductRepository *ProductRepository
+}
 
-type ProductHandler struct{}
+type ProductHandler struct {
+	ProductRepository *ProductRepository
+}
 
 func NewProductHandler(router *http.ServeMux, deps *ProductHandlerDeps) {
-	handler := &ProductHandler{}
+	handler := &ProductHandler{
+		ProductRepository: deps.ProductRepository,
+	}
 	router.HandleFunc("POST /product", handler.Create())
 	router.HandleFunc("PATCH /product/{hash}", handler.Update())
 	router.HandleFunc("DELETE /product/{hash}", handler.Delete())
