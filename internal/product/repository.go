@@ -1,6 +1,8 @@
 package product
 
-import "site-api/pkg/db"
+import (
+	"site-api/pkg/db"
+)
 
 type ProductRepository struct {
 	Db *db.Db
@@ -18,4 +20,22 @@ func (repo *ProductRepository) Create(prod *Product) (*Product, error) {
 		return nil, result.Error
 	}
 	return prod, nil
+}
+
+func (repo *ProductRepository) FindByName(name string) (*Product, error) {
+	var product Product
+	result := repo.Db.First(&product, "name = ?", name)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &product, nil
+}
+
+func (repo *ProductRepository) FindByHash(hash string) (*Product, error) {
+	var product Product
+	result := repo.Db.First(&product, "hash = ?", hash)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &product, nil
 }
