@@ -1,25 +1,25 @@
-package product
+package file
 
 import "gorm.io/datatypes"
 
-type ProductCreateRequest struct {
+type FileCreateRequest struct {
 	Name        string `json:"name" validate:"required"`
 	Description string `json:"description" validate:"required"`
 }
 
-type ProductUpdateRequest struct {
+type FileUpdateRequest struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }
 
-type ProductResponse struct {
+type FileResponse struct {
 	Name        string         `json:"name"`
 	Description string         `json:"description"`
 	CreatedAt   datatypes.Date `json:"CreatedAt"`
 	UpdatedAt   datatypes.Date `json:"UpdatedAt"`
 }
 
-type GetProductsResponse struct {
-	Products []ProductResponse `json:"products"`
-	Count    int64             `json:"count"`
+type GetFilesResponse struct {
+	Files []FileResponse `json:"files"`
+	Count int64          `json:"count"`
 }
