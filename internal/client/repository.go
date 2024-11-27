@@ -85,10 +85,10 @@ func (repo *ClientRepository) Count() (int64, error) {
 
 }
 
-func (repo *ClientRepository) GetClients(limit, offset int, columns string) ([]ClientResponse, error) {
+func (repo *ClientRepository) GetClients(limit, offset int, columns []string) ([]ClientResponse, error) {
 	var clients []ClientResponse
 
-	if columns == "" {
+	if len(columns) == 0 {
 		return clients, nil
 	}
 
@@ -105,4 +105,15 @@ func (repo *ClientRepository) GetClients(limit, offset int, columns string) ([]C
 		return nil, result.Error
 	}
 	return clients, nil
+}
+
+func (repo *ClientRepository) FindByData(name, telephone, mail, company string) (*Client, error) {
+	var client Client
+	result := repo.Db.
+		Table("clients").
+		First(&client, "name = ? and telephone = ? and mail = ? and company = ?", name, telephone, mail, company)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &client, nil
 }

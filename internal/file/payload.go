@@ -14,12 +14,18 @@ type FileUpdateRequest struct {
 	ProductName string `json:"product_name"`
 }
 
+type GetFilesRequest struct {
+	Limit   int      `json:"limit"`
+	Offset  int      `json:"offset"`
+	Columns []string `json:"columns"`
+}
+
 type FileResponse struct {
 	Name        string         `json:"name"`
 	Description string         `json:"description"`
 	ProductName string         `json:"product_name"`
-	CreatedAt   datatypes.Date `json:"CreatedAt"`
-	UpdatedAt   datatypes.Date `json:"UpdatedAt"`
+	CreatedAt   datatypes.Date `json:"created_at"`
+	UpdatedAt   datatypes.Date `json:"updated_at"`
 }
 
 type GetFilesResponse struct {

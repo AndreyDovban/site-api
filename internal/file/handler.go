@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
-	"strconv"
 
 	"gorm.io/gorm"
 )
@@ -26,7 +25,7 @@ func NewFileHandler(router *http.ServeMux, deps *FileHandlerDeps) {
 	router.HandleFunc("PATCH /file/{name}", handler.Update())
 	router.HandleFunc("DELETE /file/{name}", handler.Delete())
 
-	router.HandleFunc("GET /file", handler.GetFiles())
+	router.HandleFunc("POST /files", handler.GetFiles())
 
 }
 
@@ -129,18 +128,10 @@ func (handler *FileHandler) Delete() http.HandlerFunc {
 
 func (handler *FileHandler) GetFiles() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+		body, err := request.HandleBody[GetFilesRequest](&w, r)
 		if err != nil {
-			http.Error(w, "invalid limit", http.StatusBadRequest)
 			return
 		}
-		offset, err := strconv.Atoi(r.URL.Query().Get("offset"))
-		if err != nil {
-			http.Error(w, "invalid offset", http.StatusBadRequest)
-			return
-		}
-
-		columns := r.URL.Query().Get("columns")
 
 		count, err := handler.FileRepository.Count()
 		if err != nil {
@@ -148,7 +139,7 @@ func (handler *FileHandler) GetFiles() http.HandlerFunc {
 			return
 		}
 
-		files, err := handler.FileRepository.GetFiles(limit, offset, columns)
+		files, err := handler.FileRepository.GetFiles(body.Limit, body.Offset, body.Columns)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

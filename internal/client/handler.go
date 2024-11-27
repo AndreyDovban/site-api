@@ -1,10 +1,10 @@
 package client
 
 import (
+	"fmt"
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
-	"strconv"
 
 	"gorm.io/gorm"
 )
@@ -26,7 +26,8 @@ func NewClientHandler(router *http.ServeMux, deps *ClientHandlerDeps) {
 	router.HandleFunc("PATCH /client/{name}", handler.Update())
 	router.HandleFunc("DELETE /client/{name}", handler.Delete())
 
-	router.HandleFunc("GET /client", handler.GetProds())
+	router.HandleFunc("POST /clients", handler.GetProds())
+	router.HandleFunc("POST /mail", handler.Mail())
 
 }
 
@@ -37,7 +38,7 @@ func (handler *ClientHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		client := NewProduct(body.Name, body.Telephone, body.Mail, body.Company)
+		client := NewClient(body.Name, body.Telephone, body.Mail, body.Company)
 
 		existedClient, _ := handler.ClientRepository.FindByName(client.Name)
 		if existedClient != nil {
@@ -131,18 +132,10 @@ func (handler *ClientHandler) Delete() http.HandlerFunc {
 
 func (handler *ClientHandler) GetProds() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+		body, err := request.HandleBody[GetClientsRequest](&w, r)
 		if err != nil {
-			http.Error(w, "invalid limit", http.StatusBadRequest)
 			return
 		}
-		offset, err := strconv.Atoi(r.URL.Query().Get("offset"))
-		if err != nil {
-			http.Error(w, "invalid offset", http.StatusBadRequest)
-			return
-		}
-
-		columns := r.URL.Query().Get("columns")
 
 		count, err := handler.ClientRepository.Count()
 		if err != nil {
@@ -150,7 +143,7 @@ func (handler *ClientHandler) GetProds() http.HandlerFunc {
 			return
 		}
 
-		clients, err := handler.ClientRepository.GetClients(limit, offset, columns)
+		clients, err := handler.ClientRepository.GetClients(body.Limit, body.Offset, body.Columns)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -160,5 +153,45 @@ func (handler *ClientHandler) GetProds() http.HandlerFunc {
 			Clients: clients,
 			Count:   count,
 		}, http.StatusOK)
+	}
+}
+
+func (handler *ClientHandler) Mail() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		body, err := request.HandleBody[ClientMailRequest](&w, r)
+		if err != nil {
+			return
+		}
+		if len(body.Products) == 0 {
+			http.Error(w, "not choosed products", http.StatusBadRequest)
+			return
+		}
+
+		client := NewClient(body.Name, body.Telephone, body.Mail, body.Company)
+
+		existedClient, _ := handler.ClientRepository.FindByData(client.Name, client.Telephone, client.Mail, client.Company)
+		if existedClient != nil {
+			fmt.Println("start mail service")
+			http.Error(w, existedClient.Name+" is already exists\n"+body.Products[0], http.StatusBadRequest)
+			return
+		}
+
+		for {
+			existedClient, _ = handler.ClientRepository.FindByUid(client.Uid)
+			if existedClient == nil {
+				break
+			}
+			client.GenerateHash()
+		}
+
+		createdClient, err := handler.ClientRepository.Create(client)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		fmt.Println("start mail service")
+		response.Json(w, createdClient.Name+" success added", http.StatusOK)
+
 	}
 }

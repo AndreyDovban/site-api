@@ -15,7 +15,7 @@ type Client struct {
 	Uid       string `json:"uid" gorm:"uniqueIndex"`
 }
 
-func NewProduct(name, telephone, mail, company string) *Client {
+func NewClient(name, telephone, mail, company string) *Client {
 	product := &Client{
 		Name:      name,
 		Telephone: telephone,

@@ -12,14 +12,18 @@ type ProductUpdateRequest struct {
 	Description string `json:"description"`
 }
 
+type GetProductsRequest struct {
+	Limit   int      `json:"limit"`
+	Offset  int      `json:"offset"`
+	Columns []string `json:"columns"`
+}
+
 type ProductResponse struct {
 	Name        string         `json:"name"`
 	Description string         `json:"description"`
-	CreatedAt   datatypes.Date `json:"CreatedAt"`
-	UpdatedAt   datatypes.Date `json:"UpdatedAt"`
+	CreatedAt   datatypes.Date `json:"created_at"`
+	UpdatedAt   datatypes.Date `json:"updated_at"`
 }
-
-// type ProductResponse struct{}
 
 type GetProductsResponse struct {
 	Products any   `json:"products"`

@@ -4,7 +4,6 @@ import (
 	"site-api/pkg/db"
 
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 type LinkRepository struct {
@@ -27,45 +26,11 @@ func (repo *LinkRepository) Create(link *Link) (*Link, error) {
 	return link, nil
 }
 
-func (repo *LinkRepository) FindByName(name string) (*Link, error) {
-	var link Link
-	result := repo.Db.
-		Table("links").
-		First(&link, "name = ?", name)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return &link, nil
-}
-
 func (repo *LinkRepository) FindByUid(uid string) (*Link, error) {
 	var link Link
 	result := repo.Db.
 		Table("links").
 		First(&link, "uid = ?", uid)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return &link, nil
-}
-
-func (repo *LinkRepository) Update(name string, link *Link) (*Link, error) {
-	result := repo.Db.
-		Table("links").
-		Where("name = ?", name).
-		Clauses(clause.Returning{}).
-		Updates(link)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return link, nil
-}
-
-func (repo *LinkRepository) Delete(name string) (*Link, error) {
-	var link Link
-	result := repo.Db.
-		Table("links").
-		Delete(&link, "name = ?", name)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -85,16 +50,18 @@ func (repo *LinkRepository) Count() (int64, error) {
 
 }
 
-func (repo *LinkRepository) GetLinks(limit, offset int, columns string) ([]LinkResponse, error) {
+func (repo *LinkRepository) GetLinks(limit, offset int, columns []string) ([]LinkResponse, error) {
 	var links []LinkResponse
 
-	query := repo.Db.
+	if len(columns) == 0 {
+		return links, nil
+	}
+
+	result := repo.Db.
 		Table("links").
 		Select(columns).
 		Where("deleted_at is null").
-		Session(&gorm.Session{})
-
-	result := query.
+		Session(&gorm.Session{}).
 		Order("id asc").
 		Limit(limit).
 		Offset(offset).

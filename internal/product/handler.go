@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
-	"strconv"
 
 	"gorm.io/gorm"
 )
@@ -26,7 +25,7 @@ func NewProductHandler(router *http.ServeMux, deps *ProductHandlerDeps) {
 	router.HandleFunc("PATCH /product/{name}", handler.Update())
 	router.HandleFunc("DELETE /product/{name}", handler.Delete())
 
-	router.HandleFunc("GET /product", handler.GetProds())
+	router.HandleFunc("POST /products", handler.GetProds())
 
 }
 
@@ -129,18 +128,10 @@ func (handler *ProductHandler) Delete() http.HandlerFunc {
 
 func (handler *ProductHandler) GetProds() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+		body, err := request.HandleBody[GetProductsRequest](&w, r)
 		if err != nil {
-			http.Error(w, "invalid limit", http.StatusBadRequest)
 			return
 		}
-		offset, err := strconv.Atoi(r.URL.Query().Get("offset"))
-		if err != nil {
-			http.Error(w, "invalid offset", http.StatusBadRequest)
-			return
-		}
-
-		columns := r.URL.Query().Get("columns")
 
 		count, err := handler.ProductRepository.Count()
 		if err != nil {
@@ -148,7 +139,7 @@ func (handler *ProductHandler) GetProds() http.HandlerFunc {
 			return
 		}
 
-		products, err := handler.ProductRepository.GetProds(limit, offset, columns)
+		products, err := handler.ProductRepository.GetProds(body.Limit, body.Offset, body.Columns)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

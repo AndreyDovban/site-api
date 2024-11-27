@@ -2,19 +2,23 @@ package link
 
 import "gorm.io/datatypes"
 
-type LinkCreateRequest struct {
-	Name        string `json:"name" validate:"required"`
-	Description string `json:"description" validate:"required"`
-}
-
-type LinkUpdateRequest struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+type GetLinksRequest struct {
+	Limit   int      `json:"limit"`
+	Offset  int      `json:"offset"`
+	Columns []string `json:"columns"`
 }
 
 type LinkResponse struct {
-	Name        string         `json:"name"`
-	Description string         `json:"description"`
+	Uid         string         `json:"uid"`
+	Hash        string         `json:"hash"`
+	Valid       bool           `json:"valid"`
+	Count       int            `json:"count"`
+	ProductName string         `json:"product_name"`
+	ProductUid  string         `json:"product_uid"`
+	FileName    string         `json:"file_name"`
+	FileUid     string         `json:"file_uid"`
+	ClientName  string         `json:"client_Name"`
+	ClientUid   string         `json:"client_uid"`
 	CreatedAt   datatypes.Date `json:"CreatedAt"`
 	UpdatedAt   datatypes.Date `json:"UpdatedAt"`
 }

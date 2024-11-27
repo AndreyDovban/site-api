@@ -105,10 +105,10 @@ func (repo *FileRepository) Count() (int64, error) {
 
 }
 
-func (repo *FileRepository) GetFiles(limit, offset int, columns string) ([]FileResponse, error) {
+func (repo *FileRepository) GetFiles(limit, offset int, columns []string) ([]FileResponse, error) {
 	var files []FileResponse
 
-	if columns == "" {
+	if len(columns) == 0 {
 		return files, nil
 	}
 

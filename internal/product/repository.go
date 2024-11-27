@@ -85,10 +85,10 @@ func (repo *ProductRepository) Count() (int64, error) {
 
 }
 
-func (repo *ProductRepository) GetProds(limit, offset int, columns string) ([]ProductResponse, error) {
+func (repo *ProductRepository) GetProds(limit, offset int, columns []string) ([]ProductResponse, error) {
 	var products []ProductResponse
 
-	if columns == "" {
+	if len(columns) == 0 {
 		return products, nil
 	}
 
