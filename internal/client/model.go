@@ -8,15 +8,19 @@ import (
 
 type Client struct {
 	gorm.Model
-	Name        string `json:"name"`
-	Description string `json:"decription"`
-	Uid         string `json:"uid" gorm:"uniqueIndex"`
+	Name      string `json:"name"`
+	Telephone string `json:"telephone"`
+	Mail      string `json:"mail"`
+	Company   string `json:"company"`
+	Uid       string `json:"uid" gorm:"uniqueIndex"`
 }
 
-func NewProduct(name, description string) *Client {
+func NewProduct(name, telephone, mail, company string) *Client {
 	product := &Client{
-		Name:        name,
-		Description: description,
+		Name:      name,
+		Telephone: telephone,
+		Mail:      mail,
+		Company:   company,
 	}
 	product.GenerateHash()
 	return product

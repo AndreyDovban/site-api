@@ -37,7 +37,7 @@ func (handler *ClientHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		client := NewProduct(body.Name, body.Description)
+		client := NewProduct(body.Name, body.Telephone, body.Mail, body.Company)
 
 		existedClient, _ := handler.ClientRepository.FindByName(client.Name)
 		if existedClient != nil {
@@ -94,9 +94,11 @@ func (handler *ClientHandler) Update() http.HandlerFunc {
 		}
 
 		client, err := handler.ClientRepository.Update(name, &Client{
-			Model:       gorm.Model{},
-			Name:        body.Name,
-			Description: body.Description,
+			Model:     gorm.Model{},
+			Name:      body.Name,
+			Telephone: body.Telephone,
+			Mail:      body.Mail,
+			Company:   body.Company,
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)

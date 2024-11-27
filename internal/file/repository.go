@@ -1,6 +1,8 @@
 package file
 
 import (
+	"errors"
+	"fmt"
 	"site-api/pkg/db"
 
 	"gorm.io/gorm"
@@ -17,14 +19,32 @@ func NewFileRepository(database *db.Db) *FileRepository {
 	}
 }
 
-func (repo *FileRepository) Create(prod *File) (*File, error) {
+func (repo *FileRepository) Create(file *File) (*File, error) {
+	var uid string
+	prod_uid_res := repo.Db.
+		Table("products").
+		Select("uid").
+		Where("name = ?", file.ProductName).
+		Scan(&uid)
+
+	fmt.Println(uid)
+
+	if prod_uid_res.Error != nil {
+		return nil, prod_uid_res.Error
+	}
+	if uid == "" {
+		return nil, errors.New(file.ProductName + " is not found")
+	}
+
+	file.ProductUid = uid
+
 	result := repo.Db.
 		Table("files").
-		Create(prod)
+		Create(file)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return prod, nil
+	return file, nil
 }
 
 func (repo *FileRepository) FindByName(name string) (*File, error) {
@@ -88,13 +108,15 @@ func (repo *FileRepository) Count() (int64, error) {
 func (repo *FileRepository) GetFiles(limit, offset int, columns string) ([]FileResponse, error) {
 	var files []FileResponse
 
-	query := repo.Db.
+	if columns == "" {
+		return files, nil
+	}
+
+	result := repo.Db.
 		Table("files").
 		Select(columns).
 		Where("deleted_at is null").
-		Session(&gorm.Session{})
-
-	result := query.
+		Session(&gorm.Session{}).
 		Order("id asc").
 		Limit(limit).
 		Offset(offset).

@@ -26,7 +26,7 @@ func NewFileHandler(router *http.ServeMux, deps *FileHandlerDeps) {
 	router.HandleFunc("PATCH /file/{name}", handler.Update())
 	router.HandleFunc("DELETE /file/{name}", handler.Delete())
 
-	router.HandleFunc("GET /file", handler.GetProds())
+	router.HandleFunc("GET /file", handler.GetFiles())
 
 }
 
@@ -37,7 +37,7 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		file := NewFile(body.Name, body.Description)
+		file := NewFile(body.Name, body.Description, body.ProductName)
 
 		existedFile, _ := handler.FileRepository.FindByName(file.Name)
 		if existedFile != nil {
@@ -127,7 +127,7 @@ func (handler *FileHandler) Delete() http.HandlerFunc {
 	}
 }
 
-func (handler *FileHandler) GetProds() http.HandlerFunc {
+func (handler *FileHandler) GetFiles() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
 		if err != nil {

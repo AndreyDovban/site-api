@@ -88,13 +88,15 @@ func (repo *ProductRepository) Count() (int64, error) {
 func (repo *ProductRepository) GetProds(limit, offset int, columns string) ([]ProductResponse, error) {
 	var products []ProductResponse
 
-	query := repo.Db.
+	if columns == "" {
+		return products, nil
+	}
+
+	result := repo.Db.
 		Table("products").
 		Select(columns).
 		Where("deleted_at is null").
-		Session(&gorm.Session{})
-
-	result := query.
+		Session(&gorm.Session{}).
 		Order("id asc").
 		Limit(limit).
 		Offset(offset).

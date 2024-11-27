@@ -4,7 +4,6 @@ import (
 	"os"
 	"site-api/internal/client"
 	"site-api/internal/file"
-	"site-api/internal/link"
 	"site-api/internal/product"
 
 	"github.com/joho/godotenv"
@@ -22,5 +21,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(&product.Product{}, &file.File{}, &link.Link{}, &client.Client{})
+	// db.AutoMigrate(&product.Product{}, &file.File{}, &link.Link{}, &client.Client{})
+	db.AutoMigrate(&product.Product{}, &file.File{}, &client.Client{})
 }

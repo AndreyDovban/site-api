@@ -19,7 +19,9 @@ type ProductResponse struct {
 	UpdatedAt   datatypes.Date `json:"UpdatedAt"`
 }
 
+// type ProductResponse struct{}
+
 type GetProductsResponse struct {
-	Products []ProductResponse `json:"products"`
-	Count    int64             `json:"count"`
+	Products any   `json:"products"`
+	Count    int64 `json:"count"`
 }

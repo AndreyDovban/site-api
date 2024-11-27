@@ -88,13 +88,15 @@ func (repo *ClientRepository) Count() (int64, error) {
 func (repo *ClientRepository) GetClients(limit, offset int, columns string) ([]ClientResponse, error) {
 	var clients []ClientResponse
 
-	query := repo.Db.
+	if columns == "" {
+		return clients, nil
+	}
+
+	result := repo.Db.
 		Table("clients").
 		Select(columns).
 		Where("deleted_at is null").
-		Session(&gorm.Session{})
-
-	result := query.
+		Session(&gorm.Session{}).
 		Order("id asc").
 		Limit(limit).
 		Offset(offset).
