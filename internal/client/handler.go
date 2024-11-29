@@ -1,7 +1,6 @@
 package client
 
 import (
-	"fmt"
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
@@ -27,7 +26,6 @@ func NewClientHandler(router *http.ServeMux, deps *ClientHandlerDeps) {
 	router.HandleFunc("DELETE /client/{name}", handler.Delete())
 
 	router.HandleFunc("POST /clients", handler.GetProds())
-	router.HandleFunc("POST /mail", handler.Mail())
 
 }
 
@@ -153,45 +151,5 @@ func (handler *ClientHandler) GetProds() http.HandlerFunc {
 			Clients: clients,
 			Count:   count,
 		}, http.StatusOK)
-	}
-}
-
-func (handler *ClientHandler) Mail() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		body, err := request.HandleBody[ClientMailRequest](&w, r)
-		if err != nil {
-			return
-		}
-		if len(body.Products) == 0 {
-			http.Error(w, "not choosed products", http.StatusBadRequest)
-			return
-		}
-
-		client := NewClient(body.Name, body.Telephone, body.Mail, body.Company)
-
-		existedClient, _ := handler.ClientRepository.FindByData(client.Name, client.Telephone, client.Mail, client.Company)
-		if existedClient != nil {
-			fmt.Println("start mail service")
-			http.Error(w, existedClient.Name+" is already exists\n"+body.Products[0], http.StatusBadRequest)
-			return
-		}
-
-		for {
-			existedClient, _ = handler.ClientRepository.FindByUid(client.Uid)
-			if existedClient == nil {
-				break
-			}
-			client.GenerateHash()
-		}
-
-		createdClient, err := handler.ClientRepository.Create(client)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
-		fmt.Println("start mail service")
-		response.Json(w, createdClient.Name+" success added", http.StatusOK)
-
 	}
 }

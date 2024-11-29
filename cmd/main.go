@@ -7,6 +7,7 @@ import (
 	"site-api/internal/client"
 	"site-api/internal/file"
 	"site-api/internal/link"
+	"site-api/internal/mail"
 	"site-api/internal/product"
 	"site-api/pkg/db"
 	"site-api/pkg/middleware"
@@ -38,6 +39,9 @@ func App() http.Handler {
 	linkRepository := link.NewLinkRepository(db)
 	clientRepository := client.NewClientRepository(db)
 
+	// Services
+	mailService := mail.NewMailService(clientRepository)
+
 	// Handlers
 	product.NewProductHandler(router, &product.ProductHandlerDeps{
 		ProductRepository: prodRepository,
@@ -50,6 +54,9 @@ func App() http.Handler {
 	})
 	client.NewClientHandler(router, &client.ClientHandlerDeps{
 		ClientRepository: clientRepository,
+	})
+	mail.NewMailHandler(router, &mail.MailHandlerDeps{
+		MailService: mailService,
 	})
 
 	// Middlewars
