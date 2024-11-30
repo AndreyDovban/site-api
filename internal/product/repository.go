@@ -1,6 +1,7 @@
 package product
 
 import (
+	"fmt"
 	"site-api/pkg/db"
 
 	"gorm.io/gorm"
@@ -49,10 +50,10 @@ func (repo *ProductRepository) FindByUid(uid string) (*Product, error) {
 	return &product, nil
 }
 
-func (repo *ProductRepository) Update(name string, prod *Product) (*Product, error) {
+func (repo *ProductRepository) Update(uid string, prod *Product) (*Product, error) {
 	result := repo.Db.
 		Table("products").
-		Where("name = ?", name).
+		Where("uid = ?", uid).
 		Clauses(clause.Returning{}).
 		Updates(prod)
 	if result.Error != nil {
@@ -61,14 +62,15 @@ func (repo *ProductRepository) Update(name string, prod *Product) (*Product, err
 	return prod, nil
 }
 
-func (repo *ProductRepository) Delete(name string) (*Product, error) {
+func (repo *ProductRepository) Delete(uid string) (*Product, error) {
 	var product Product
 	result := repo.Db.
 		Table("products").
-		Delete(&product, "name = ?", name)
+		Delete(&product, "uid = ?", uid)
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	fmt.Println(product)
 	return &product, nil
 }
 
@@ -94,7 +96,7 @@ func (repo *ProductRepository) GetProds(limit, offset int, columns []string) ([]
 
 	result := repo.Db.
 		Table("products").
-		Select(columns).
+		// Select(columns).
 		Where("deleted_at is null").
 		Session(&gorm.Session{}).
 		Order("id asc").

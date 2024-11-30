@@ -21,9 +21,9 @@ func NewProductHandler(router *http.ServeMux, deps *ProductHandlerDeps) {
 		ProductRepository: deps.ProductRepository,
 	}
 	router.HandleFunc("POST /product", handler.Create())
-	router.HandleFunc("GET /product/{name}", handler.Read())
-	router.HandleFunc("PATCH /product/{name}", handler.Update())
-	router.HandleFunc("DELETE /product/{name}", handler.Delete())
+	router.HandleFunc("GET /product/{uid}", handler.Read())
+	router.HandleFunc("PATCH /product/{uid}", handler.Update())
+	router.HandleFunc("DELETE /product/{uid}", handler.Delete())
 
 	router.HandleFunc("POST /products", handler.GetProds())
 
@@ -65,9 +65,9 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 
 func (handler *ProductHandler) Read() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		name := r.PathValue("name")
+		uid := r.PathValue("uid")
 
-		existedProd, err := handler.ProductRepository.FindByName(name)
+		existedProd, err := handler.ProductRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -84,15 +84,15 @@ func (handler *ProductHandler) Update() http.HandlerFunc {
 			return
 		}
 
-		name := r.PathValue("name")
+		uid := r.PathValue("uid")
 
-		_, err = handler.ProductRepository.FindByName(name)
+		_, err = handler.ProductRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		product, err := handler.ProductRepository.Update(name, &Product{
+		product, err := handler.ProductRepository.Update(uid, &Product{
 			Model:       gorm.Model{},
 			Name:        body.Name,
 			Description: body.Description,
@@ -108,21 +108,21 @@ func (handler *ProductHandler) Update() http.HandlerFunc {
 
 func (handler *ProductHandler) Delete() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		name := r.PathValue("name")
+		uid := r.PathValue("uid")
 
-		_, err := handler.ProductRepository.FindByName(name)
+		_, err := handler.ProductRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		_, err = handler.ProductRepository.Delete(name)
+		_, err = handler.ProductRepository.Delete(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		response.Json(w, name+" success deleted", http.StatusOK)
+		response.Json(w, uid+" success deleted", http.StatusOK)
 	}
 }
 

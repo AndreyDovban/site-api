@@ -21,9 +21,9 @@ func NewFileHandler(router *http.ServeMux, deps *FileHandlerDeps) {
 		FileRepository: deps.FileRepository,
 	}
 	router.HandleFunc("POST /file", handler.Create())
-	router.HandleFunc("GET /file/{name}", handler.Read())
-	router.HandleFunc("PATCH /file/{name}", handler.Update())
-	router.HandleFunc("DELETE /file/{name}", handler.Delete())
+	router.HandleFunc("GET /file/{uid}", handler.Read())
+	router.HandleFunc("PATCH /file/{uid}", handler.Update())
+	router.HandleFunc("DELETE /file/{uid}", handler.Delete())
 
 	router.HandleFunc("POST /files", handler.GetFiles())
 
@@ -65,9 +65,9 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 
 func (handler *FileHandler) Read() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		name := r.PathValue("name")
+		uid := r.PathValue("uid")
 
-		existedFile, err := handler.FileRepository.FindByName(name)
+		existedFile, err := handler.FileRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -84,15 +84,15 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 			return
 		}
 
-		name := r.PathValue("name")
+		uid := r.PathValue("uid")
 
-		_, err = handler.FileRepository.FindByName(name)
+		_, err = handler.FileRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		file, err := handler.FileRepository.Update(name, &File{
+		file, err := handler.FileRepository.Update(uid, &File{
 			Model:       gorm.Model{},
 			Name:        body.Name,
 			Description: body.Description,
@@ -108,21 +108,21 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 
 func (handler *FileHandler) Delete() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		name := r.PathValue("name")
+		uid := r.PathValue("uid")
 
-		_, err := handler.FileRepository.FindByName(name)
+		_, err := handler.FileRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		_, err = handler.FileRepository.Delete(name)
+		_, err = handler.FileRepository.Delete(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		response.Json(w, name+" success deleted", http.StatusOK)
+		response.Json(w, uid+" success deleted", http.StatusOK)
 	}
 }
 

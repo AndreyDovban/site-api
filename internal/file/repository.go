@@ -69,10 +69,10 @@ func (repo *FileRepository) FindByUid(uid string) (*File, error) {
 	return &product, nil
 }
 
-func (repo *FileRepository) Update(name string, prod *File) (*File, error) {
+func (repo *FileRepository) Update(uid string, prod *File) (*File, error) {
 	result := repo.Db.
 		Table("files").
-		Where("name = ?", name).
+		Where("uid = ?", uid).
 		Clauses(clause.Returning{}).
 		Updates(prod)
 	if result.Error != nil {
@@ -81,11 +81,11 @@ func (repo *FileRepository) Update(name string, prod *File) (*File, error) {
 	return prod, nil
 }
 
-func (repo *FileRepository) Delete(name string) (*File, error) {
+func (repo *FileRepository) Delete(uid string) (*File, error) {
 	var product File
 	result := repo.Db.
 		Table("files").
-		Delete(&product, "name = ?", name)
+		Delete(&product, "uid = ?", uid)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -114,7 +114,7 @@ func (repo *FileRepository) GetFiles(limit, offset int, columns []string) ([]Fil
 
 	result := repo.Db.
 		Table("files").
-		Select(columns).
+		// Select(columns).
 		Where("deleted_at is null").
 		Session(&gorm.Session{}).
 		Order("id asc").
