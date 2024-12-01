@@ -2,15 +2,17 @@ package product
 
 import (
 	"math/rand"
+	"site-api/internal/file"
 
 	"gorm.io/gorm"
 )
 
 type Product struct {
 	gorm.Model
-	Name        string `json:"name"`
-	Description string `json:"decription"`
-	Uid         string `json:"uid" gorm:"uniqueIndex"`
+	Uid         string       `json:"uid" gorm:"uniqueIndex"`
+	Name        string       `json:"name"`
+	Description string       `json:"decription"`
+	Files       []*file.File `gorm:"foreignKey:ProductUid;references:Uid"`
 }
 
 func NewProduct(name, description string) *Product {

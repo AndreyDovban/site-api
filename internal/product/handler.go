@@ -58,7 +58,7 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		response.Json(w, createdProd.Name+" success added", http.StatusOK)
+		response.Json(w, createdProd, http.StatusOK)
 
 	}
 }

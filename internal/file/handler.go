@@ -1,6 +1,7 @@
 package file
 
 import (
+	"fmt"
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
@@ -36,7 +37,7 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		file := NewFile(body.Name, body.Description, body.ProductName)
+		file := NewFile(body.Name, body.Description, body.ProductUid)
 
 		existedFile, _ := handler.FileRepository.FindByName(file.Name)
 		if existedFile != nil {
@@ -52,13 +53,14 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 			file.GenerateHash()
 		}
 
+		fmt.Println("!", file.ProductUid)
 		createdFile, err := handler.FileRepository.Create(file)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		response.Json(w, createdFile.Name+" success added", http.StatusOK)
+		response.Json(w, createdFile, http.StatusOK)
 
 	}
 }

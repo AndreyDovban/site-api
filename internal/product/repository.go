@@ -1,7 +1,7 @@
 package product
 
 import (
-	"fmt"
+	"site-api/internal/file"
 	"site-api/pkg/db"
 
 	"gorm.io/gorm"
@@ -64,13 +64,20 @@ func (repo *ProductRepository) Update(uid string, prod *Product) (*Product, erro
 
 func (repo *ProductRepository) Delete(uid string) (*Product, error) {
 	var product Product
+	var f file.File
 	result := repo.Db.
 		Table("products").
 		Delete(&product, "uid = ?", uid)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	fmt.Println(product)
+	resultFiles := repo.Db.
+		Table("files").
+		Delete(&f, "product_uid = ?", uid)
+	if resultFiles.Error != nil {
+		return nil, result.Error
+	}
+
 	return &product, nil
 }
 

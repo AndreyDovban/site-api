@@ -5,13 +5,12 @@ import "gorm.io/datatypes"
 type FileCreateRequest struct {
 	Name        string `json:"name" validate:"required"`
 	Description string `json:"description" validate:"required"`
-	ProductName string `json:"product_name" validate:"required"`
+	ProductUid  string `json:"product_uid" validate:"required"`
 }
 
 type FileUpdateRequest struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	ProductName string `json:"product_name"`
 }
 
 type GetFilesRequest struct {
@@ -21,13 +20,13 @@ type GetFilesRequest struct {
 }
 
 type FileResponse struct {
-	Uid         string         `json:"uid"`
-	Name        string         `json:"name"`
-	Description string         `json:"description"`
-	ProductName string         `json:"product_name"`
-	ProductUid  string         `json:"product_uid"`
-	CreatedAt   datatypes.Date `json:"created_at"`
-	UpdatedAt   datatypes.Date `json:"updated_at"`
+	Uid         string `json:"uid"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	ProductName string `json:"product_name"`
+	// ProductUid  string         `json:"product_uid"`
+	CreatedAt datatypes.Date `json:"created_at"`
+	UpdatedAt datatypes.Date `json:"updated_at"`
 }
 
 type GetFilesResponse struct {

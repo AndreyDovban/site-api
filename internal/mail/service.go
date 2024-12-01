@@ -25,12 +25,7 @@ func (service *MailService) FindByData(name, telephone, mail, company string) (*
 }
 
 func (service *MailService) Create(name, telephone, mail, company string) (string, error) {
-	client := &client.Client{
-		Name:      name,
-		Telephone: telephone,
-		Mail:      mail,
-		Company:   company,
-	}
+	client := client.NewClient(name, telephone, mail, company)
 
 	_, err := service.ClientRepository.Create(client)
 	if err != nil {

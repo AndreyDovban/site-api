@@ -2,26 +2,23 @@ package file
 
 import (
 	"math/rand"
-	"site-api/internal/product"
 
 	"gorm.io/gorm"
 )
 
 type File struct {
 	gorm.Model
+	Uid         string `json:"uid" gorm:"uniqueIndex"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	Uid         string `json:"uid" gorm:"uniqueIndex"`
-	ProductName string `json:"product_name"`
-	ProductUid  string
-	Product     product.Product `gorm:"foreignKey:ProductUid;references:Uid"`
+	ProductUid  string `json:"product_uid"`
 }
 
-func NewFile(name, description, productName string) *File {
+func NewFile(name, description, productUid string) *File {
 	file := &File{
 		Name:        name,
 		Description: description,
-		ProductName: productName,
+		ProductUid:  productUid,
 	}
 	file.GenerateHash()
 	return file

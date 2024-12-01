@@ -1,6 +1,8 @@
 package product
 
-import "gorm.io/datatypes"
+import (
+	"gorm.io/datatypes"
+)
 
 type ProductCreateRequest struct {
 	Name        string `json:"name" validate:"required"`

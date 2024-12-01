@@ -1,11 +1,8 @@
 package file
 
 import (
-	"errors"
-	"fmt"
 	"site-api/pkg/db"
 
-	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
@@ -20,26 +17,15 @@ func NewFileRepository(database *db.Db) *FileRepository {
 }
 
 func (repo *FileRepository) Create(file *File) (*File, error) {
-	var uid string
 	prod_uid_res := repo.Db.
 		Table("products").
-		Select("uid").
-		Where("name = ?", file.ProductName).
-		Scan(&uid)
-
-	fmt.Println(uid)
-
+		Select("name").
+		Where("uid = ?", file.ProductUid)
 	if prod_uid_res.Error != nil {
 		return nil, prod_uid_res.Error
 	}
-	if uid == "" {
-		return nil, errors.New(file.ProductName + " is not found")
-	}
-
-	file.ProductUid = uid
 
 	result := repo.Db.
-		Table("files").
 		Create(file)
 	if result.Error != nil {
 		return nil, result.Error
@@ -85,6 +71,7 @@ func (repo *FileRepository) Delete(uid string) (*File, error) {
 	var product File
 	result := repo.Db.
 		Table("files").
+		Unscoped().
 		Delete(&product, "uid = ?", uid)
 	if result.Error != nil {
 		return nil, result.Error
@@ -112,17 +99,20 @@ func (repo *FileRepository) GetFiles(limit, offset int, columns []string) ([]Fil
 		return files, nil
 	}
 
-	result := repo.Db.
-		Table("files").
-		// Select(columns).
-		Where("deleted_at is null").
-		Session(&gorm.Session{}).
-		Order("id asc").
-		Limit(limit).
-		Offset(offset).
-		Scan(&files)
-	if result.Error != nil {
-		return nil, result.Error
-	}
+	repo.Db.Table("files").Select("files.name as name, products.name as product_name").
+		Joins("JOIN products ON files.products_uid = products.uid").
+		Find(&files)
+
+	// result := repo.Db.
+	// 	Table("files").
+	// 	Select("uid", "name", "description", " name", "created_at", "updated_at").
+	// 	Where("deleted_at is null").
+	// 	Order("id asc").
+	// 	Limit(limit).
+	// 	Offset(offset).
+	// 	Scan(&files)
+	// if result.Error != nil {
+	// 	return nil, result.Error
+	// }
 	return files, nil
 }

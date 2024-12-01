@@ -1,0 +1,15 @@
+-- INSERT INTO companies (name) VALUES ('Mdis');
+-- INSERT INTO users (name, age, company_id) VALUES ('Tom', 37, 1);
+-- INSERT INTO users (name, age, company_id) VALUES ('Tom', 37, 1);
+
+-- DELETE FROM users WHERE id=1;
+-- DELETE FROM companies WHERE id=1
+
+-- CREATE TABLE users
+-- (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     name TEXT NOT NULL,
+--     age INTEGER,
+--     company_id INTEGER,
+--     FOREIGN KEY (company_id)  REFERENCES companies (id) ON DELETE CASCADE
+-- );
