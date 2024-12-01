@@ -8,11 +8,13 @@ import (
 
 type MailService struct {
 	ClientRepository di.IClientRepository
+	LinkRepository   di.ILinkRepository
 }
 
-func NewMailService(clientRepository di.IClientRepository) *MailService {
+func NewMailService(clientRepository di.IClientRepository, linkRepository di.ILinkRepository) *MailService {
 	return &MailService{
 		ClientRepository: clientRepository,
+		LinkRepository:   linkRepository,
 	}
 }
 

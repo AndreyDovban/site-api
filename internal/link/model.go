@@ -9,17 +9,14 @@ import (
 
 type Link struct {
 	gorm.Model
-	Uid         string        `json:"uid" gorm:"uniqueIndex"`
-	Hash        string        `json:"hash" gorm:"uniqueIndex"`
-	Valid       bool          `json:"valid"`
-	Count       int           `json:"count"`
-	ProductName string        `json:"product_name"`
-	ProductUid  string        `json:"product_uid"`
-	FileName    string        `json:"file_name"`
-	FileUid     string        `json:"file_uid"`
-	ClientName  string        `json:"client_Name"`
-	ClientUid   string        `json:"client_uid"`
-	Client      client.Client `gorm:"foreignKey:ClientUid;references:Uid"`
+	Uid        string        `json:"uid" gorm:"uniqueIndex"`
+	Hash       string        `json:"hash" gorm:"uniqueIndex"`
+	Valid      bool          `json:"valid"`
+	Count      int           `json:"count"`
+	FileUid    string        `json:"file_uid"`
+	ProductUid string        `json:"product_uid"`
+	ClientUid  string        `json:"client_uid"`
+	Client     client.Client `gorm:"foreignKey:ClientUid;references:Uid"`
 }
 
 func NewLink(valid bool, count int) *Link {
