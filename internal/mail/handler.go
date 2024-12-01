@@ -33,7 +33,7 @@ func (handler *MailHalndler) SendMail() http.HandlerFunc {
 			return
 		}
 
-		mail, err := handler.MailService.SendMail(body.Name, body.Telephone, body.Mail, body.Company)
+		mail, err := handler.MailService.SendMail(body.Name, body.Telephone, body.Mail, body.Company, body.Products)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

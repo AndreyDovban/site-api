@@ -40,7 +40,7 @@ func App() http.Handler {
 	clientRepository := client.NewClientRepository(db)
 
 	// Services
-	mailService := mail.NewMailService(clientRepository, linkRepository)
+	mailService := mail.NewMailService(clientRepository, linkRepository, prodRepository, fileRepository)
 
 	// Handlers
 	product.NewProductHandler(router, &product.ProductHandlerDeps{

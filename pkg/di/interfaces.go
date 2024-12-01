@@ -2,7 +2,9 @@ package di
 
 import (
 	"site-api/internal/client"
+	"site-api/internal/file"
 	"site-api/internal/link"
+	"site-api/internal/product"
 )
 
 type IClientRepository interface {
@@ -11,4 +13,12 @@ type IClientRepository interface {
 }
 type ILinkRepository interface {
 	Create(link *link.Link) (*link.Link, error)
+}
+
+type IProductRepository interface {
+	FindByUid(uid string) (*product.Product, error)
+}
+
+type IFileRepository interface {
+	FindByUid(uid string) (*file.File, error)
 }
