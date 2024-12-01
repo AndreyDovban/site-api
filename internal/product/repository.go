@@ -4,7 +4,6 @@ import (
 	"site-api/internal/file"
 	"site-api/pkg/db"
 
-	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
@@ -103,9 +102,7 @@ func (repo *ProductRepository) GetProds(limit, offset int, columns []string) ([]
 
 	result := repo.Db.
 		Table("products").
-		// Select(columns).
 		Where("deleted_at is null").
-		Session(&gorm.Session{}).
 		Order("id asc").
 		Limit(limit).
 		Offset(offset).

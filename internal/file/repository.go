@@ -99,20 +99,22 @@ func (repo *FileRepository) GetFiles(limit, offset int, columns []string) ([]Fil
 		return files, nil
 	}
 
-	repo.Db.Table("files").Select("files.name as name, products.name as product_name").
-		Joins("JOIN products ON files.products_uid = products.uid").
+	result := repo.Db.
+		Table("files").
+		Select(`files.uid as uid,
+		        files.name as name, 
+		        files.description as description, 
+				files.created_at as created_at, 
+				files.updated_at as updated_at, 
+				products.name as product_name`).
+		Joins("JOIN products ON files.product_uid = products.uid").
+		Order("uid asc").
+		Limit(limit).
+		Offset(offset).
 		Find(&files)
 
-	// result := repo.Db.
-	// 	Table("files").
-	// 	Select("uid", "name", "description", " name", "created_at", "updated_at").
-	// 	Where("deleted_at is null").
-	// 	Order("id asc").
-	// 	Limit(limit).
-	// 	Offset(offset).
-	// 	Scan(&files)
-	// if result.Error != nil {
-	// 	return nil, result.Error
-	// }
+	if result.Error != nil {
+		return nil, result.Error
+	}
 	return files, nil
 }
