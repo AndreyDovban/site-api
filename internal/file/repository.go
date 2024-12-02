@@ -34,25 +34,25 @@ func (repo *FileRepository) Create(file *File) (*File, error) {
 }
 
 func (repo *FileRepository) FindByName(name string) (*File, error) {
-	var product File
+	var file File
 	result := repo.Db.
 		Table("files").
-		First(&product, "name = ?", name)
+		First(&file, "name = ?", name)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return &product, nil
+	return &file, nil
 }
 
 func (repo *FileRepository) FindByUid(uid string) (*File, error) {
-	var product File
+	var file File
 	result := repo.Db.
 		Table("files").
-		First(&product, "uid = ?", uid)
+		First(&file, "uid = ?", uid)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return &product, nil
+	return &file, nil
 }
 
 func (repo *FileRepository) Update(uid string, prod *File) (*File, error) {
@@ -68,15 +68,15 @@ func (repo *FileRepository) Update(uid string, prod *File) (*File, error) {
 }
 
 func (repo *FileRepository) Delete(uid string) (*File, error) {
-	var product File
+	var file File
 	result := repo.Db.
 		Table("files").
 		Unscoped().
-		Delete(&product, "uid = ?", uid)
+		Delete(&file, "uid = ?", uid)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return &product, nil
+	return &file, nil
 }
 
 func (repo *FileRepository) Count() (int64, error) {
@@ -89,11 +89,10 @@ func (repo *FileRepository) Count() (int64, error) {
 		return 0, result.Error
 	}
 	return count, nil
-
 }
 
-func (repo *FileRepository) GetUidsByProdUid(productUids []string) ([]string, error) {
-	var files []string
+func (repo *FileRepository) GetFilesByProdUid(productUids []string) ([]*File, error) {
+	var files []*File
 
 	repo.Db.
 		Table("files").

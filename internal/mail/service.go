@@ -37,28 +37,18 @@ func (service *MailService) SendMail(name, telephone, mail, company string, prod
 		}
 	}
 
-	filesUids, _ := service.FileRepository.GetUidsByProdUid(productUids)
+	filesUids, _ := service.FileRepository.GetFilesByProdUid(productUids)
 
-	for _, v := range filesUids {
+	for _, file := range filesUids {
 		l := link.NewLink(true, 0)
 		l.ClientUid = client.Uid
-		l.FileUid = v
+		l.FileUid = file.Uid
+		l.ProductUid = file.ProductUid
 		_, err := service.LinkRepository.Create(l)
 		if err != nil {
 			return "", nil
 		}
 	}
-
-	// filesUids, err := service.FileRepository.GetUidsByProdUid(productUids)
-	// if err != nil {
-	// 	return "", err
-	// }
-
-	// for _, v := range filesUids {
-	// 	fmt.Println(v)
-	// 	link := link.NewLink(true, 0)
-	// 	service.LinkRepository.Create(link)
-	// }
 
 	return mail, nil
 }
