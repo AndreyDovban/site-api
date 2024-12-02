@@ -33,12 +33,18 @@ func (handler *MailHalndler) SendMail() http.HandlerFunc {
 			return
 		}
 
-		mail, err := handler.MailService.SendMail(body.Name, body.Telephone, body.Mail, body.Company, body.ProductUids)
+		mail, err := handler.MailService.CreateLink(body.Name, body.Telephone, body.Mail, body.Company, body.ProductUids)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		response.Json(w, "send mail with links to "+mail, http.StatusOK)
 
+		err = handler.MailService.SendMail()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		response.Json(w, "send mail with links to "+mail, http.StatusOK)
 	}
 }

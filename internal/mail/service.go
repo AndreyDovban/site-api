@@ -1,6 +1,7 @@
 package mail
 
 import (
+	"fmt"
 	"site-api/internal/client"
 	"site-api/internal/link"
 	"site-api/pkg/di"
@@ -27,7 +28,7 @@ func NewMailService(
 	}
 }
 
-func (service *MailService) SendMail(name, telephone, mail, company string, productUids []string) (string, error) {
+func (service *MailService) CreateLink(name, telephone, mail, company string, productUids []string) (string, error) {
 	client := client.NewClient(name, telephone, mail, company)
 	existedClient, _ := service.ClientRepository.FindByData(name, telephone, mail, company)
 	if existedClient == nil {
@@ -51,4 +52,9 @@ func (service *MailService) SendMail(name, telephone, mail, company string, prod
 	}
 
 	return mail, nil
+}
+
+func (service *MailService) SendMail() error {
+	fmt.Println("send mail")
+	return nil
 }
