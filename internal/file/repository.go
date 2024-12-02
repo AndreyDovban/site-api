@@ -99,6 +99,7 @@ func (repo *FileRepository) GetUidsByProdUid(productUids []string) ([]string, er
 		Table("files").
 		Select("uid").
 		Where("deleted_at is null").
+		Where("product_uid IN ?", productUids).
 		Find(&files)
 
 	return files, nil

@@ -1,8 +1,8 @@
 package mail
 
 import (
-	"fmt"
 	"site-api/internal/client"
+	"site-api/internal/link"
 	"site-api/pkg/di"
 )
 
@@ -27,7 +27,7 @@ func NewMailService(
 	}
 }
 
-func (service *MailService) SendMail(name, telephone, mail, company string, productIds []string) (string, error) {
+func (service *MailService) SendMail(name, telephone, mail, company string, productUids []string) (string, error) {
 	client := client.NewClient(name, telephone, mail, company)
 	existedClient, _ := service.ClientRepository.FindByData(name, telephone, mail, company)
 	if existedClient == nil {
@@ -35,18 +35,30 @@ func (service *MailService) SendMail(name, telephone, mail, company string, prod
 		if err != nil {
 			return "", err
 		}
-		// return client.Mail, nil
 	}
 
-	filesUids, err := service.FileRepository.GetUidsByProdUid(productIds)
-	if err != nil {
-		return "", err
-	}
+	filesUids, _ := service.FileRepository.GetUidsByProdUid(productUids)
 
 	for _, v := range filesUids {
-		fmt.Println(v)
+		l := link.NewLink(true, 0)
+		l.ClientUid = client.Uid
+		l.FileUid = v
+		_, err := service.LinkRepository.Create(l)
+		if err != nil {
+			return "", nil
+		}
 	}
 
-	// fmt.Println("work mailer 2")
+	// filesUids, err := service.FileRepository.GetUidsByProdUid(productUids)
+	// if err != nil {
+	// 	return "", err
+	// }
+
+	// for _, v := range filesUids {
+	// 	fmt.Println(v)
+	// 	link := link.NewLink(true, 0)
+	// 	service.LinkRepository.Create(link)
+	// }
+
 	return mail, nil
 }

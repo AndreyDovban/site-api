@@ -76,6 +76,7 @@ func main() {
 		Addr:    ":5000",
 		Handler: app,
 	}
+	fmt.Print("\033[H\033[2J")
 	fmt.Println("http://localhost:5000")
 	server.ListenAndServe()
 }
