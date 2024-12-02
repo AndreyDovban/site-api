@@ -92,6 +92,18 @@ func (repo *FileRepository) Count() (int64, error) {
 
 }
 
+func (repo *FileRepository) GetUidsByProdUid(productUids []string) ([]string, error) {
+	var files []string
+
+	repo.Db.
+		Table("files").
+		Select("uid").
+		Where("deleted_at is null").
+		Find(&files)
+
+	return files, nil
+}
+
 func (repo *FileRepository) GetFiles(limit, offset int, columns []string) ([]FileResponse, error) {
 	var files []FileResponse
 
@@ -102,11 +114,12 @@ func (repo *FileRepository) GetFiles(limit, offset int, columns []string) ([]Fil
 	result := repo.Db.
 		Table("files").
 		Select(`files.uid as uid,
-		        files.name as name, 
-		        files.description as description, 
-				files.created_at as created_at, 
-				files.updated_at as updated_at, 
-				products.name as product_name`).
+		files.name as name, 
+		files.description as description, 
+		files.created_at as created_at,
+		files.updated_at as updated_at, 
+		products.name as product_name`).
+		Where("files.deleted_at is null").
 		Joins("JOIN products ON files.product_uid = products.uid").
 		Order("uid asc").
 		Limit(limit).

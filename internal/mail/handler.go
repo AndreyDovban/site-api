@@ -28,12 +28,12 @@ func (handler *MailHalndler) SendMail() http.HandlerFunc {
 		if err != nil {
 			return
 		}
-		if len(body.Products) == 0 {
+		if len(body.ProductUids) == 0 {
 			http.Error(w, "not choosed products", http.StatusBadRequest)
 			return
 		}
 
-		mail, err := handler.MailService.SendMail(body.Name, body.Telephone, body.Mail, body.Company, body.Products)
+		mail, err := handler.MailService.SendMail(body.Name, body.Telephone, body.Mail, body.Company, body.ProductUids)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

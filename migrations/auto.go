@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"site-api/internal/client"
 	"site-api/internal/file"
 	"site-api/internal/product"
 
@@ -21,5 +22,5 @@ func main() {
 		panic(err)
 	}
 	// db.AutoMigrate(&product.Product{}, &file.File{}, &client.Client{}, &link.Link{})
-	db.AutoMigrate(&product.Product{}, &file.File{})
+	db.AutoMigrate(&product.Product{}, &file.File{}, &client.Client{})
 }

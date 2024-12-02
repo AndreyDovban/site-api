@@ -8,11 +8,11 @@ import (
 
 type Client struct {
 	gorm.Model
+	Uid       string `json:"uid" gorm:"uniqueIndex"`
 	Name      string `json:"name"`
 	Telephone string `json:"telephone"`
 	Mail      string `json:"mail"`
 	Company   string `json:"company"`
-	Uid       string `json:"uid" gorm:"uniqueIndex"`
 }
 
 func NewClient(name, telephone, mail, company string) *Client {

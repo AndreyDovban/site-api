@@ -21,4 +21,5 @@ type IProductRepository interface {
 
 type IFileRepository interface {
 	FindByUid(uid string) (*file.File, error)
+	GetUidsByProdUid(productUids []string) ([]string, error)
 }

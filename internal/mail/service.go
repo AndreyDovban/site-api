@@ -27,36 +27,26 @@ func NewMailService(
 	}
 }
 
-// func (service *MailService) FindByData(name, telephone, mail, company string) (*client.Client, error) {
-// 	client, err := service.ClientRepository.FindByData(name, telephone, mail, company)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return client, nil
-// }
-
-// func (service *MailService) Create(name, telephone, mail, company string) (string, error) {
-// 	client := client.NewClient(name, telephone, mail, company)
-
-// 	_, err := service.ClientRepository.Create(client)
-// 	if err != nil {
-// 		return "", err
-// 	}
-// 	return mail, nil
-// }
-
-func (service *MailService) SendMail(name, telephone, mail, company string, products []string) (string, error) {
+func (service *MailService) SendMail(name, telephone, mail, company string, productIds []string) (string, error) {
 	client := client.NewClient(name, telephone, mail, company)
 	existedClient, _ := service.ClientRepository.FindByData(name, telephone, mail, company)
 	if existedClient == nil {
-		client, err := service.ClientRepository.Create(client)
+		_, err := service.ClientRepository.Create(client)
 		if err != nil {
 			return "", err
 		}
-		fmt.Println("work mailer 1")
-		return client.Mail, nil
+		// return client.Mail, nil
 	}
 
-	fmt.Println("work mailer 2")
+	filesUids, err := service.FileRepository.GetUidsByProdUid(productIds)
+	if err != nil {
+		return "", err
+	}
+
+	for _, v := range filesUids {
+		fmt.Println(v)
+	}
+
+	// fmt.Println("work mailer 2")
 	return mail, nil
 }
