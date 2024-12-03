@@ -59,7 +59,7 @@ func (repo *LinkRepository) GetLinks(limit, offset int, columns []string) ([]Lin
 
 	result := repo.Db.
 		Table("links").
-		Select(columns).
+		// Select(columns).
 		Where("deleted_at is null").
 		Session(&gorm.Session{}).
 		Order("id asc").

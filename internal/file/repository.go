@@ -96,7 +96,6 @@ func (repo *FileRepository) GetFilesByProdUid(productUids []string) ([]*File, er
 
 	repo.Db.
 		Table("files").
-		Select("uid").
 		Where("deleted_at is null").
 		Where("product_uid IN ?", productUids).
 		Find(&files)

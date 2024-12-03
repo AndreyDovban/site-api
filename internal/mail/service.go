@@ -38,9 +38,9 @@ func (service *MailService) CreateLink(name, telephone, mail, company string, pr
 		}
 	}
 
-	filesUids, _ := service.FileRepository.GetFilesByProdUid(productUids)
+	files, _ := service.FileRepository.GetFilesByProdUid(productUids)
 
-	for _, file := range filesUids {
+	for _, file := range files {
 		l := link.NewLink(true, 0)
 		l.ClientUid = client.Uid
 		l.FileUid = file.Uid
