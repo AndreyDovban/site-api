@@ -13,6 +13,7 @@ type IClientRepository interface {
 }
 type ILinkRepository interface {
 	Create(link *link.Link) (*link.Link, error)
+	GetMailLinks() ([]*link.LinkMailResponse, error)
 }
 
 type IProductRepository interface {

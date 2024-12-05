@@ -39,12 +39,6 @@ func (handler *MailHalndler) SendMail() http.HandlerFunc {
 			return
 		}
 
-		err = handler.MailService.SendMail()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
 		response.Json(w, "send mail with links to "+mail, http.StatusOK)
 	}
 }

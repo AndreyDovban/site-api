@@ -20,6 +20,12 @@ type LinkResponse struct {
 	UpdatedAt  datatypes.Date `json:"UpdatedAt"`
 }
 
+type LinkMailResponse struct {
+	Hash            string `json:"hash"`
+	FileName        string `json:"file_name"`
+	FileDescription string `json:"file_description"`
+}
+
 type GetLinksResponse struct {
 	Links []LinkResponse `json:"links"`
 	Count int64          `json:"count"`

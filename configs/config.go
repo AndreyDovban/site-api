@@ -19,6 +19,7 @@ type DbConfig struct {
 type MailConfig struct {
 	Login    string
 	Password string
+	Host     string
 }
 
 func LoadConfig() *Config {
@@ -33,6 +34,7 @@ func LoadConfig() *Config {
 		Mail: MailConfig{
 			Login:    os.Getenv("LOGIN"),
 			Password: os.Getenv("PASSWORD"),
+			Host:     os.Getenv("HOST"),
 		},
 	}
 }

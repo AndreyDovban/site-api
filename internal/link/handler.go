@@ -1,6 +1,7 @@
 package link
 
 import (
+	"fmt"
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
@@ -20,6 +21,7 @@ func NewLinkHandler(router *http.ServeMux, deps *LinkHandlerDeps) {
 	}
 
 	router.HandleFunc("POST /links", handler.GetLinks())
+	router.HandleFunc("GET /link/{hash}", handler.Download())
 
 }
 
@@ -46,5 +48,15 @@ func (handler *LinkHandler) GetLinks() http.HandlerFunc {
 			Links: links,
 			Count: count,
 		}, http.StatusOK)
+	}
+}
+
+func (handler *LinkHandler) Download() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		hash := r.PathValue("hash")
+
+		fmt.Println(hash)
+
+		response.Json(w, "download file", http.StatusOK)
 	}
 }
