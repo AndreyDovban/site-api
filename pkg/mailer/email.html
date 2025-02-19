@@ -1,6 +1,8 @@
 <h2>Granulex Site</h2>
 <ul style="list-style: none">
 	{{ range $_, $link := . }}
-	<li><a href="http://localhost:5000/{{ $link.Hash }}">{{ $link.FileName }}</a> - {{ $link.FileDescription }}</li>
+	<li>
+		<a href="http://localhost:5000/link/{{ $link.Hash }}">{{ $link.FileName }}</a> - {{ $link.FileDescription }}
+	</li>
 	{{ end }}
 </ul>

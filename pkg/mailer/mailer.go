@@ -67,7 +67,7 @@ func Mailer(recipient string, data interface{}) {
 	}
 	message += "\r\n" + base64.StdEncoding.EncodeToString(rawFile)
 
-	fmt.Println(message)
+	// fmt.Println(message)
 
 	c, err := smtp.Dial(address)
 	if err != nil {

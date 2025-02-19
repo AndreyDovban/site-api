@@ -11,7 +11,7 @@ type Link struct {
 	gorm.Model
 	Uid        string        `json:"uid" gorm:"uniqueIndex"`
 	Hash       string        `json:"hash" gorm:"uniqueIndex"`
-	Valid      bool          `json:"valid"`
+	Valid      int           `json:"valid"`
 	Count      int           `json:"count"`
 	FileUid    string        `json:"file_uid"`
 	ProductUid string        `json:"product_uid"`
@@ -19,7 +19,7 @@ type Link struct {
 	Client     client.Client `gorm:"foreignKey:ClientUid;references:Uid"`
 }
 
-func NewLink(valid bool, count int) *Link {
+func NewLink(valid int, count int) *Link {
 	link := &Link{
 		Valid: valid,
 		Count: count,

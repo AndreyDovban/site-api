@@ -42,7 +42,7 @@ func (service *MailService) CreateLink(name, telephone, mail, company string, pr
 	var links []link.LinkMailResponse
 
 	for _, file := range files {
-		l := link.NewLink(true, 0)
+		l := link.NewLink(1, 0)
 		l.ClientUid = client.Uid
 		l.FileUid = file.Uid
 		l.ProductUid = file.ProductUid

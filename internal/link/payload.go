@@ -11,7 +11,7 @@ type GetLinksRequest struct {
 type LinkResponse struct {
 	Uid        string         `json:"uid"`
 	Hash       string         `json:"hash"`
-	Valid      bool           `json:"valid"`
+	Valid      int            `json:"valid"`
 	Count      int            `json:"count"`
 	ProductUid string         `json:"product_uid"`
 	FileUid    string         `json:"file_uid"`

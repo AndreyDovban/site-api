@@ -57,6 +57,38 @@ func (handler *LinkHandler) Download() http.HandlerFunc {
 
 		fmt.Println(hash)
 
+		link, err := handler.LinkRepository.FindByHash(hash)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		fmt.Println(link.Valid)
+		fmt.Println(link.Count)
+
+		if link.Valid == -1 {
+			response.Json(w, "ссылка не действительна", http.StatusForbidden)
+			return
+		}
+
+		if link.Count > 8 {
+			fmt.Println("work")
+			link.Valid = -1
+		}
+
+		link.Count = link.Count + 1
+
+		fmt.Println(link.Valid)
+		fmt.Println(link.Count)
+
+		ppp, err := handler.LinkRepository.Update(hash, link)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		fmt.Println(ppp)
+
 		response.Json(w, "download file", http.StatusOK)
 	}
 }

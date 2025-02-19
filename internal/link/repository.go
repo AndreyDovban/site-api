@@ -1,9 +1,11 @@
 package link
 
 import (
+	"fmt"
 	"site-api/pkg/db"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type LinkRepository struct {
@@ -26,11 +28,37 @@ func (repo *LinkRepository) Create(link *Link) (*Link, error) {
 	return link, nil
 }
 
+func (repo *LinkRepository) Update(hash string, link *Link) (*Link, error) {
+	fmt.Println("!!1", link.Hash)
+	fmt.Println("!!2", hash)
+	fmt.Println("!!3", link.Valid)
+	result := repo.Db.
+		Table("links").
+		Where("hash = ?", hash).
+		Clauses(clause.Returning{}).
+		Updates(link)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return link, nil
+}
+
 func (repo *LinkRepository) FindByUid(uid string) (*Link, error) {
 	var link Link
 	result := repo.Db.
 		Table("links").
 		First(&link, "uid = ?", uid)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &link, nil
+}
+
+func (repo *LinkRepository) FindByHash(hash string) (*Link, error) {
+	var link Link
+	result := repo.Db.
+		Table("links").
+		First(&link, "hash = ?", hash)
 	if result.Error != nil {
 		return nil, result.Error
 	}
