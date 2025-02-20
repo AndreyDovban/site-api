@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
+	"time"
 )
 
 type LinkHandlerDeps struct {
@@ -55,16 +56,11 @@ func (handler *LinkHandler) Download() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		hash := r.PathValue("hash")
 
-		fmt.Println(hash)
-
 		link, err := handler.LinkRepository.FindByHash(hash)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-
-		fmt.Println(link.Valid)
-		fmt.Println(link.Count)
 
 		if link.Valid == -1 {
 			response.Json(w, "ссылка не действительна", http.StatusForbidden)
@@ -72,22 +68,30 @@ func (handler *LinkHandler) Download() http.HandlerFunc {
 		}
 
 		if link.Count > 8 {
-			fmt.Println("work")
 			link.Valid = -1
 		}
 
-		link.Count = link.Count + 1
+		created := link.CreatedAt
+		n := time.Now()
+		def := int(n.Sub(created) / time.Minute)
+		fmt.Println(def)
 
-		fmt.Println(link.Valid)
-		fmt.Println(link.Count)
+		//2880
 
-		ppp, err := handler.LinkRepository.Update(hash, link)
+		if def > 880 {
+			link.Valid = -1
+			_, err = handler.LinkRepository.Update(hash, link)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+		}
+
+		_, err = handler.LinkRepository.Update(hash, link)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-
-		fmt.Println(ppp)
 
 		response.Json(w, "download file", http.StatusOK)
 	}
