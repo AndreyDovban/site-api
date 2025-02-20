@@ -1,0 +1,31 @@
+.block {
+	display: flex;
+	align-items: center;
+
+	cursor: pointer;
+
+	color: var(--white);
+
+	gap: 0.5rem;
+
+	font-size: 0.8rem;
+}
+
+.block:hover {
+	color: var(--red);
+}
+
+.input {
+	width: 1rem;
+	height: 1rem;
+
+	cursor: pointer;
+
+	accent-color: var(--bg);
+}
+
+.dis {
+	pointer-events: none;
+
+	opacity: 0.5;
+}

@@ -1,0 +1,11 @@
+.right_panel {
+	display: flex;
+	overflow-x: auto;
+	flex-direction: column;
+	flex-grow: 1;
+
+	padding: 0.5rem;
+
+	background: var(--bg-l);
+	gap: 0.5rem;
+}

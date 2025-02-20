@@ -1,0 +1,13 @@
+@import url('./_left_panel.css');
+@import url('./right_panel.css');
+
+/* основной блок страницы */
+.block {
+	position: relative;
+
+	display: flex;
+	justify-content: space-between;
+
+	width: 100%;
+	height: 100%;
+}

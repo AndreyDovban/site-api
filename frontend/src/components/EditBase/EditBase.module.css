@@ -1,0 +1,135 @@
+.form {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+
+	gap: 0.5rem;
+}
+
+.label {
+	display: flex;
+	flex-direction: column;
+
+	color: var(--white);
+
+	font-size: 0.8rem;
+	font-weight: 500;
+}
+
+.isError {
+	color: var(--red);
+	fill: var(--red) !important;
+}
+
+.inp,
+.textarea {
+	width: 10rem;
+	height: 1.5rem;
+
+	text-indent: 0.5rem;
+
+	border: 2px solid var(--white);
+	border-radius: 4px;
+	outline: none;
+
+	font-size: 1rem;
+	font-weight: 500;
+}
+
+.textarea {
+	height: 5rem;
+
+	font-size: 0.75rem;
+}
+
+.inp:focus,
+.textarea:focus {
+	border: 2px solid var(--red);
+}
+
+.but {
+	cursor: pointer;
+
+	color: var(--text-l);
+	background: var(--bg-d);
+
+	font-size: 0.75rem;
+}
+
+.file_label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	width: 10rem;
+	height: 1.5rem;
+
+	cursor: pointer;
+
+	text-indent: 0.5rem;
+
+	color: var(--white);
+	border-radius: 4px;
+	outline: 1px solid var(--text-l);
+
+	font-size: 0.8rem;
+	font-weight: 500;
+	line-height: 1.5rem;
+	gap: 1rem;
+}
+
+.file_label span {
+	pointer-events: none;
+}
+
+.file_label:hover {
+	color: var(--red);
+}
+
+.file_label:hover .upload {
+	fill: var(--red);
+}
+
+.upload {
+	width: 1rem;
+	margin-right: 0.5rem;
+
+	pointer-events: none;
+	fill: var(--text-l);
+}
+
+.file {
+	display: none;
+}
+
+.dis {
+	pointer-events: none;
+
+	opacity: 0.5;
+}
+
+.hide {
+	display: none;
+}
+
+.list_file_label {
+	color: var(--text-l);
+
+	font-size: 0.75rem;
+
+	font-weight: 500;
+}
+
+.ul {
+	width: 10rem;
+	margin: 0;
+
+	list-style: inside;
+
+	color: var(--text-l);
+
+	font-size: 0.75rem;
+
+	font-weight: 500;
+}

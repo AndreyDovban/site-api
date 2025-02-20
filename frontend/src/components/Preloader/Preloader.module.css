@@ -1,0 +1,36 @@
+.block {
+    display: block;
+
+    width: 60%;
+
+    margin: auto;
+
+    stroke: red;
+    stroke-width: 2;
+    stroke-dasharray: 5000 5000;
+
+    animation-name: puls;
+    animation-duration: 10s;
+}
+
+@keyframes puls {
+    0% {
+        stroke-dashoffset: 150000;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .block {
+        width: 80%;
+    }
+}
+
+@media (max-width: 420px) {
+    .block {
+        width: 100%;
+    }
+}

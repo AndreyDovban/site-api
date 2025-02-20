@@ -1,0 +1,77 @@
+/* СТИЛИЗАЦИЯ ДОКУМЕНТА */
+* {
+	/* -webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none; */
+
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+/* Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+	background: var(--grey-800);
+}
+
+*::-webkit-scrollbar-thumb {
+	height: 30px;
+	background-color: var(--white);
+	border: 3px solid var(--grey-500);
+	border-radius: 5px;
+}
+
+body,
+#root {
+	width: 100%;
+	height: fit-content;
+	color: var(--grey-600);
+	background: var(--white);
+}
+
+#root {
+	position: relative;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	font-family: Inter, sans-serif;
+	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	line-height: 1.5;
+	text-size-adjust: 100%;
+	text-rendering: optimizelegibility;
+
+	transition: var(--transition);
+
+	font-synthesis: none;
+}
+
+a,
+button,
+input {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+a:hover {
+	color: var(--hover);
+}
+
+.m {
+	fill: var(--grey-600);
+}

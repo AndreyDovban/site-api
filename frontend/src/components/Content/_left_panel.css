@@ -1,0 +1,123 @@
+/* блок панел */
+.left_panel {
+	display: flex;
+	justify-content: space-between;
+
+	max-width: 50%;
+
+	height: 100%;
+}
+
+/* блок меню */
+.menu {
+	position: relative;
+
+	display: flex;
+	gap: 1rem;
+
+	overflow: hidden auto;
+	flex-direction: column;
+
+	min-width: 280px;
+
+	height: 100%;
+	padding: 2.5rem 1.5rem;
+
+	transform-origin: left;
+
+	background: var(--bg-d);
+}
+
+/* обёртка для иконки меню */
+.menuicon {
+	position: absolute;
+
+	z-index: 99;
+	left: 0;
+
+	display: inline-block;
+
+	padding: 0.2rem;
+
+	transition: all 0.2s ease;
+
+	border-bottom-right-radius: 4px;
+
+	background: var(--bg-d);
+}
+
+/* иконки */
+.menu_icon {
+	width: 1.5rem;
+	height: 1.5rem;
+
+	cursor: pointer;
+	fill: var(--text-l);
+
+	transition: all 0.2s ease;
+}
+
+/* эффект наведения для иконок */
+.menu_icon:hover {
+	fill: var(--red);
+}
+
+/* эффект наведения для иконок */
+.menu_icon:active {
+	fill: var(--red);
+}
+
+/* клас для стрелки при открытой панельки */
+.menu_icon_open .menu_icon {
+	transform: rotateZ(90deg);
+}
+
+/* класс для скрытия меню */
+.scale {
+	width: 0 !important;
+	min-width: 0 !important;
+	padding-inline: 0;
+
+	opacity: 0;
+	scale: 0 1;
+}
+
+/* класс для иконки стрелки в пункте меню */
+.vis {
+	visibility: visible;
+}
+
+/* класс для стрелки при открытом блоке меню */
+.corner_open {
+	rotate: 0deg;
+}
+
+/* класс для скрытия элемента */
+.hide {
+	scale: 1 0;
+
+	height: 0;
+
+	opacity: 0;
+}
+
+/* кдасс для плавново выполнения трансформации */
+.trans {
+	transition: all 0.2s ease;
+}
+
+/* блок для изменения размеров */
+.resize {
+	min-width: 6px;
+	height: 100%;
+
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	background: var(--bg);
+}
+
+/* эффект наведения для блока изменения размера */
+
+/* .resize:hover {
+	background: var(--red);
+} */

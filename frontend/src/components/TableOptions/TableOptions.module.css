@@ -1,0 +1,33 @@
+.block {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.check_block {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+
+	list-style: none;
+}
+
+.range_block {
+	color: var(--text-l);
+}
+
+.count {
+	text-align: center;
+}
+
+.range {
+	width: 100%;
+
+	cursor: grab;
+	accent-color: var(--bg);
+}
+
+.range:active {
+	cursor: grabbing;
+}

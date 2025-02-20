@@ -1,0 +1,62 @@
+.block {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+
+	font-size: 1vw;
+}
+
+.but {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	/* width: 2rem; */
+	padding: 0.2rem;
+
+	cursor: pointer;
+
+	color: var(--text-l);
+	border: none;
+	border-radius: 0.2rem;
+	outline: none;
+	background: transparent;
+}
+
+.but:hover {
+	color: var(--text);
+	background: var(--hover);
+}
+
+.but:active {
+	color: var(--text);
+	background: var(--red);
+}
+
+.but:active .icon {
+	fill: var(--text);
+}
+
+.but_on {
+	background: var(--hover);
+}
+
+@media (max-width: 1280px) {
+	.block {
+		gap: 1rem;
+
+		font-size: 1.4vw;
+	}
+}
+
+@media (max-width: 768px) {
+	.block {
+		display: none;
+	}
+}
+
+@media (min-width: 1760px) {
+	.block {
+		font-size: 1rem !important;
+	}
+}

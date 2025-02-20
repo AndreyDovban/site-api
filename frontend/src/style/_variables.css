@@ -1,0 +1,23 @@
+/* ПАЛИТРА */
+:root {
+	--red: #e2112eff;
+	--red-dark: #b50e25ff;
+	--red-active: #ff1030;
+	--shadow: #545454;
+	--white: #ffffffff;
+	--grey-50: #f9fafbff;
+	--grey-100: #f3f4f6ff;
+	--grey-200: #e5e7ebff;
+	--grey-300: #d1d5dbff;
+	--grey-400: #9ca3afff;
+	--grey-500: #6b7280ff;
+	--grey-600: #4b5563ff;
+	--grey-700: #374151ff;
+	--grey-800: #1f2937ff;
+	--grey-900: #111827ff;
+	--grey-950: #030712ff;
+}
+
+/* Стиль для тёмной темы */
+/* :root .dark {
+} */
