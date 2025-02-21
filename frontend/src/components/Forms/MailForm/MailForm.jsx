@@ -2,7 +2,7 @@ import styles from './MailForm.module.css';
 import cn from 'classnames';
 import { getprods } from '../../../api';
 import { useRecoilState } from 'recoil';
-import { choosedProdsState, prodsListState } from '../../../store';
+import { choosedProdsState, prodsListState, noteMessageState } from '../../../store';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -13,6 +13,7 @@ export function MailForm() {
 	const [choosedProds, setChoosedProds] = useRecoilState(choosedProdsState);
 	const [, setSucces] = useState(false);
 	const [prods, setProds] = useRecoilState(prodsListState);
+	const [noteMessage, setNoteMessage] = useRecoilState(noteMessageState);
 
 	useEffect(() => {
 		getprods(setProds);
@@ -54,9 +55,11 @@ export function MailForm() {
 				body: JSON.stringify(data),
 			});
 			if (res.status === 200) {
-				console.log(await res.json());
+				let mes = await res.json();
+				console.log(mes);
 				reset();
 				setSucces(true);
+				setNoteMessage(mes);
 			}
 		} catch (error) {
 			console.log(error);

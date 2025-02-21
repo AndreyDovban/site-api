@@ -1,18 +1,18 @@
 /* v8 ignore start*/
-/** CSS модуль */
 import styles from './Layout.module.css';
-/**
- * Компонент шапка приложения
- * Компонент диалоговое окно
- */
-import { Header } from '../components';
+import { useRecoilValue } from 'recoil';
+import { noteMessageState } from '../store';
+import { Header, Note } from '../components';
 
 function Layout({ children }) {
+	const noteMessage = useRecoilValue(noteMessageState);
 	// if (history.scrollRestoration) {
 	//     history.scrollRestoration = 'manual';
 	// }
+
 	return (
 		<div className={styles.block}>
+			<Note text={noteMessage} />
 			<Header />
 			<main className={styles.content}>{children}</main>
 		</div>
@@ -26,7 +26,6 @@ export default function withLayout(Component) {
 	// });
 
 	return function withLauoutComponent(props) {
-		console.log('render layout');
 		return (
 			<Layout>
 				<Component {...props} />

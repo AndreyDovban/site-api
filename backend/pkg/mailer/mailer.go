@@ -43,10 +43,11 @@ func Mailer(recipient string, data interface{}) {
 	var message = ""
 	var delimeter = "simple boundary"
 
+	fmt.Println(recipient)
+
 	//basic email headers
-	message += fmt.Sprintf("From: %s\r\n", (&mail.Address{Name: "Name", Address: sender}).String())
-	message += fmt.Sprintf("From: %s\r\n", (&mail.Address{Name: "Name", Address: recipient}).String())
-	message += "Subject: This is the email subject\r\n"
+	message += fmt.Sprintf("From: %s\r\n", (&mail.Address{Name: "Granulex", Address: sender}).String())
+	message += "Subject: Ссылки для скачивания\r\n"
 	message += "MIME-Version: 1.0\r\n"
 	message += fmt.Sprintf("Content-Type: multipart/mixed; boundary=\"%s\"\r\n", delimeter)
 
@@ -67,7 +68,7 @@ func Mailer(recipient string, data interface{}) {
 	}
 	message += "\r\n" + base64.StdEncoding.EncodeToString(rawFile)
 
-	// fmt.Println(message)
+	fmt.Println(message)
 
 	c, err := smtp.Dial(address)
 	if err != nil {
@@ -88,7 +89,7 @@ func Mailer(recipient string, data interface{}) {
 		c.Close()
 	}
 
-	if err = c.Rcpt(sender); err != nil {
+	if err = c.Rcpt(recipient); err != nil {
 		fmt.Println(err.Error())
 		c.Close()
 	}

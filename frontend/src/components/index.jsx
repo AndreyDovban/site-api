@@ -13,3 +13,4 @@ export * from './Content/Content'; // Компонент контент
 export * from './EditBase/EditBase'; // Компонент блок изменения базы
 export * from './ProdCart/ProdCart'; // Компонент карточка продукта
 export * from './Forms/MailForm/MailForm'; // Компонент форма
+export * from './Note/Note'; //Компонент уведомление
