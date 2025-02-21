@@ -1,9 +1,9 @@
 /** CSS модуль */
 import styles from './Content.module.css';
 /** Метод динамического управления классами */
-import cn from 'classnames';
+// import cn from 'classnames';
 /** Иконка стрелка */
-import Arrow from '../../assets/svg/corner.svg?react';
+// import Arrow from '../../assets/svg/corner.svg?react';
 /** Хук эффекта */
 // import { useEffect } from 'react';
 /**
@@ -13,7 +13,7 @@ import Arrow from '../../assets/svg/corner.svg?react';
  * Компонент - пагинация
  * Компонент - блок изменения базы
  */
-import { Form, Table, TableOptions, Pagination, EditBase } from '..';
+// import { Form, Table, TableOptions, Pagination, EditBase } from '..';
 
 /**
  * Компонент с контентом главной страницы
@@ -21,13 +21,13 @@ import { Form, Table, TableOptions, Pagination, EditBase } from '..';
  */
 export function Content() {
 	/** Обрабоитчик скрытия/показа меню */
-	function openMenu(e) {
-		e.stopPropagation();
-		let t = e.currentTarget;
-		t.nextSibling.classList.toggle(styles.scale);
-		t.nextSibling.nextSibling.classList.toggle(styles.scale);
-		t.classList.toggle(styles.menu_icon_open);
-	}
+	// function openMenu(e) {
+	// 	e.stopPropagation();
+	// 	let t = e.currentTarget;
+	// 	t.nextSibling.classList.toggle(styles.scale);
+	// 	t.nextSibling.nextSibling.classList.toggle(styles.scale);
+	// 	t.classList.toggle(styles.menu_icon_open);
+	// }
 
 	// useEffect(() => {
 	// 	let menu = document.querySelector(`.${styles.menu}`); // Получаем основной блок

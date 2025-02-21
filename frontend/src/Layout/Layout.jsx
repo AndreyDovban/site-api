@@ -13,8 +13,8 @@ function Layout({ children }) {
 	// }
 	return (
 		<div className={styles.block}>
+			<Header />
 			<main className={styles.content}>{children}</main>
-			<Header className={styles.header} />
 		</div>
 	);
 }
@@ -26,6 +26,7 @@ export default function withLayout(Component) {
 	// });
 
 	return function withLauoutComponent(props) {
+		console.log('render layout');
 		return (
 			<Layout>
 				<Component {...props} />

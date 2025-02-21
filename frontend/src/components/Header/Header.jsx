@@ -7,7 +7,7 @@ import Logo from '../../assets/svg/logo_long.svg?react';
 /** Компонент ссылка для СПА */
 import { Link } from 'react-router-dom';
 /** Компонент панель навигации */
-import { NavTools } from '../NavTools/NavTools';
+import { NavTools } from '../../components/NavTools/NavTools';
 
 /**
  * Компонент шапка приложения

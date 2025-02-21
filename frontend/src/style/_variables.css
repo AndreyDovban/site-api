@@ -4,7 +4,7 @@
 	--red-dark: #b50e25ff;
 	--red-active: #ff1030;
 	--shadow: #545454;
-	--white: #ffffffff;
+	--white: #ffff;
 	--grey-50: #f9fafbff;
 	--grey-100: #f3f4f6ff;
 	--grey-200: #e5e7ebff;
@@ -16,8 +16,10 @@
 	--grey-800: #1f2937ff;
 	--grey-900: #111827ff;
 	--grey-950: #030712ff;
+	--rad-10: 0.5rem;
 }
 
 /* Стиль для тёмной темы */
+
 /* :root .dark {
 } */

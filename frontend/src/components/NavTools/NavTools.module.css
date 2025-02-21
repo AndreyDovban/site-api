@@ -1,12 +1,13 @@
 .block {
 	display: flex;
-	align-items: center;
 	gap: 1rem;
-
-	font-size: 1vw;
+	align-items: center;
+	font-size: 1rem;
 }
 
-.but {
+.item {
+	cursor: pointer;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -14,49 +15,10 @@
 	/* width: 2rem; */
 	padding: 0.2rem;
 
-	cursor: pointer;
+	color: var(--grey-200);
 
-	color: var(--text-l);
+	background: transparent;
 	border: none;
 	border-radius: 0.2rem;
 	outline: none;
-	background: transparent;
-}
-
-.but:hover {
-	color: var(--text);
-	background: var(--hover);
-}
-
-.but:active {
-	color: var(--text);
-	background: var(--red);
-}
-
-.but:active .icon {
-	fill: var(--text);
-}
-
-.but_on {
-	background: var(--hover);
-}
-
-@media (max-width: 1280px) {
-	.block {
-		gap: 1rem;
-
-		font-size: 1.4vw;
-	}
-}
-
-@media (max-width: 768px) {
-	.block {
-		display: none;
-	}
-}
-
-@media (min-width: 1760px) {
-	.block {
-		font-size: 1rem !important;
-	}
 }

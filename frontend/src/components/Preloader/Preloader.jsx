@@ -1,7 +1,7 @@
 /** CSS модуль */
 import styles from './Preloader.module.css';
 /** SVG элемент */
-import SVG from '../../assets/svg/rrr.svg?react';
+import SVG from '../../assets/svg/logo_long.svg?react';
 
 /**
  * Компонент проелоадер

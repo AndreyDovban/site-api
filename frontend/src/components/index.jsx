@@ -3,7 +3,6 @@ export * from './Header/Header'; // Компонент шапка приложе
 export * from './Button/Button'; // Компонент кнопка-ссылка
 export * from './Preloader/Preloader'; // Компонент прелоадер
 export * from './NavTools/NavTools'; // Компонент панель навигации
-export * from './Form/Form'; // Компонент форма
 export * from './Table/Table'; // Компонент таблица
 export * from './TableOptions/TableOptions'; // настройки таблицы
 export * from './Checkbox/Checkbox'; // Компонент чекбокс
@@ -12,3 +11,5 @@ export * from './DatetimeFilter/DatetimeFilter'; // Компонент
 export * from './Pagination/Pagination'; // Компонент пагинация
 export * from './Content/Content'; // Компонент контент
 export * from './EditBase/EditBase'; // Компонент блок изменения базы
+export * from './ProdCart/ProdCart'; // Компонент карточка продукта
+export * from './Forms/MailForm/MailForm'; // Компонент форма
