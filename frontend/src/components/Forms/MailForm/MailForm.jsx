@@ -60,6 +60,14 @@ export function MailForm() {
 					isOpen: true,
 					isSuccessful: true,
 				});
+			} else {
+				let mes = res.statusText + ', [' + res.status + ']';
+				reset();
+				setNote({
+					text: mes,
+					isOpen: true,
+					isSuccessful: false,
+				});
 			}
 		} catch (error) {
 			console.log(error);

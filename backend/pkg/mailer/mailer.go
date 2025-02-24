@@ -43,7 +43,7 @@ func Mailer(recipient string, data interface{}) {
 	var message = ""
 	var delimeter = "simple boundary"
 
-	fmt.Println(recipient)
+	// fmt.Println(recipient)
 
 	//basic email headers
 	message += fmt.Sprintf("From: %s\r\n", (&mail.Address{Name: "Granulex", Address: sender}).String())
@@ -68,7 +68,7 @@ func Mailer(recipient string, data interface{}) {
 	}
 	message += "\r\n" + base64.StdEncoding.EncodeToString(rawFile)
 
-	fmt.Println(message)
+	// fmt.Println(message)
 
 	c, err := smtp.Dial(address)
 	if err != nil {
