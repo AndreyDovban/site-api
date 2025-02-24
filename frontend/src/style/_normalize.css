@@ -58,6 +58,20 @@ body,
 	font-synthesis: none;
 }
 
+#portal {
+	font-family: Inter, sans-serif;
+	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	line-height: 1.5;
+	text-size-adjust: 100%;
+	text-rendering: optimizelegibility;
+
+	transition: var(--transition);
+
+	font-synthesis: none;
+}
+
 a,
 button,
 input {

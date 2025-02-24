@@ -8,22 +8,29 @@ const portal = document.querySelector('#portal');
 /**
  * Компонент уведомление
  * @param {string} text Текст уведомления
- * @param {boolean} isOpen Состояние показать/скрыть блок
- * @param {function} setIsOpen Изменение состояния показать/скрыть
+ * @param {Object} note Состояние объекта уведомление
+ * @param {function} setNote Изменение состояния объекта уведомление
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
  * @returns {JSXElement}
  */
-export function Note({ text, isOpen, setIsOpen, ...props }) {
+export function Note({ note, setNote, ...props }) {
 	return createPortal(
 		<div
 			className={cn(styles.block, {
-				[styles.hide]: !isOpen,
+				[styles.hide]: !note.isOpen,
+				[styles.good]: note.isSuccessful == true,
+				[styles.bad]: note.isSuccessful == false,
 			})}
-			onClick={() => setIsOpen(false)}
+			onClick={() => setNote({ ...note, isOpen: false })}
 			{...props}
 		>
-			<span>{text}</span>
-			<Alarm className={cn(styles.icon, styles.bad)} />
+			<Alarm
+				className={cn(styles.icon, {
+					[styles.good]: note.isSuccessful == true,
+					[styles.bad]: note.isSuccessful == false,
+				})}
+			/>
+			<span>{note.text}</span>
 		</div>,
 		portal,
 	);

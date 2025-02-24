@@ -2,18 +2,16 @@ import styles from './MailForm.module.css';
 import cn from 'classnames';
 import { getprods } from '../../../api';
 import { useRecoilState } from 'recoil';
-import { choosedProdsState, prodsListState, noteMessageState } from '../../../store';
+import { choosedProdsState, prodsListState, noteState } from '../../../store';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import { Button } from '../..';
+import { Button, Note } from '../..';
 import { v4 as uuid } from 'uuid';
 
 export function MailForm() {
 	const [choosedProds, setChoosedProds] = useRecoilState(choosedProdsState);
-	const [, setSucces] = useState(false);
 	const [prods, setProds] = useRecoilState(prodsListState);
-	const [, setNoteMessage] = useRecoilState(noteMessageState);
+	const [note, setNote] = useRecoilState(noteState);
 
 	useEffect(() => {
 		getprods(setProds);
@@ -56,13 +54,20 @@ export function MailForm() {
 			});
 			if (res.status === 200) {
 				let mes = await res.json();
-				console.log(mes);
 				reset();
-				setSucces(true);
-				setNoteMessage(mes);
+				setNote({
+					text: mes,
+					isOpen: true,
+					isSuccessful: true,
+				});
 			}
 		} catch (error) {
 			console.log(error);
+			setNote({
+				text: error,
+				isOpen: true,
+				isSuccessful: false,
+			});
 		}
 	}
 
@@ -193,6 +198,7 @@ export function MailForm() {
 			<Button className={styles.but} disabled={!choosedProds.length}>
 				Отправить
 			</Button>
+			<Note note={note} setNote={setNote} />
 		</form>
 	);
 }

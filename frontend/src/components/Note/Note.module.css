@@ -1,4 +1,6 @@
 .block {
+	cursor: pointer;
+
 	position: absolute;
 	top: 4rem;
 	right: 4rem;
