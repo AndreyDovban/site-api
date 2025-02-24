@@ -20,7 +20,7 @@ const router = createBrowserRouter([
 		errorElement: <Error />,
 	},
 	{
-		path: '/products',
+		path: '/files',
 		element: <Products />,
 	},
 	{

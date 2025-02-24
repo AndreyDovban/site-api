@@ -117,7 +117,9 @@ func (repo *FileRepository) GetFiles(limit, offset int, columns []string) ([]Fil
 		files.description as description, 
 		files.created_at as created_at,
 		files.updated_at as updated_at, 
-		products.name as product_name`).
+		products.name as product_name,
+		products.uid as product_uid,
+		products.description as product_description`).
 		Where("files.deleted_at is null").
 		Joins("JOIN products ON files.product_uid = products.uid").
 		Order("uid asc").

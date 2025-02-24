@@ -12,8 +12,8 @@ export function NavTools({ className, ...props }) {
 	return (
 		<nav className={cn(className, styles.block)} {...props}>
 			<NavLink
-				to="/products"
-				id="#products"
+				to="/files"
+				id="#files"
 				className={styles.item}
 				style={({ isActive }) => ({
 					color: isActive && '#e2112e',

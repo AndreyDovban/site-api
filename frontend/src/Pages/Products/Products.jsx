@@ -1,10 +1,12 @@
 import styles from './Products.module.css';
 import withLayout from '../../Layout/Layout';
-import { getprods } from '../../api';
+// import { getprods } from '../../api';
+import { getfiles } from '../../api';
 import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import { prodsListState } from '../../store';
-import { ProdCart } from '../../components';
+// import { prodsListState } from '../../store';
+import { filesListState } from '../../store';
+// import { ProdCart } from '../../components';
 
 /**
  * Страница продукты
@@ -12,17 +14,18 @@ import { ProdCart } from '../../components';
  */
 
 function Products() {
-	const [prods, setProds] = useRecoilState(prodsListState);
+	const [prods, setProds] = useRecoilState(filesListState);
 
 	useEffect(() => {
-		getprods(setProds);
+		getfiles(setProds);
 	}, [setProds]);
 
 	return (
 		<div className={styles.block}>
-			{prods.products.map((el, i) => {
+			<pre>{JSON.stringify(prods, 0, 4)}</pre>
+			{/* {prods.products.map((el, i) => {
 				return <ProdCart key={i} Product={el} />;
-			})}
+			})} */}
 		</div>
 	);
 }

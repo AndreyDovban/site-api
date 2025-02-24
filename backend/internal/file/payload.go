@@ -20,12 +20,14 @@ type GetFilesRequest struct {
 }
 
 type FileResponse struct {
-	Uid         string         `json:"uid"`
-	Name        string         `json:"name"`
-	Description string         `json:"description"`
-	ProductName string         `json:"product_name"`
-	CreatedAt   datatypes.Date `json:"created_at"`
-	UpdatedAt   datatypes.Date `json:"updated_at"`
+	Uid                string         `json:"uid"`
+	Name               string         `json:"name"`
+	Description        string         `json:"description"`
+	ProductName        string         `json:"product_name"`
+	ProductDescription string         `json:"product_description"`
+	ProductUid         string         `json:"product_uid"`
+	CreatedAt          datatypes.Date `json:"created_at"`
+	UpdatedAt          datatypes.Date `json:"updated_at"`
 }
 
 type GetFilesResponse struct {

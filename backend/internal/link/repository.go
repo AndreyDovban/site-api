@@ -86,7 +86,7 @@ func (repo *LinkRepository) GetLinks(limit, offset int, columns []string) ([]Lin
 		// Select(columns).
 		Where("deleted_at is null").
 		Session(&gorm.Session{}).
-		Order("id asc").
+		Order("created_at desc").
 		Limit(limit).
 		Offset(offset).
 		Scan(&links)
