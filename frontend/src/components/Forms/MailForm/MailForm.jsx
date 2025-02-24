@@ -13,7 +13,7 @@ export function MailForm() {
 	const [choosedProds, setChoosedProds] = useRecoilState(choosedProdsState);
 	const [, setSucces] = useState(false);
 	const [prods, setProds] = useRecoilState(prodsListState);
-	const [noteMessage, setNoteMessage] = useRecoilState(noteMessageState);
+	const [, setNoteMessage] = useRecoilState(noteMessageState);
 
 	useEffect(() => {
 		getprods(setProds);

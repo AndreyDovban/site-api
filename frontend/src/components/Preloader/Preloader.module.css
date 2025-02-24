@@ -1,3 +1,18 @@
 .block {
-	width: 60%;
+	width: 10rem;
+
+	animation-name: loading;
+	animation-duration: 3s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes loading {
+	0% {
+		transform: rotateZ(-360deg);
+	}
+
+	100% {
+		rotate: rotateX(0);
+	}
 }

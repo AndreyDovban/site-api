@@ -24,6 +24,6 @@ export async function getlinks(setLinksList) {
 		res = await res.json();
 		setLinksList(res);
 	} catch (error) {
-		alert('ошибка соединение');
+		alert('ошибка соединения');
 	}
 }

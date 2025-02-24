@@ -14,6 +14,6 @@ export async function getclients(setClientList) {
 		res = await res.json();
 		setClientList(res);
 	} catch (error) {
-		alert('ошибка соединение');
+		alert('ошибка соединения');
 	}
 }

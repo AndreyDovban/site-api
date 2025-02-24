@@ -1,19 +1,17 @@
 /* v8 ignore start*/
 import styles from './Layout.module.css';
-import { useRecoilValue } from 'recoil';
-import { noteMessageState } from '../store';
-import { Header, Note } from '../components';
+import { Header } from '../components';
+import { useMemo } from 'react';
 
 function Layout({ children }) {
-	const noteMessage = useRecoilValue(noteMessageState);
 	// if (history.scrollRestoration) {
 	//     history.scrollRestoration = 'manual';
 	// }
+	const header = useMemo(() => <Header />, []);
 
 	return (
 		<div className={styles.block}>
-			<Note text={noteMessage} />
-			<Header />
+			{header}
 			<main className={styles.content}>{children}</main>
 		</div>
 	);

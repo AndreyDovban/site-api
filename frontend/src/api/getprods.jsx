@@ -14,6 +14,6 @@ export async function getprods(setProdList) {
 		res = await res.json();
 		setProdList(res);
 	} catch (error) {
-		alert('ошибка соединение');
+		alert('ошибка соединения');
 	}
 }

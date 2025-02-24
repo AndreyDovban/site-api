@@ -5,6 +5,6 @@ export async function checkheals() {
 		res = await res.text();
 		alert(res);
 	} catch (error) {
-		alert('ошибка соединение');
+		alert('ошибка соединения');
 	}
 }

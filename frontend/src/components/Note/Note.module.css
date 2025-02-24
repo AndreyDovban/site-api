@@ -3,21 +3,34 @@
 	top: 4rem;
 	right: 4rem;
 
+	display: flex;
+	gap: 2rem;
+	align-items: center;
+
 	max-width: 30rem;
 	padding: 1rem 2rem;
 
+	color: var(--grey-600);
+
 	background: var(--grey-100);
 	border-radius: var(--rad-10);
+
+	transition: all 0.3s ease;
+}
+
+.icon {
+	height: 2em;
 }
 
 .good {
-	border: 1px solid var(--green);
+	fill: var(--green);
 }
 
-.bab {
-	border: 1px solid var(--red);
+.bad {
+	fill: var(--red);
 }
 
-.active {
-	visibility: collapse !important;
+.hide {
+	visibility: hidden;
+	opacity: 0;
 }

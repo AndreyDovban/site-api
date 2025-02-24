@@ -39,6 +39,6 @@ export async function getdata(
 		setCountAllRows(res.count_rows);
 		setData(res.data);
 	} catch (error) {
-		alert('ошибка соединение');
+		alert('ошибка соединения');
 	}
 }

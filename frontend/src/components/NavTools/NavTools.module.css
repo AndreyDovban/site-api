@@ -22,3 +22,7 @@
 	border-radius: 0.2rem;
 	outline: none;
 }
+
+.active {
+	color: var(--red) !important;
+}
