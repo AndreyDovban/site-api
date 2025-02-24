@@ -29,6 +29,7 @@ type ProductResponse struct {
 }
 
 type GetProductsResponse struct {
-	Products any   `json:"products"`
-	Count    int64 `json:"count"`
+	Columns []string          `json:"columns"`
+	Data    []ProductResponse `json:"data"`
+	Count   int64             `json:"count"`
 }

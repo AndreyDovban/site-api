@@ -4,7 +4,8 @@ import { atom } from 'recoil';
 export const prodsListState = atom({
 	key: 'prodsListState',
 	default: {
-		products: [],
+		columns: [],
+		data: [{}],
 		count: 0,
 	},
 });

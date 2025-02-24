@@ -4,7 +4,8 @@ import { atom } from 'recoil';
 export const clientListState = atom({
 	key: 'clientListState',
 	default: {
-		clients: [],
+		columns: [],
+		data: [{}],
 		count: 0,
 	},
 });

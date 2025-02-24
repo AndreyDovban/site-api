@@ -32,6 +32,7 @@ type ClientResponse struct {
 }
 
 type GetClientsResponse struct {
-	Clients []ClientResponse `json:"clients"`
+	Columns []string         `json:"columns"`
+	Data    []ClientResponse `json:"data"`
 	Count   int64            `json:"count"`
 }

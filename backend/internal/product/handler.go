@@ -146,8 +146,9 @@ func (handler *ProductHandler) GetProds() http.HandlerFunc {
 		}
 
 		response.Json(w, &GetProductsResponse{
-			Products: products,
-			Count:    count,
+			Columns: []string{"name", "description", "created_at", "updated_at", "uid"},
+			Data:    products,
+			Count:   count,
 		}, http.StatusOK)
 	}
 }

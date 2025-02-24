@@ -1,0 +1,83 @@
+.table {
+	width: 100%;
+}
+
+.table,
+.tr,
+.th,
+.td {
+	color: var(--text);
+	border: 1px solid var(--text);
+	border-collapse: collapse;
+}
+
+.td,
+.th {
+	padding: 0.2rem;
+
+	cursor: pointer;
+
+	white-space: nowrap;
+
+	font-size: 1rem;
+}
+
+.th {
+	position: relative;
+
+	padding-right: 1.5rem;
+
+	text-align: left;
+
+	font-weight: 500;
+}
+
+.sort {
+	position: absolute;
+	right: 0.2rem;
+
+	pointer-events: none;
+}
+
+.hide {
+	display: none;
+}
+
+.up {
+	transform: rotate(180deg) translateY(-0.25rem);
+}
+
+.td_filter {
+	position: relative;
+
+	vertical-align: middle;
+}
+
+.td {
+	font-size: 0.8rem;
+}
+
+.th_container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	width: 100%;
+	gap: 2rem;
+}
+
+.td:hover,
+.th:hover {
+	color: var(--text-l);
+	background: var(--text);
+}
+
+.th:hover .icon {
+	fill: var(--text-l);
+}
+
+.icon {
+	height: 1rem;
+
+	fill: var(--text);
+}

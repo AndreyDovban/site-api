@@ -4,7 +4,8 @@ import { atom } from 'recoil';
 export const linksListState = atom({
 	key: 'linksListState',
 	default: {
-		links: [],
+		columns: [],
+		data: [{}],
 		count: 0,
 	},
 });

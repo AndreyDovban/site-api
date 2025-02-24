@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 // import { prodsListState } from '../../store';
 import { filesListState } from '../../store';
 // import { ProdCart } from '../../components';
+import { Table } from '../../components';
 
 /**
  * Страница продукты
@@ -14,15 +15,15 @@ import { filesListState } from '../../store';
  */
 
 function Products() {
-	const [prods, setProds] = useRecoilState(filesListState);
+	const [files, setFiles] = useRecoilState(filesListState);
 
 	useEffect(() => {
-		getfiles(setProds);
-	}, [setProds]);
+		getfiles(setFiles);
+	}, [setFiles]);
 
 	return (
 		<div className={styles.block}>
-			<pre>{JSON.stringify(prods, 0, 4)}</pre>
+			<Table data={files} />
 			{/* {prods.products.map((el, i) => {
 				return <ProdCart key={i} Product={el} />;
 			})} */}

@@ -27,6 +27,7 @@ type LinkMailResponse struct {
 }
 
 type GetLinksResponse struct {
-	Links []LinkResponse `json:"links"`
-	Count int64          `json:"count"`
+	Columns []string       `json:"columns"`
+	Data    []LinkResponse `json:"data"`
+	Count   int64          `json:"count"`
 }

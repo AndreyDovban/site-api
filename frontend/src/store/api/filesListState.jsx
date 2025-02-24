@@ -4,7 +4,8 @@ import { atom } from 'recoil';
 export const filesListState = atom({
 	key: 'filesListState',
 	default: {
-		files: [],
+		columns: [],
+		data: [{}],
 		count: 0,
 	},
 });

@@ -45,8 +45,9 @@ func (handler *LinkHandler) GetLinks() http.HandlerFunc {
 		}
 
 		response.Json(w, &GetLinksResponse{
-			Links: links,
-			Count: count,
+			Columns: []string{"uid", "hash", "valid", "count", "product_name", "file_name", "client_name", "created_at", "updated_at"},
+			Data:    links,
+			Count:   count,
 		}, http.StatusOK)
 	}
 }

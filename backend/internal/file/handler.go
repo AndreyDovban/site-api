@@ -148,8 +148,9 @@ func (handler *FileHandler) GetFiles() http.HandlerFunc {
 		}
 
 		response.Json(w, &GetFilesResponse{
-			Files: files,
-			Count: count,
+			Columns: []string{"uid", "name", "description", "product_name", "product_description", "product_uid", "created_at", "updated_at"},
+			Data:    files,
+			Count:   count,
 		}, http.StatusOK)
 	}
 }

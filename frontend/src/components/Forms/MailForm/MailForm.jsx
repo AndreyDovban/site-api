@@ -187,7 +187,7 @@ export function MailForm() {
 			</div>
 			<hr className={styles.hr} />
 			<div className={styles.check_block}>
-				{[...prods.products].map(el => {
+				{[...prods.data].map(el => {
 					return (
 						<label key={uuid()} className={styles.item}>
 							<input

@@ -31,6 +31,7 @@ type FileResponse struct {
 }
 
 type GetFilesResponse struct {
-	Files []FileResponse `json:"files"`
-	Count int64          `json:"count"`
+	Columns []string       `json:"columns"`
+	Data    []FileResponse `json:"data"`
+	Count   int64          `json:"count"`
 }

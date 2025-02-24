@@ -4,6 +4,7 @@ import { getlinks } from '../../api';
 import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import { linksListState } from '../../store';
+import { Table } from '../../components';
 
 /**
  * Страница ссылки
@@ -19,6 +20,7 @@ function Links() {
 
 	return (
 		<div className={styles.block}>
+			<Table data={links} />
 			<pre>{JSON.stringify(links, 0, 4)}</pre>
 		</div>
 	);

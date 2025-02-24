@@ -148,7 +148,8 @@ func (handler *ClientHandler) GetProds() http.HandlerFunc {
 		}
 
 		response.Json(w, &GetClientsResponse{
-			Clients: clients,
+			Columns: []string{"name", "telephone", "mail", "company", "created_at", "updated_at"},
+			Data:    clients,
 			Count:   count,
 		}, http.StatusOK)
 	}

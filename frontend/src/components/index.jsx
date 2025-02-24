@@ -3,7 +3,7 @@ export * from './Header/Header'; // Компонент шапка приложе
 export * from './Button/Button'; // Компонент кнопка-ссылка
 export * from './Preloader/Preloader'; // Компонент прелоадер
 export * from './NavTools/NavTools'; // Компонент панель навигации
-export * from './Table/Table'; // Компонент таблица
+export * from './TableOld/TableOld'; // Компонент таблица
 export * from './TableOptions/TableOptions'; // настройки таблицы
 export * from './Checkbox/Checkbox'; // Компонент чекбокс
 export * from './TextFilter/TextFilter'; // Компонент текстовый фильтр
@@ -14,3 +14,4 @@ export * from './EditBase/EditBase'; // Компонент блок измене
 export * from './ProdCart/ProdCart'; // Компонент карточка продукта
 export * from './Forms/MailForm/MailForm'; // Компонент форма
 export * from './Note/Note'; //Компонент уведомление
+export * from './Table/Table'; // Компонент таблица
