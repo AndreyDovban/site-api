@@ -9,6 +9,15 @@
 	border-radius: var(--rad-10);
 }
 
+.name {
+	min-width: 10rem;
+
+	font-size: 1.2rem;
+	font-weight: 500;
+	color: var(--red);
+	text-align: center;
+}
+
 .description {
 	display: flex;
 	gap: 1rem;
@@ -19,11 +28,24 @@
 	align-self: stretch;
 }
 
-.name {
-	min-width: 10rem;
+.graw {
+	flex-grow: 1;
+}
 
-	font-size: 1.2rem;
-	font-weight: 500;
-	color: var(--red);
-	text-align: center;
+.but {
+	cursor: pointer;
+	background: none;
+	border: none;
+}
+
+.but:hover svg,
+.but:focus svg {
+	fill: var(--red);
+}
+
+.but svg {
+	/* pointer-events: none; */
+	width: 1.5rem;
+	height: 1.5rem;
+	fill: var(--grey-400);
 }

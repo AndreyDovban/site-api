@@ -1,5 +1,5 @@
 /** Запрос за списком продуктов и файлов к ним*/
-export async function getprods(setProdList) {
+export async function getprods() {
 	try {
 		let res = await fetch('/api/products', {
 			method: 'POST',
@@ -12,8 +12,8 @@ export async function getprods(setProdList) {
 			}),
 		});
 		res = await res.json();
-		setProdList(res);
+		return res;
 	} catch (error) {
-		alert('ошибка соединения');
+		return error;
 	}
 }

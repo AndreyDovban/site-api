@@ -21,9 +21,9 @@ type GetProductsRequest struct {
 }
 
 type ProductResponse struct {
+	Uid         string         `json:"uid"`
 	Name        string         `json:"name"`
 	Description string         `json:"description"`
-	Uid         string         `json:"uid"`
 	CreatedAt   datatypes.Date `json:"created_at"`
 	UpdatedAt   datatypes.Date `json:"updated_at"`
 }

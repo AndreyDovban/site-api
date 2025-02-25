@@ -50,7 +50,6 @@ export function Table({ data, ...props }) {
 
 	return (
 		<div className={styles.block}>
-			{data?.count}
 			<table className={styles.table} {...props}>
 				<thead className={styles.thead}>
 					<tr className={styles.tr}>{header}</tr>

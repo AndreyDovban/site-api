@@ -102,11 +102,15 @@ func (repo *ProductRepository) GetProds(limit, offset int, columns []string) ([]
 
 	result := repo.Db.
 		Table("products").
-		Where("deleted_at is null").
-		// Select(`products.name as prod_name,
-		// products.description as prod_description`).
+		// Select(
+		// 	`products.uid as uid,
+		// 	products.name as name,
+		// 	products.description as description,
+		// 	products.created_at as created_at,
+		// 	products.updated_at as updated_at`).
 		// Joins("JOIN products ON files.product_uid = product.uid").
-		Order("id asc").
+		Where("deleted_at is null").
+		Order("uid asc").
 		Limit(limit).
 		Offset(offset).
 		Scan(&products)

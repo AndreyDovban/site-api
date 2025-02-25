@@ -7,7 +7,6 @@ const portal = document.querySelector('#portal');
 
 /**
  * Компонент уведомление
- * @param {string} text Текст уведомления
  * @param {Object} note Состояние объекта уведомление
  * @param {function} setNote Изменение состояния объекта уведомление
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
