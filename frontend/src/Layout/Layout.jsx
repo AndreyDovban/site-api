@@ -2,6 +2,7 @@
 import styles from './Layout.module.css';
 import { Header } from '../components';
 import { useMemo } from 'react';
+import { ErrorBoundary } from '../components';
 
 function Layout({ children }) {
 	// if (history.scrollRestoration) {
@@ -12,7 +13,10 @@ function Layout({ children }) {
 	return (
 		<div className={styles.block}>
 			{header}
-			<main className={styles.content}>{children}</main>
+
+			<ErrorBoundary>
+				<main className={styles.content}>{children}</main>
+			</ErrorBoundary>
 		</div>
 	);
 }

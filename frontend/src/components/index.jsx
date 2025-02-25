@@ -15,3 +15,4 @@ export * from './ProdCart/ProdCart'; // Компонент карточка пр
 export * from './Forms/MailForm/MailForm'; // Компонент форма
 export * from './Note/Note'; //Компонент уведомление
 export * from './Table/Table'; // Компонент таблица
+export * from './ErrorBoundary/ErrorBoundary'; // Компонент - перехватчих ошибок
