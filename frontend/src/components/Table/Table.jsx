@@ -42,11 +42,13 @@ export function Table({ data, ...props }) {
 	}
 
 	return (
-		<table className={styles.block} {...props}>
-			<thead>
-				<tr className={styles.tr}>{header}</tr>
-			</thead>
-			<tbody className={styles.body}>{body}</tbody>
-		</table>
+		<div className={styles.block}>
+			<table className={styles.table} {...props}>
+				<thead className={styles.thead}>
+					<tr className={styles.tr}>{header}</tr>
+				</thead>
+				<tbody className={styles.body}>{body}</tbody>
+			</table>
+		</div>
 	);
 }

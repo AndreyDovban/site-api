@@ -1,4 +1,14 @@
-.block,
+/* .block,
+.thead,
+.body {
+	max-width: 700px;
+} */
+
+.block {
+	overflow: auto;
+}
+
+.table,
 .tr,
 .th,
 .td {
@@ -17,8 +27,12 @@
 
 .td {
 	cursor: pointer;
+
 	padding: 0.1rem;
+
 	font-size: 0.9rem;
+	text-overflow: ellipsis;
+	text-wrap: nowrap;
 }
 
 .td:hover {

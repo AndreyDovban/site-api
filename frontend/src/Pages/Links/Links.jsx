@@ -21,7 +21,7 @@ function Links() {
 	return (
 		<div className={styles.block}>
 			<Table data={links} />
-			<pre>{JSON.stringify(links, 0, 4)}</pre>
+			{/* <pre>{JSON.stringify(links, 0, 4)}</pre> */}
 		</div>
 	);
 }
