@@ -82,9 +82,21 @@ func (repo *LinkRepository) GetLinks(limit, offset int, columns []string) ([]Lin
 	}
 
 	result := repo.Db.
-		Table("links").
-		// Select(columns).
-		Where("deleted_at is null").
+		Table("links, products, files, clients").
+		Select(
+			`links.uid as uid,
+			hash,
+			valid,
+			count,
+			products.name as product_name,
+			files.name as file_name,
+			clients.name as client_name,
+			links.created_at as created_at,
+			links.updated_at as updated_at`).
+		Where("links.deleted_at is null").
+		Where("links.client_uid = clients.uid").
+		Where("links.file_uid = files.uid").
+		Where("links.product_uid = products.uid").
 		Session(&gorm.Session{}).
 		Order("created_at desc").
 		Limit(limit).

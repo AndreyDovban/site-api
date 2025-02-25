@@ -7,7 +7,7 @@ export async function getlinks(setLinksList) {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				limit: 100,
+				limit: 5000,
 				columns: [
 					'uid',
 					'hash',

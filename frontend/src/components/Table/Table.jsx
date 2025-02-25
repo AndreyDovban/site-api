@@ -20,34 +20,37 @@ export function Table({ data, ...props }) {
 		);
 	}
 
-	for (const el of data.data) {
-		if (typeof el == 'object') {
-			let row = [];
-			for (const key in el) {
-				if (key == 'created_at' || key == 'updated_at') {
+	if (data.data) {
+		for (const el of data.data) {
+			if (typeof el == 'object') {
+				let row = [];
+				for (const key in el) {
+					if (key == 'created_at' || key == 'updated_at') {
+						row.push(
+							<td key={key} className={styles.td}>
+								{new Date(el[key]).toLocaleString()}
+							</td>,
+						);
+						continue;
+					}
 					row.push(
 						<td key={key} className={styles.td}>
-							{new Date(el[key]).toLocaleString()}
+							{el[key]}
 						</td>,
 					);
-					continue;
 				}
-				row.push(
-					<td key={key} className={styles.td}>
-						{el[key]}
-					</td>,
+				body.push(
+					<tr key={uuid()} className={styles.tr}>
+						{row}
+					</tr>,
 				);
 			}
-			body.push(
-				<tr key={uuid()} className={styles.tr}>
-					{row}
-				</tr>,
-			);
 		}
 	}
 
 	return (
 		<div className={styles.block}>
+			{data?.count}
 			<table className={styles.table} {...props}>
 				<thead className={styles.thead}>
 					<tr className={styles.tr}>{header}</tr>

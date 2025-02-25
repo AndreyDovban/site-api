@@ -36,6 +36,8 @@ func (service *MailService) CreateLink(name, telephone, mail, company string, pr
 		if err != nil {
 			return "", err
 		}
+	} else {
+		client.Uid = existedClient.Uid
 	}
 
 	files, _ := service.FileRepository.GetFilesByProdUid(productUids)

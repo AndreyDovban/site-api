@@ -9,15 +9,15 @@ type GetLinksRequest struct {
 }
 
 type LinkResponse struct {
-	Uid        string         `json:"uid"`
-	Hash       string         `json:"hash"`
-	Valid      int            `json:"valid"`
-	Count      int            `json:"count"`
-	ProductUid string         `json:"product_uid"`
-	FileUid    string         `json:"file_uid"`
-	ClientUid  string         `json:"client_uid"`
-	CreatedAt  datatypes.Date `json:"created_at"`
-	UpdatedAt  datatypes.Date `json:"updated_at"`
+	Uid         string         `json:"uid"`
+	Hash        string         `json:"hash"`
+	Valid       int            `json:"valid"`
+	Count       int            `json:"count"`
+	ProductName string         `json:"product_name"`
+	FileName    string         `json:"file_name"`
+	ClientName  string         `json:"client_name"`
+	CreatedAt   datatypes.Date `json:"created_at"`
+	UpdatedAt   datatypes.Date `json:"updated_at"`
 }
 
 type LinkMailResponse struct {
