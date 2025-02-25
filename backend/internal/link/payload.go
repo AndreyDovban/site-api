@@ -16,8 +16,8 @@ type LinkResponse struct {
 	ProductUid string         `json:"product_uid"`
 	FileUid    string         `json:"file_uid"`
 	ClientUid  string         `json:"client_uid"`
-	CreatedAt  datatypes.Date `json:"CreatedAt"`
-	UpdatedAt  datatypes.Date `json:"UpdatedAt"`
+	CreatedAt  datatypes.Date `json:"created_at"`
+	UpdatedAt  datatypes.Date `json:"updated_at"`
 }
 
 type LinkMailResponse struct {

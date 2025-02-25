@@ -1,6 +1,7 @@
 package client
 
 import (
+	"fmt"
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
@@ -25,7 +26,7 @@ func NewClientHandler(router *http.ServeMux, deps *ClientHandlerDeps) {
 	router.HandleFunc("PATCH /client/{name}", handler.Update())
 	router.HandleFunc("DELETE /client/{name}", handler.Delete())
 
-	router.HandleFunc("POST /clients", handler.GetProds())
+	router.HandleFunc("POST /clients", handler.GetClients())
 
 }
 
@@ -72,6 +73,8 @@ func (handler *ClientHandler) Read() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+
+		fmt.Println(existedClient.CreatedAt.Format("02.01.2006/04:04:03"))
 
 		response.Json(w, existedClient, http.StatusOK)
 	}
@@ -128,7 +131,7 @@ func (handler *ClientHandler) Delete() http.HandlerFunc {
 	}
 }
 
-func (handler *ClientHandler) GetProds() http.HandlerFunc {
+func (handler *ClientHandler) GetClients() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := request.HandleBody[GetClientsRequest](&w, r)
 		if err != nil {

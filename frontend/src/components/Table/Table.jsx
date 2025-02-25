@@ -24,9 +24,14 @@ export function Table({ data, ...props }) {
 		if (typeof el == 'object') {
 			let row = [];
 			for (const key in el) {
-				// if (key == 'created_at') {
-				// 	console.log(el[key]);
-				// }
+				if (key == 'created_at' || key == 'updated_at') {
+					row.push(
+						<td key={key} className={styles.td}>
+							{new Date(el[key]).toLocaleString()}
+						</td>,
+					);
+					continue;
+				}
 				row.push(
 					<td key={key} className={styles.td}>
 						{el[key]}
