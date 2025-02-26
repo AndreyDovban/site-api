@@ -1,10 +1,10 @@
 import styles from './Links.module.css';
 import withLayout from '../../Layout/Layout';
-import { getlinks } from '../../api';
+import { getLinks } from '../../api';
 import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
-import { linksListState } from '../../store';
-import { Table } from '../../components';
+import { useEffect, useMemo } from 'react';
+import { linksListState, noteState } from '../../store';
+import { Table, Note } from '../../components';
 
 /**
  * Страница ссылки
@@ -13,15 +13,18 @@ import { Table } from '../../components';
 
 function Links() {
 	const [links, setLinks] = useRecoilState(linksListState);
+	const [note, setNote] = useRecoilState(noteState);
+
+	const table = useMemo(() => <Table data={links} />, [links]);
 
 	useEffect(() => {
-		getlinks(setLinks);
-	}, [setLinks]);
+		getLinks(setLinks, setNote);
+	}, [setNote, setLinks]);
 
 	return (
 		<div className={styles.block}>
-			<Table data={links} />
-			{/* <pre>{JSON.stringify(links, 0, 4)}</pre> */}
+			{table}
+			<Note note={note} setNote={setNote} />
 		</div>
 	);
 }

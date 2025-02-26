@@ -1,6 +1,6 @@
 import styles from './MailForm.module.css';
 import cn from 'classnames';
-import { getprods } from '../../../api';
+import { getProds } from '../../../api';
 import { useRecoilState } from 'recoil';
 import { choosedProdsState, prodsListState, noteState } from '../../../store';
 import { useEffect } from 'react';
@@ -14,8 +14,8 @@ export function MailForm() {
 	const [note, setNote] = useRecoilState(noteState);
 
 	useEffect(() => {
-		getprods(setProds);
-	}, [setProds]);
+		getProds(setProds, setNote);
+	}, [setProds, setNote]);
 
 	const {
 		register,

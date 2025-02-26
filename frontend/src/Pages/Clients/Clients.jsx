@@ -1,10 +1,10 @@
 import styles from './Clients.module.css';
 import withLayout from '../../Layout/Layout';
-import { getclients } from '../../api';
+import { getClients } from '../../api';
 import { useRecoilState } from 'recoil';
 import { useEffect, useMemo } from 'react';
-import { clientListState } from '../../store';
-import { Table } from '../../components';
+import { clientListState, noteState } from '../../store';
+import { Table, Note } from '../../components';
 
 /**
  * Страница клиены
@@ -13,14 +13,20 @@ import { Table } from '../../components';
 
 function Clients() {
 	const [clients, setClients] = useRecoilState(clientListState);
+	const [note, setNote] = useRecoilState(noteState);
 
 	const table = useMemo(() => <Table data={clients} />, [clients]);
 
 	useEffect(() => {
-		getclients(setClients);
-	}, [setClients]);
+		getClients(setClients, setNote);
+	}, [setClients, setNote]);
 
-	return <div className={styles.block}>{table}</div>;
+	return (
+		<div className={styles.block}>
+			{table}
+			<Note note={note} setNote={setNote} />
+		</div>
+	);
 }
 
 export default withLayout(Clients);

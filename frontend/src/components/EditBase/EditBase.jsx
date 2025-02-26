@@ -20,7 +20,7 @@ import { useState, useEffect } from 'react';
 /** Метод получения случайной строки */
 import { v4 as uuid } from 'uuid';
 /** Запрос на получение списка продуктов */
-import { getprods } from '../../api';
+import { getProds } from '../../api';
 
 /**
  * Компонент блок изменения базы
@@ -76,7 +76,7 @@ export function EditBase({ ...props }) {
 			});
 			if (res.status === 200) {
 				res = await res.text();
-				getprods(setProdsList);
+				getProds(setProdsList);
 			}
 		} catch (error) {
 			console.log(error);

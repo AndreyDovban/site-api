@@ -13,29 +13,40 @@ const Clients = lazy(() => import('./Pages/Clients/Clients'));
 const Links = lazy(() => import('./Pages/Links/Links'));
 const Mail = lazy(() => import('./Pages/Mail/Mail'));
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+	[
+		{
+			path: '/',
+			element: <Home />,
+			errorElement: <Error />,
+		},
+		{
+			path: '/files',
+			element: <Products />,
+		},
+		{
+			path: '/clients',
+			element: <Clients />,
+		},
+		{
+			path: '/links',
+			element: <Links />,
+		},
+		{
+			path: '/mail',
+			element: <Mail />,
+		},
+	],
 	{
-		path: '/',
-		element: <Home />,
-		errorElement: <Error />,
+		future: {
+			v7_relativeSplatPath: true, // Enables relative paths in nested routes
+			v7_fetcherPersist: true, // Retains fetcher state during navigation
+			v7_normalizeFormMethod: true, // Normalizes form methods (e.g., POST or GET)
+			v7_partialHydration: true, // Supports partial hydration for server-side rendering
+			v7_skipActionErrorRevalidation: true, // Prevents revalidation when action errors occur
+		},
 	},
-	{
-		path: '/files',
-		element: <Products />,
-	},
-	{
-		path: '/clients',
-		element: <Clients />,
-	},
-	{
-		path: '/links',
-		element: <Links />,
-	},
-	{
-		path: '/mail',
-		element: <Mail />,
-	},
-]);
+);
 
 /**
  * Корневой элемент реакт приложения
@@ -43,7 +54,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<Suspense fallback={<Preloader />}>
 		<RecoilRoot>
-			<RouterProvider router={router} />
+			<RouterProvider future={{ v7_startTransition: true }} router={router} />
 		</RecoilRoot>
 	</Suspense>,
 );

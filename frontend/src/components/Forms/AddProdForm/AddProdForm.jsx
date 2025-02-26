@@ -1,13 +1,16 @@
 import styles from './AddProdForm.module.css';
 import cn from 'classnames';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { noteState } from '../../../store';
 import { useForm } from 'react-hook-form';
 import { Button, Note } from '../..';
+import { addProd, getProds } from '../../../api';
+import { prodsListState } from '../../../store';
 
 /** Компонент - форма создания нового продукта */
 export function AddProdForm() {
 	const [note, setNote] = useRecoilState(noteState);
+	const setProds = useSetRecoilState(prodsListState);
 
 	const {
 		register,
@@ -16,54 +19,15 @@ export function AddProdForm() {
 		reset,
 	} = useForm({ mode: 'all' });
 
-	async function onSubmit(data) {
-		for (let key in data) {
-			if (typeof data[key] === 'string') {
-				data[key] = data[key].trim();
-			}
-		}
-
-		console.log(data);
-		try {
-			let res = await fetch('/api/product', {
-				method: 'post',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			});
-			if (res.status === 200) {
-				let mes = await res.json();
-				console.log(mes);
-
-				reset();
-				if (mes.name) {
-					setNote({
-						text: `${mes.name} successful added`,
-						isOpen: true,
-						isSuccessful: true,
-					});
-				}
-			} else {
-				let mes = res.statusText + ', [' + res.status + ']';
-				reset();
-				setNote({
-					text: mes,
-					isOpen: true,
-					isSuccessful: false,
-				});
-			}
-		} catch (error) {
-			setNote({
-				text: error,
-				isOpen: true,
-				isSuccessful: false,
-			});
+	/**  Обработчик отправки формы создания продукта */
+	async function handlerAddProd(data) {
+		if (await addProd(data, reset, setNote)) {
+			await getProds(setProds, setNote);
 		}
 	}
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className={styles.block}>
+		<form onSubmit={handleSubmit(handlerAddProd)} className={styles.block}>
 			<div className={styles.inps_block}>
 				<label className={styles.label}>
 					<span>
