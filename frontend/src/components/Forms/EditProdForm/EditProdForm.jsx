@@ -65,7 +65,7 @@ export function EditProdForm({ uid, isOpen, setIsOpen, ...props }) {
 						{errors.name && errors.name?.message}
 					</span>
 				</label>
-				<label className={styles.label}>
+				<label className={cn(styles.label, styles.grow)}>
 					<span>
 						Описание <span className={styles.star}>*</span>
 					</span>
@@ -91,12 +91,14 @@ export function EditProdForm({ uid, isOpen, setIsOpen, ...props }) {
 			</div>
 			<hr className={styles.hr} />
 			<hr className={styles.hr} />
-			<Button disabled={!isValid} className={styles.button}>
-				Создать продукт
-			</Button>
-			<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={setIsOpen}>
-				Отмена
-			</Button>
+			<div className={styles.buttons_block}>
+				<Button disabled={!isValid} className={styles.button}>
+					Применить
+				</Button>
+				<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={setIsOpen}>
+					Отмена
+				</Button>
+			</div>
 			<Note note={note} setNote={setNote} />
 		</form>
 	);

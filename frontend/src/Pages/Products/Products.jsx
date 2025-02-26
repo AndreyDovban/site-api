@@ -16,7 +16,8 @@ function Products() {
 	// const [files, setFiles] = useRecoilState(filesListState);
 	const [prods, setProds] = useRecoilState(prodsListState);
 	const [note, setNote] = useRecoilState(noteState);
-	const [openForm, setOpenForm] = useState(false);
+	const [openAddForm, setOpenAddForm] = useState(false);
+	const [openEditForm, setOpenEditForm] = useState(false);
 
 	useEffect(() => {
 		getProds(setProds, setNote);
@@ -29,8 +30,18 @@ function Products() {
 	}
 
 	function openFormAddProd() {
-		setOpenForm(prev => !prev);
+		setOpenAddForm(prev => !prev);
 	}
+
+	function openFormEditProd() {
+		setOpenEditForm(prev => !prev);
+	}
+
+	const prodCarts = prods?.data?.map((el, i) => {
+		return (
+			<ProdCart key={i} product={el} handlerDeleteProd={handlerDeleteProd} openFormEditProd={openFormEditProd} />
+		);
+	});
 
 	return (
 		<div className={styles.block}>
@@ -38,12 +49,10 @@ function Products() {
 			<Button className={styles.add} onClick={openFormAddProd}>
 				Add New Product
 			</Button>
-			<AddProdForm isOpen={openForm} setIsOpen={openFormAddProd} />
-			<EditProdForm />
+			<AddProdForm isOpen={openAddForm} setIsOpen={openFormAddProd} />
+			<EditProdForm uid={''} isOpen={openEditForm} setIsOpen={openFormEditProd} />
 			{/* <Table data={prods} /> */}
-			{prods?.data?.map((el, i) => {
-				return <ProdCart key={i} product={el} handlerDeleteProd={handlerDeleteProd} />;
-			})}
+			{prodCarts}
 		</div>
 	);
 }
