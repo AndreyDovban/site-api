@@ -1,20 +1,20 @@
-import styles from './AddProdForm.module.css';
+import styles from './EditProdForm.module.css';
 import cn from 'classnames';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { noteState } from '../../../store';
 import { useForm } from 'react-hook-form';
 import { Button, Note } from '../..';
-import { addProd, getProds } from '../../../api';
+import { updateProd, getProds } from '../../../api';
 import { prodsListState } from '../../../store';
 
 /**
- * Компонент - форма создания нового продукта
+ * Компонент - форма изменения продукта
  * @param {boolean} isOpen Состояние - скрыть/показать форму
  * @param {function} setIsOpen Функция изменения состояния скрыть/показать форму
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
  * @returns {JSXElement}
  */
-export function AddProdForm({ isOpen, setIsOpen, ...props }) {
+export function EditProdForm({ uid, isOpen, setIsOpen, ...props }) {
 	const [note, setNote] = useRecoilState(noteState);
 	const setProds = useSetRecoilState(prodsListState);
 
@@ -26,15 +26,15 @@ export function AddProdForm({ isOpen, setIsOpen, ...props }) {
 	} = useForm({ mode: 'all' });
 
 	/**  Обработчик отправки формы создания продукта */
-	async function handlerAddProd(data) {
-		if (await addProd(data, reset, setNote)) {
+	async function handlerAddProd(uid, data) {
+		if (await updateProd(uid, data, reset, setNote)) {
 			await getProds(setProds, setNote);
 		}
 	}
 
 	return (
 		<form
-			onSubmit={handleSubmit(handlerAddProd)}
+			onSubmit={handleSubmit(data => handlerAddProd(uid, data))}
 			className={cn(styles.block, {
 				[styles.hide]: !isOpen,
 			})}

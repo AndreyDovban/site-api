@@ -1,6 +1,7 @@
 export * from './checkheals'; // Запрос на проверку состояния сервера
 export * from './getdata'; // Запрос на получение данных с сервера
 export * from './products/getProds'; // Запрос на получение списка продуктов
+export * from './products/updateProd'; // Запрос на изменение продукта
 export * from './products/addProd'; // Запрос на добавление продукта
 export * from './products/deleteProd'; // Запрос на удаление продукта
 export * from './clients/getClients'; // Запрос за списком сохранённых клиентов

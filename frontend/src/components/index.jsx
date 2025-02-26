@@ -17,3 +17,4 @@ export * from './Note/Note'; //Компонент - уведомление
 export * from './Table/Table'; // Компонент - таблица
 export * from './ErrorBoundary/ErrorBoundary'; // Компонент - перехватчих ошибок
 export * from './Forms/AddProdForm/AddProdForm'; // Компонент - форма создания нового продукта
+export * from './Forms/EditProdForm/EditProdForm'; // Компонент - форма изменения продукта
