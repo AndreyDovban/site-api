@@ -1,7 +1,7 @@
 /**
  * Запрос на изменение продукта
  * @param {string} Uid изменяемого объекта
- * @param {Object} data Объект с данными для создания продукта
+ * @param {Object} data Объект с данными для изменения продукта
  * @param {function} reset Функция сброса заполненной формы
  * @param {function} setNote Функция управления состоянием обеъкта уведомления
  * @returns {boolean | void}

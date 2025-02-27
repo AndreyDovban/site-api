@@ -1,9 +1,9 @@
 import styles from './EditProdForm.module.css';
 import cn from 'classnames';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { noteState } from '../../../store';
 import { useForm } from 'react-hook-form';
-import { Button, Note } from '../..';
+import { Button } from '../..';
 import { updateProd, getProds } from '../../../api';
 import { prodsListState } from '../../../store';
 
@@ -15,7 +15,7 @@ import { prodsListState } from '../../../store';
  * @returns {JSXElement}
  */
 export function EditProdForm({ uid, isOpen, setIsOpen, ...props }) {
-	const [note, setNote] = useRecoilState(noteState);
+	const setNote = useSetRecoilState(noteState);
 	const setProds = useSetRecoilState(prodsListState);
 
 	const {
@@ -99,7 +99,6 @@ export function EditProdForm({ uid, isOpen, setIsOpen, ...props }) {
 					Отмена
 				</Button>
 			</div>
-			<Note note={note} setNote={setNote} />
 		</form>
 	);
 }

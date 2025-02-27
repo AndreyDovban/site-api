@@ -2,18 +2,22 @@
 import styles from './Layout.module.css';
 import { Header } from '../components';
 import { useMemo } from 'react';
-import { ErrorBoundary } from '../components';
+import { noteState } from '../store';
+import { ErrorBoundary, Note } from '../components';
+import { useRecoilState } from 'recoil';
 
 function Layout({ children }) {
 	// if (history.scrollRestoration) {
 	//     history.scrollRestoration = 'manual';
 	// }
+	const [note, setNote] = useRecoilState(noteState);
+
 	const header = useMemo(() => <Header />, []);
 
 	return (
 		<div className={styles.block}>
 			{header}
-
+			<Note note={note} setNote={setNote} />
 			<ErrorBoundary>
 				<main className={styles.content}>{children}</main>
 			</ErrorBoundary>

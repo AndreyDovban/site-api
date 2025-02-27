@@ -1,11 +1,11 @@
 import styles from './Products.module.css';
 import withLayout from '../../Layout/Layout';
 import { getProds, deleteProd } from '../../api';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { prodsListState, noteState } from '../../store';
 // import { filesListState } from '../../store';
-import { ProdCart, Button, AddProdForm, Note, EditProdForm } from '../../components';
+import { ProdCart, Button, AddProdForm, EditProdForm } from '../../components';
 
 /**
  * Страница продукты
@@ -15,7 +15,7 @@ import { ProdCart, Button, AddProdForm, Note, EditProdForm } from '../../compone
 function Products() {
 	// const [files, setFiles] = useRecoilState(filesListState);
 	const [prods, setProds] = useRecoilState(prodsListState);
-	const [note, setNote] = useRecoilState(noteState);
+	const setNote = useSetRecoilState(noteState);
 	const [openAddForm, setOpenAddForm] = useState(false);
 	const [openEditForm, setOpenEditForm] = useState(false);
 
@@ -45,7 +45,7 @@ function Products() {
 
 	return (
 		<div className={styles.block}>
-			<Note note={note} setNote={setNote} />
+			{/* <Note note={note} setNote={setNote} /> */}
 			<Button className={styles.add} onClick={openFormAddProd}>
 				Add New Product
 			</Button>

@@ -1,9 +1,9 @@
 import styles from './AddProdForm.module.css';
 import cn from 'classnames';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { noteState } from '../../../store';
 import { useForm } from 'react-hook-form';
-import { Button, Note } from '../..';
+import { Button } from '../..';
 import { addProd, getProds } from '../../../api';
 import { prodsListState } from '../../../store';
 
@@ -15,7 +15,7 @@ import { prodsListState } from '../../../store';
  * @returns {JSXElement}
  */
 export function AddProdForm({ isOpen, setIsOpen, ...props }) {
-	const [note, setNote] = useRecoilState(noteState);
+	const setNote = useSetRecoilState(noteState);
 	const setProds = useSetRecoilState(prodsListState);
 
 	const {
@@ -97,7 +97,6 @@ export function AddProdForm({ isOpen, setIsOpen, ...props }) {
 			<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={setIsOpen}>
 				Отмена
 			</Button>
-			<Note note={note} setNote={setNote} />
 		</form>
 	);
 }

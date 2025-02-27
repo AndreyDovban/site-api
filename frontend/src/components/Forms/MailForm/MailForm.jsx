@@ -1,17 +1,17 @@
 import styles from './MailForm.module.css';
 import cn from 'classnames';
 import { getProds } from '../../../api';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { choosedProdsState, prodsListState, noteState } from '../../../store';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, Note } from '../..';
+import { Button } from '../..';
 import { v4 as uuid } from 'uuid';
 
 export function MailForm() {
 	const [choosedProds, setChoosedProds] = useRecoilState(choosedProdsState);
 	const [prods, setProds] = useRecoilState(prodsListState);
-	const [note, setNote] = useRecoilState(noteState);
+	const setNote = useSetRecoilState(noteState);
 
 	useEffect(() => {
 		getProds(setProds, setNote);
@@ -206,7 +206,6 @@ export function MailForm() {
 			<Button className={styles.but} disabled={!choosedProds.length}>
 				Отправить
 			</Button>
-			<Note note={note} setNote={setNote} />
 		</form>
 	);
 }
