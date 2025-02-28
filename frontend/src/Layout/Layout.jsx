@@ -2,8 +2,8 @@
 import styles from './Layout.module.css';
 import { Header } from '../components';
 import { useMemo } from 'react';
-import { noteState } from '../store';
-import { ErrorBoundary, Note } from '../components';
+import { noteState, confirmState } from '../store';
+import { ErrorBoundary, Note, Comfirm } from '../components';
 import { useRecoilState } from 'recoil';
 
 function Layout({ children }) {
@@ -11,16 +11,18 @@ function Layout({ children }) {
 	//     history.scrollRestoration = 'manual';
 	// }
 	const [note, setNote] = useRecoilState(noteState);
+	const [confirm, setConfirm] = useRecoilState(confirmState);
 
 	const header = useMemo(() => <Header />, []);
 
 	return (
 		<div className={styles.block}>
 			{header}
-			<Note note={note} setNote={setNote} />
 			<ErrorBoundary>
 				<main className={styles.content}>{children}</main>
 			</ErrorBoundary>
+			<Note note={note} setNote={setNote} />
+			<Comfirm confirm={confirm} setConfirm={setConfirm} />
 		</div>
 	);
 }

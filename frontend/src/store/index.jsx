@@ -10,6 +10,7 @@ export * from './ui/countRowsState'; // Атом состояния - коллт
 export * from './ui/numberPageState'; // Атом состояния - номер текущей страницы
 export * from './ui/countAllRowsState'; // Атом состояния - коллчество строк ответа запроса к базе без учёта лимита и сдвига
 export * from './ui/noteState'; // Атом состояния - объект уведомление
+export * from './ui/confirmState'; // Атом состояния - объект подтверждения
 export * from './api/dataState'; // Атом состояния - обект с данными ответа запроса к базе
 export * from './api/prodsListState'; // Атом состояния - список продуктов и файлов к ним
 export * from './api/clientListState'; // Атом состояния - список сохранённых клиентов

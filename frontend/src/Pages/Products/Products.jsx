@@ -3,7 +3,7 @@ import withLayout from '../../Layout/Layout';
 import { getProds, deleteProd } from '../../api';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
-import { prodsListState, noteState } from '../../store';
+import { prodsListState, noteState, confirmState } from '../../store';
 // import { filesListState } from '../../store';
 import { ProdCart, Button, AddProdForm, EditProdForm } from '../../components';
 
@@ -16,6 +16,7 @@ function Products() {
 	// const [files, setFiles] = useRecoilState(filesListState);
 	const [prods, setProds] = useRecoilState(prodsListState);
 	const setNote = useSetRecoilState(noteState);
+	const setConfirm = useSetRecoilState(confirmState);
 	const [openAddForm, setOpenAddForm] = useState(false);
 	const [openEditForm, setOpenEditForm] = useState(false);
 
@@ -28,6 +29,8 @@ function Products() {
 			await getProds(setProds, setNote);
 		}
 	}
+
+	function handlerConfirmDeleted() {}
 
 	function openFormAddProd() {
 		setOpenAddForm(prev => !prev);
