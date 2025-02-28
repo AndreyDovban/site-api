@@ -7,7 +7,7 @@ const portal = document.querySelector('#portal');
 
 /**
  * Компонент уведомление
- * @param {Object} note Состояние объекта уведомление
+ * @param {{text:string, isOpen:boolean, isSuccessful: boolean}} note Состояние объекта уведомление
  * @param {function} setNote Изменение состояния объекта уведомление
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
  * @returns {JSXElement}

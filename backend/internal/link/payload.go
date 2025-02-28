@@ -24,6 +24,7 @@ type LinkMailResponse struct {
 	Hash            string `json:"hash"`
 	FileName        string `json:"file_name"`
 	FileDescription string `json:"file_description"`
+	ProductUid      string `json:"product_uid"`
 }
 
 type GetLinksResponse struct {

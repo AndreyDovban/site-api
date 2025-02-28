@@ -14,6 +14,7 @@ export * from './EditBase/EditBase'; // Компонент - блок измен
 export * from './ProdCart/ProdCart'; // Компонент - карточка продукта
 export * from './Forms/MailForm/MailForm'; // Компонент - форма
 export * from './Note/Note'; //Компонент - уведомление
+export * from './Comfirm/Comfirm'; // Компонент запрос подтверждения
 export * from './Table/Table'; // Компонент - таблица
 export * from './ErrorBoundary/ErrorBoundary'; // Компонент - перехватчих ошибок
 export * from './Forms/AddProdForm/AddProdForm'; // Компонент - форма создания нового продукта

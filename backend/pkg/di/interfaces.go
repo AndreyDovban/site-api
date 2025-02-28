@@ -18,6 +18,7 @@ type ILinkRepository interface {
 
 type IProductRepository interface {
 	FindByUid(uid string) (*product.Product, error)
+	CetProdsByUids(productUids []string) ([]*product.Product, error)
 }
 
 type IFileRepository interface {

@@ -141,3 +141,17 @@ func (repo *ProductRepository) GetProds(limit, offset int, columns []string) ([]
 	}
 	return products, nil
 }
+
+func (repo *ProductRepository) CetProdsByUids(productUids []string) ([]*Product, error) {
+	var products []*Product
+
+	result := repo.Db.
+		Table("products").
+		Where("deleted_at is null").
+		Where("uid IN ?", productUids).
+		Scan(&products)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return products, nil
+}

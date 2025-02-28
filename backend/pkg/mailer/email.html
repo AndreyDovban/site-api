@@ -1,8 +1,270 @@
-<h2>Granulex Site</h2>
-<ul style="list-style: none">
-	{{ range $_, $link := . }}
-	<li>
-		<a href="http://localhost:5000/link/{{ $link.Hash }}">{{ $link.FileName }}</a> - {{ $link.FileDescription }}
-	</li>
-	{{ end }}
-</ul>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ru-RU">
+	<head>
+		<title>Email</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0 " />
+		<meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no" />
+		<meta name="x-apple-disable-message-reformatting" />
+		<meta name="color-scheme" content="light dark" />
+		<meta name="supported-color-schemes" content="light dark" />
+	</head>
+	<div style="display: none; overflow: hidden; line-height: 1px; opacity: 0; max-height: 0; max-width: 0">
+		Установочный пакет и сопутствующая документация.
+		<div>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</div>
+	</div>
+	<body style="-webkit-text-size-adjust: none; line-height: 20px">
+		<table
+			cellpadding="0"
+			cellspacing="0"
+			border="0"
+			width="100%"
+			bgcolor="#f3f4f6"
+			align="center"
+			style="border-radius: 12px; line-height: 20px"
+		>
+			<tr>
+				<td
+					align="center"
+					height="100%"
+					style="padding-top: 32px; padding-bottom: 0; padding-left: 6px; padding-right: 6px"
+				>
+					<!--[if lte mso 16]>
+						<table
+						align="center"
+						cellpadding="0"
+						cellspacing="0"
+						border="0"
+						width="600"
+						bgcolor="#ffffff"
+						style="border-radius: 12px; margin: auto"
+					>
+						<![endif]-->
+					<!--[if !mso]><!-->
+
+					<table
+						cellpadding="0"
+						cellspacing="0"
+						border="0"
+						width="100%"
+						bgcolor="#fffffa"
+						align="center"
+						style="max-width: 600px; border-radius: 12px; margin: auto"
+					>
+						<!--<![endif]-->
+						<tr>
+							<td
+								style="padding-top: 32px; padding-bottom: 32px; padding-left: 32px; padding-right: 32px"
+							>
+								<a
+									href="https://granulex.ru"
+									target="_blank"
+									rel="noreferrer"
+									style="color: #1f2937; font-weight: 400"
+								>
+									<img
+										src="https://granulex.ru/mail_logo.png"
+										alt="Granulex"
+										width="72"
+										height="48"
+										border="0"
+										display="block"
+								/></a>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 32px; padding-right: 32px">
+								<span style="font-size: 20px; line-height: 26px; font-weight: bold; color: #1f2937"
+									>Здравствуйте, {{ .Name }}!</span
+								>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 32px; padding-right: 32px">
+								<p style="margin-top: 0; font-size: 14px; line-height: 20px; margin: 0; color: #1f2937">
+									Если вы получили это сообщение, значит вы заполнили форму регистрации на сайте
+									granulex.ru для скачивания материалов по продуктам Granulex. Если вы этого не делали
+									– просто проигнорируйте это письмо.
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 32px; padding-right: 32px">
+								<hr style="border: none; border-top: 1px solid #bbbbbb; margin: 0" />
+							</td>
+						</tr>
+
+						<!-- Блок отображения продуктов в цикле -->
+						{{ range $_, $prod := .Products }}
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 32px; padding-right: 32px">
+								<span style="font-size: 20px; font-weight: bold; color: #e2112e; line-height: 26px"
+									>{{ $prod.Name }}</span
+								>
+							</td>
+						</tr>
+
+						<!-- Блок вывода ссылок продукта в цикле -->
+
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 44px; padding-right: 20px">
+								{{ range $key, $value := $.Links }}
+								<p style="margin: 0; font-size: 14px; line-height: 20px">
+									<span style="color: #1f2937; font-size: 14px"> • </span>
+									<a
+										href="{{ $.Protocol }}://{{ $.Domain }}"
+										target="_blank"
+										style="color: #1f2937; font-weight: 400"
+										><span style="font-weight: 400; color: #1f2937">
+											<u>{{ $value.FileDescription }}</u>
+										</span></a
+									>
+								</p>
+								{{ end }}
+							</td>
+						</tr>
+
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 32px; padding-right: 32px">
+								<p style="margin: 0; line-height: 20px; font-size: 14px; color: #1f2937">
+									десь будет дополнительная информация
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 32px; padding-right: 32px">
+								<p style="color: #6e737c; line-height: 20px; margin: 0; font-size: 14px">
+									Срок действия каждой ссылки – 2 дня.
+								</p>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 32px; padding-right: 32px">
+								<hr style="border: none; border-top: 1px solid #bbbbbb; margin: 0" />
+							</td>
+						</tr>
+
+						{{ end }}
+
+						<!-- Нижний блок -->
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 32px; padding-right: 32px">
+								<p style="margin: 0; color: #1f2937; font-size: 14px; line-height: 20px">
+									<b> Техническая поддержка линейки продуктов Granulex: </b
+									><a
+										target="_blank"
+										href="mailto:support@granulex.ru"
+										style="color: #1f2937; font-weight: 400"
+										><span style="font-weight: 400; color: #1f2937"
+											><u>support@granulex.ru</u></span
+										></a
+									>
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 16px; padding-left: 32px; padding-right: 32px">
+								<span style="font-weight: 700; color: #e2112e; font-size: 14px; line-height: 20px"
+									>Внимание!</span
+								>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding-top: 0; padding-bottom: 32px; padding-left: 32px; padding-right: 32px">
+								<p style="color: #6e737c; font-size: 14px; margin: 0; line-height: 20px; margin: 0">
+									Загрузка, установка, копирование или использование иным способом вышеупомянутого
+									Программного обеспечения означает ваше согласие с условиями Лицензионного соглашения
+									с конечным пользователем, размещённого по
+									<a
+										target="_blank"
+										rel="noreferrer"
+										href="https://granulex.ru/EULA/EULA-General-RUS.html"
+										style="font-weight: 400; color: #6e737c"
+										><span style="font-weight: 400; color: #6e737c"><u>ссылке</u></span></a
+									>, без каких-либо изъятий.
+								</p>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+			<!-- Footer письма -->
+			<tr>
+				<td>
+					<table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: auto">
+						<tbody>
+							<tr>
+								<td
+									align="center"
+									style="padding-top: 24px; padding-bottom: 8px; padding-left: 0; padding-right: 0"
+								>
+									<p style="font-size: 14px; color: #6e737c; line-height: 20px; margin: 0">
+										ООО «МД Информационные Системы»
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td
+									align="center"
+									style="padding-top: 0; padding-bottom: 8px; padding-left: 0; padding-right: 0"
+								>
+									<p style="font-size: 14px; color: #6e737c; line-height: 20px; margin: 0">
+										<a
+											href="tel:+74957833379"
+											value="+74957833379"
+											target="_blank"
+											style="font-weight: 400; color: #6e737c"
+											><span style="font-weight: 400; color: #6e737c"
+												><u>+7 (495) 783-33-79</u></span
+											>
+										</a>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td
+									align="center"
+									style="padding-top: 0; padding-bottom: 8px; padding-left: 0; padding-right: 0"
+								>
+									<p style="font-size: 14px; color: #6e737c; line-height: 20px; margin: 0">
+										<a
+											target="_blank"
+											rel="noreferrer"
+											href="mailto:support@granulex.ru"
+											style="font-weight: 400; color: #6e737c"
+										>
+											<span style="font-weight: 400; color: #6e737c"
+												><u>support@granulex.ru</u></span
+											>
+										</a>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td
+									align="center"
+									style="padding-top: 0; padding-bottom: 24px; padding-left: 0; padding-right: 0"
+								>
+									<p style="font-size: 14px; color: #6e737c; line-height: 20px; margin: 0">
+										<a
+											target="_blank"
+											rel="noreferrer"
+											href="https://granulex.ru"
+											style="font-weight: 400; color: #6e737c"
+											><span style="font-weight: 400; color: #6e737c"><u>granulex.ru</u></span></a
+										>
+									</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -10,33 +10,33 @@ import (
 	"net/smtp"
 	"os"
 	"text/template"
-
-	"github.com/joho/godotenv"
 )
 
-func Mailer(recipient string, data interface{}) {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file? using default config")
-	}
+type Config struct {
+	Sender   string
+	Password string
+	Domain   string
+	Protocol string
+	Host     string
+	Port     string
+}
 
-	sender := os.Getenv("LOGIN")
-	password := os.Getenv("PASSWORD")
-	host := os.Getenv("HOST")
-	port := 587
-	address := fmt.Sprintf("%s:%d", host, port)
+func Mailer(recipient string, conf Config, data interface{}) {
+
+	address := fmt.Sprintf("%s:%s", conf.Host, conf.Port)
 	tlsconfig := &tls.Config{
 		InsecureSkipVerify: true,
-		ServerName:         host,
+		ServerName:         conf.Host,
 	}
 
-	auth := smtp.PlainAuth("", sender, password, host)
+	auth := smtp.PlainAuth("", conf.Sender, conf.Password, conf.Host)
 
 	var body bytes.Buffer
 	t, err := template.ParseFiles("./pkg/mailer/email.html")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+
 	t.Execute(&body, data)
 
 	// Setup message
@@ -46,7 +46,7 @@ func Mailer(recipient string, data interface{}) {
 	// fmt.Println(recipient)
 
 	//basic email headers
-	message += fmt.Sprintf("From: %s\r\n", (&mail.Address{Name: "Granulex", Address: sender}).String())
+	message += fmt.Sprintf("From: %s\r\n", (&mail.Address{Name: "Granulex", Address: conf.Sender}).String())
 	message += "Subject: Ссылки для скачивания\r\n"
 	message += "MIME-Version: 1.0\r\n"
 	message += fmt.Sprintf("Content-Type: multipart/mixed; boundary=\"%s\"\r\n", delimeter)
@@ -84,7 +84,7 @@ func Mailer(recipient string, data interface{}) {
 		fmt.Println(err.Error())
 	}
 
-	if err = c.Mail(sender); err != nil {
+	if err = c.Mail(conf.Sender); err != nil {
 		fmt.Println(err.Error())
 		c.Close()
 	}
