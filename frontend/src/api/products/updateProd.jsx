@@ -4,9 +4,11 @@
  * @param {Object} data Объект с данными для изменения продукта
  * @param {function} reset Функция сброса заполненной формы
  * @param {function} setNote Функция управления состоянием обеъкта уведомления
- * @returns {boolean | void}
+ *
  */
 export async function updateProd(uid, data, reset, setNote) {
+	console.log(data);
+
 	for (let key in data) {
 		if (typeof data[key] === 'string') {
 			data[key] = data[key].trim();
@@ -14,14 +16,14 @@ export async function updateProd(uid, data, reset, setNote) {
 	}
 	try {
 		let res = await fetch(`/api/product/${uid}`, {
-			method: 'patch',
+			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(data),
 		});
 		if (res.ok) {
-			reset();
+			// reset();
 			return true;
 		} else {
 			let text = await res.text();

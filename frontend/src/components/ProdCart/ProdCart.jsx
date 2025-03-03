@@ -9,7 +9,7 @@ import Edite from '../../assets/svg/edite.svg?react';
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
  * @returns {JSXElement}
  */
-export function ProdCart({ product, handlerDeleteProd, openFormEditProd, ...props }) {
+export function ProdCart({ product, handlerDeleteProd, handlerEditProd, ...props }) {
 	return (
 		<div className={styles.block} {...props}>
 			<div className={styles.description}>
@@ -17,11 +17,11 @@ export function ProdCart({ product, handlerDeleteProd, openFormEditProd, ...prop
 				<hr />
 				<span>{product?.description}</span>
 				<span className={styles.graw}></span>
-				<button className={styles.but} onClick={openFormEditProd}>
+				<button className={styles.but} onClick={handlerEditProd}>
 					<Edite />
 				</button>
 				<button className={styles.but}>
-					<Delete onClick={() => handlerDeleteProd(product?.uid)} />
+					<Delete onClick={handlerDeleteProd} />
 				</button>
 			</div>
 			<hr />

@@ -3,7 +3,7 @@
  * @param {Object} data Объект с данными для создания продукта
  * @param {function} reset Функция сброса заполненной формы
  * @param {function} setNote Функция управления состоянием обеъкта уведомления
- * @returns {boolean | void}
+ *
  */
 export async function addProd(data, reset, setNote) {
 	for (let key in data) {
@@ -13,7 +13,7 @@ export async function addProd(data, reset, setNote) {
 	}
 	try {
 		let res = await fetch('/api/product', {
-			method: 'post',
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},

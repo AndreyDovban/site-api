@@ -14,29 +14,37 @@ import { prodsListState } from '../../../store';
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
  * @returns {JSXElement}
  */
-export function EditProdForm({ uid, isOpen, setIsOpen, ...props }) {
+export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 	const setNote = useSetRecoilState(noteState);
 	const setProds = useSetRecoilState(prodsListState);
 
 	const {
 		register,
 		handleSubmit,
+
 		formState: { errors, isValid },
 		reset,
-	} = useForm({ mode: 'all' });
+	} = useForm({
+		mode: 'all',
+	});
 
 	/**  Обработчик отправки формы создания продукта */
-	async function handlerAddProd(uid, data) {
+	async function handlerEditProd(uid, data) {
 		if (await updateProd(uid, data, reset, setNote)) {
 			await getProds(setProds, setNote);
 		}
 	}
 
+	function handlerReset() {
+		reset();
+		setTargetProd({});
+	}
+
 	return (
 		<form
-			onSubmit={handleSubmit(data => handlerAddProd(uid, data))}
+			onSubmit={handleSubmit(data => handlerEditProd(targetProd.uid, data))}
 			className={cn(styles.block, {
-				[styles.hide]: !isOpen,
+				[styles.hide]: !targetProd.uid,
 			})}
 			{...props}
 		>
@@ -47,7 +55,7 @@ export function EditProdForm({ uid, isOpen, setIsOpen, ...props }) {
 					</span>
 					<input
 						className={styles.inp}
-						// defaultValue={'jon'}
+						defaultValue={targetProd?.name}
 						{...register('name', {
 							required: 'Поле не заполнено',
 							maxLength: {
@@ -71,6 +79,7 @@ export function EditProdForm({ uid, isOpen, setIsOpen, ...props }) {
 					</span>
 					<input
 						className={styles.inp}
+						defaultValue={targetProd?.description}
 						{...register('description', {
 							maxLength: {
 								value: 50,
@@ -95,7 +104,7 @@ export function EditProdForm({ uid, isOpen, setIsOpen, ...props }) {
 				<Button disabled={!isValid} className={styles.button}>
 					Применить
 				</Button>
-				<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={setIsOpen}>
+				<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={handlerReset}>
 					Отмена
 				</Button>
 			</div>

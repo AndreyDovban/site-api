@@ -3,7 +3,7 @@ import withLayout from '../../Layout/Layout';
 import { getProds, deleteProd } from '../../api';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
-import { prodsListState, noteState, confirmState } from '../../store';
+import { prodsListState, noteState, confirmState, editedProdState } from '../../store';
 // import { filesListState } from '../../store';
 import { ProdCart, Button, AddProdForm, EditProdForm } from '../../components';
 
@@ -18,7 +18,7 @@ function Products() {
 	const setNote = useSetRecoilState(noteState);
 	const setConfirm = useSetRecoilState(confirmState);
 	const [openAddForm, setOpenAddForm] = useState(false);
-	const [openEditForm, setOpenEditForm] = useState(false);
+	const [targetProd, setTargetProd] = useRecoilState(editedProdState);
 
 	useEffect(() => {
 		getProds(setProds, setNote);
@@ -30,19 +30,26 @@ function Products() {
 		}
 	}
 
-	function handlerConfirmDeleted() {}
-
 	function openFormAddProd() {
 		setOpenAddForm(prev => !prev);
 	}
 
-	function openFormEditProd() {
-		setOpenEditForm(prev => !prev);
+	function handlerFormEditProd(prod) {
+		setTargetProd(prod);
+	}
+
+	function handlerConfirmDeleted(prodUid, name) {
+		setConfirm({ func: () => handlerDeleteProd(prodUid), text: `Удалить ${name}?`, isOpen: true });
 	}
 
 	const prodCarts = prods?.data?.map((el, i) => {
 		return (
-			<ProdCart key={i} product={el} handlerDeleteProd={handlerDeleteProd} openFormEditProd={openFormEditProd} />
+			<ProdCart
+				key={i}
+				product={el}
+				handlerDeleteProd={() => handlerConfirmDeleted(el.uid, el.name)}
+				handlerEditProd={() => handlerFormEditProd(el)}
+			/>
 		);
 	});
 
@@ -53,7 +60,7 @@ function Products() {
 				Add New Product
 			</Button>
 			<AddProdForm isOpen={openAddForm} setIsOpen={openFormAddProd} />
-			<EditProdForm uid={''} isOpen={openEditForm} setIsOpen={openFormEditProd} />
+			<EditProdForm targetProd={targetProd} setTargetProd={setTargetProd} />
 			{/* <Table data={prods} /> */}
 			{prodCarts}
 		</div>

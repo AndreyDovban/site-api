@@ -7,7 +7,7 @@
 export async function deleteProd(prodUid, setNote) {
 	try {
 		let res = await fetch(`/api/product/${prodUid}`, {
-			method: 'delete',
+			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
 			},
