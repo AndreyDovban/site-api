@@ -1,62 +1,71 @@
-import styles from './AddProdForm.module.css';
+import styles from './AddFileForm.module.css';
 import cn from 'classnames';
 import { useSetRecoilState } from 'recoil';
 import { noteState } from '../../../store';
 import { useForm } from 'react-hook-form';
 import { Button } from '../..';
-import { addProd, getProds } from '../../../api';
-import { prodsListState } from '../../../store';
+import { addFile, getFiles } from '../../../api';
+import { filesListState } from '../../../store';
 import { createPortal } from 'react-dom';
 
 const portal = document.querySelector('#portal');
 
 /**
- * Компонент - форма создания нового продукта
- * @param {boolean} isOpen Состояние - скрыть/показать форму
- * @param {function} setIsOpen Функция изменения состояния скрыть/показать форму
+ * Компонент - форма добавления файла
+ * @param {Object} targetFile Состояние - объект изменяемый файл
+ * @param {function} setTargetFile Функция изменения состояния объект изменяемый файл
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
  * @returns {JSXElement}
  */
-export function AddProdForm({ isOpen, setIsOpen, ...props }) {
+export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 	const setNote = useSetRecoilState(noteState);
-	const setProds = useSetRecoilState(prodsListState);
+	const setFiles = useSetRecoilState(filesListState);
 
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isValid },
-		reset,
-	} = useForm({ mode: 'all' });
 
-	/**  Обработчик отправки формы создания продукта */
-	async function handlerAddProd(data) {
-		if (await addProd(data, reset, setNote)) {
-			await getProds(setProds, setNote);
+		formState: { errors },
+		reset,
+	} = useForm({
+		mode: 'all',
+	});
+
+	/**  Обработчик отправки формы добавления файла */
+	async function handlerAddFile(prodUid, data) {
+		if (await addFile(prodUid, data, reset, setNote)) {
+			await getFiles(setFiles, setNote);
 		}
+	}
+
+	function handlerReset() {
+		reset();
+		setTargetFile({});
 	}
 
 	return createPortal(
 		<>
 			<div
 				className={cn(styles.owerlay, {
-					[styles.hide]: !isOpen,
+					[styles.hide]: !targetFile.prodUid,
 				})}
 			></div>
 			<form
-				onSubmit={handleSubmit(handlerAddProd)}
+				onSubmit={handleSubmit(data => handlerAddFile(targetFile.prodUid, data))}
 				className={cn(styles.block, {
-					[styles.hide]: !isOpen,
+					[styles.hide]: !targetFile.prodUid,
 				})}
 				{...props}
 			>
 				<div className={styles.inps_block}>
+					!!!
 					<label className={styles.label}>
 						<span>
 							Название <span className={styles.star}>*</span>
 						</span>
 						<input
 							className={styles.inp}
-							// defaultValue={'jon'}
+							defaultValue={targetFile?.name}
 							{...register('name', {
 								required: 'Поле не заполнено',
 								maxLength: {
@@ -74,12 +83,13 @@ export function AddProdForm({ isOpen, setIsOpen, ...props }) {
 							{errors.name && errors.name?.message}
 						</span>
 					</label>
-					<label className={styles.label}>
+					<label className={cn(styles.label, styles.grow)}>
 						<span>
 							Описание <span className={styles.star}>*</span>
 						</span>
 						<input
 							className={styles.inp}
+							defaultValue={targetFile?.description}
 							{...register('description', {
 								maxLength: {
 									value: 50,
@@ -100,12 +110,12 @@ export function AddProdForm({ isOpen, setIsOpen, ...props }) {
 				</div>
 				<hr className={styles.hr} />
 				<hr className={styles.hr} />
-				<Button disabled={!isValid} className={styles.button}>
-					Создать продукт
-				</Button>
-				<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={setIsOpen}>
-					Отмена
-				</Button>
+				<div className={styles.buttons_block}>
+					<Button className={styles.button}>Применить</Button>
+					<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={handlerReset}>
+						Отмена
+					</Button>
+				</div>
 			</form>
 		</>,
 		portal,

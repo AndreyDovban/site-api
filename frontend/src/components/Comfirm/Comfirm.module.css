@@ -2,7 +2,7 @@
 	cursor: pointer;
 
 	position: absolute;
-	top: 30%;
+	top: 20%;
 	right: calc(50% - 10rem);
 
 	display: flex;
@@ -19,6 +19,16 @@
 	border-radius: var(--rad-10);
 
 	transition: all 0.3s ease;
+}
+
+.owerlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+	background: #001e6899;
 }
 
 .text_block {

@@ -6,4 +6,6 @@ export * from './products/addProd'; // Запрос на добавление п
 export * from './products/deleteProd'; // Запрос на удаление продукта
 export * from './clients/getClients'; // Запрос за списком сохранённых клиентов
 export * from './links/getLinks'; // Запрос за списком ссылок
-export * from './files/getfiles'; // Запрос за списком файлов и соответствующих продуктов
+export * from './files/getFiles'; // Запрос за списком файлов и соответствующих продуктов
+export * from './files/deleteFile'; // Запрос на удаление файла
+export * from './files/addFile'; // Запрос на добавление файла к продукту

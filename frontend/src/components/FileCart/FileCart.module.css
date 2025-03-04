@@ -1,0 +1,35 @@
+.block {
+	display: flex;
+	gap: 1rem;
+
+	padding: 0.5rem;
+
+	border: 1px solid var(--grey-400);
+	border-radius: var(--rad-10);
+}
+
+.name {
+	min-width: 9.5rem;
+}
+
+.graw {
+	flex-grow: 1;
+}
+
+.but {
+	cursor: pointer;
+	background: none;
+	border: none;
+}
+
+.but:hover svg,
+.but:focus svg {
+	fill: var(--red);
+}
+
+.but svg {
+	/* pointer-events: none; */
+	width: 1rem;
+	height: 1rem;
+	fill: var(--grey-400);
+}

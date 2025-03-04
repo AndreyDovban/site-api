@@ -1,9 +1,9 @@
 /**
  * Запрос на добавление продукта
- * @param {Object} data Объект с данными для создания продукта
+ * @param {string} prodUid
  * @param {function} reset Функция сброса заполненной формы
  * @param {function} setNote Функция управления состоянием обеъкта уведомления
- *
+ * @param {Promise<true | undefined>}
  */
 export async function addProd(data, reset, setNote) {
 	for (let key in data) {

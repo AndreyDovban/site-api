@@ -1,8 +1,8 @@
 /**
  * Запрос на удаление продукта
- * @param {string} prodUid Uid удаляемогог продукта
+ * @param {string} prodUid Uid удаляемого продукта
  * @param {function} setNote Функция изменения состояния объекта уведомление
- * @returns {void}
+ * @returns {Promise<true | undefined>}
  */
 export async function deleteProd(prodUid, setNote) {
 	try {

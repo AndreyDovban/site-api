@@ -1,24 +1,24 @@
 /**
- * Запрос за списком продуктов
- * @param {function} setProds Функция изменения состояния список продуктов
+ * Запрос за списком файлов
+ * @param {function} setFiles Функция изменения состояния список файлов
  * @param {function} setNote Функция изменения состояния объекта уведомления
  * @param {Promise<void>}
  */
-export async function getProds(setProds, setNote) {
+export async function getFiles(setFiles, setNote) {
 	try {
-		let res = await fetch('/api/products', {
+		let res = await fetch('/api/files', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
 				limit: 100,
-				columns: ['name', 'description', 'created_at', 'updated_at', 'uid'],
+				columns: ['name', 'description', 'product_name', 'created_at', 'updated_at', 'product_uid'],
 			}),
 		});
 		if (res.ok) {
 			res = await res.json();
-			setProds(res);
+			setFiles(res);
 		} else {
 			let text = await res.text();
 			let mes = res.statusText + ', ' + res.status + (text ? ', ' + text : '');

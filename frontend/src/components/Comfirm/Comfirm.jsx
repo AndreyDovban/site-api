@@ -20,28 +20,35 @@ export function Comfirm({ confirm, setConfirm, ...props }) {
 	}
 
 	return createPortal(
-		<div
-			className={cn(styles.block, {
-				[styles.hide]: !confirm.isOpen,
-			})}
-			{...props}
-		>
-			<div className={styles.text_block}>
-				<Alarm className={styles.icon} />
-				<span className={styles.text}>{confirm.text}</span>
+		<>
+			<div
+				className={cn(styles.owerlay, {
+					[styles.hide]: !confirm.isOpen,
+				})}
+			></div>
+			<div
+				className={cn(styles.block, {
+					[styles.hide]: !confirm.isOpen,
+				})}
+				{...props}
+			>
+				<div className={styles.text_block}>
+					<Alarm className={styles.icon} />
+					<span className={styles.text}>{confirm.text}</span>
+				</div>
+				<div className={styles.buttons_block}>
+					<button className={styles.button} onClick={handlerExecFunction}>
+						yes
+					</button>
+					<button
+						className={cn(styles.button, styles.button_sec)}
+						onClick={() => setConfirm({ ...confirm, isOpen: false, func: null })}
+					>
+						no
+					</button>
+				</div>
 			</div>
-			<div className={styles.buttons_block}>
-				<button className={styles.button} onClick={handlerExecFunction}>
-					yes
-				</button>
-				<button
-					className={cn(styles.button, styles.button_sec)}
-					onClick={() => setConfirm({ ...confirm, isOpen: false, func: null })}
-				>
-					no
-				</button>
-			</div>
-		</div>,
+		</>,
 		portal,
 	);
 }

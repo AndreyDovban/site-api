@@ -17,3 +17,4 @@ export * from './api/clientListState'; // Атом состояния - спис
 export * from './api/linksListState'; // Атом состояния - сохранённые ссылки
 export * from './api/filesListState'; // Атом состояния - масиив файлов
 export * from './ui/editedProdState'; // Атом состояния - объект изменяемый продукт
+export * from './ui/editedFileState'; // Атом состояния - объект изменяемый файл

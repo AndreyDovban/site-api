@@ -5,11 +5,13 @@ import Edite from '../../assets/svg/edite.svg?react';
 /**
  * Компонент карточка продукта
  * @param {Object} product Объект описывающий продукт
- * @param {function} handlerDeleteProd Объект описывающий продукт
+ * @param {Array} files Массив объектов файлов
+ * @param {function} handlerDeleteProd Функция цдаления продукта
+ * @param {function} handlerAddFile Функция изменения состояния - объект изменяемый файл
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
  * @returns {JSXElement}
  */
-export function ProdCart({ product, handlerDeleteProd, handlerEditProd, ...props }) {
+export function ProdCart({ product, handlerDeleteProd, handlerEditProd, handlerAddFile, children, ...props }) {
 	return (
 		<div className={styles.block} {...props}>
 			<div className={styles.description}>
@@ -25,7 +27,10 @@ export function ProdCart({ product, handlerDeleteProd, handlerEditProd, ...props
 				</button>
 			</div>
 			<hr />
-			<div className={styles.files}></div>
+			<button className={styles.add_file} onClick={handlerAddFile}>
+				Добавить файл
+			</button>
+			{children.length ? <div className={styles.files}>{children}</div> : null}
 		</div>
 	);
 }

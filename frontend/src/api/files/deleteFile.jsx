@@ -1,24 +1,19 @@
 /**
- * Запрос за списком продуктов
- * @param {function} setProds Функция изменения состояния список продуктов
+ * Запрос на удаление файла
+ * @param {string} fileUid Uid удаляемого продукта
  * @param {function} setNote Функция изменения состояния объекта уведомления
- * @param {Promise<void>}
+ * @param {Promise<true | undefined>}
  */
-export async function getProds(setProds, setNote) {
+export async function deleteFile(fileUid, setNote) {
 	try {
-		let res = await fetch('/api/products', {
-			method: 'POST',
+		let res = await fetch(`/api/file/${fileUid}`, {
+			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({
-				limit: 100,
-				columns: ['name', 'description', 'created_at', 'updated_at', 'uid'],
-			}),
 		});
 		if (res.ok) {
-			res = await res.json();
-			setProds(res);
+			return true;
 		} else {
 			let text = await res.text();
 			let mes = res.statusText + ', ' + res.status + (text ? ', ' + text : '');

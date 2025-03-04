@@ -16,14 +16,14 @@ type Client struct {
 }
 
 func NewClient(name, telephone, mail, company string) *Client {
-	product := &Client{
+	client := &Client{
 		Name:      name,
 		Telephone: telephone,
 		Mail:      mail,
 		Company:   company,
 	}
-	product.GenerateHash()
-	return product
+	client.GenerateHash()
+	return client
 }
 
 func (product *Client) GenerateHash() {
