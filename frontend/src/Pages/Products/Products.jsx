@@ -3,9 +3,9 @@ import withLayout from '../../Layout/Layout';
 import { getProds, deleteProd, getFiles, deleteFile } from '../../api';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
-import { prodsListState, filesListState, noteState, confirmState, editedProdState, editedFileState } from '../../store';
+import { prodsListState, filesListState, noteState, confirmState, targetProdState, targetFileState } from '../../store';
 // import { filesListState } from '../../store';
-import { ProdCart, Button, AddProdForm, EditProdForm, FileCart, AddFileForm } from '../../components';
+import { ProdCart, Button, AddProdForm, EditProdForm, FileCart, AddFileForm, EditFileForm } from '../../components';
 
 /**
  * Страница продукты
@@ -19,8 +19,8 @@ function Products() {
 	const setNote = useSetRecoilState(noteState);
 	const setConfirm = useSetRecoilState(confirmState);
 	const [openAddForm, setOpenAddForm] = useState(false);
-	const [targetProd, setTargetProd] = useRecoilState(editedProdState);
-	const [targetFile, setTargetFile] = useRecoilState(editedFileState);
+	const [targetProd, setTargetProd] = useRecoilState(targetProdState);
+	const [targetFile, setTargetFile] = useRecoilState(targetFileState);
 
 	useEffect(() => {
 		getProds(setProds, setNote);
@@ -49,6 +49,10 @@ function Products() {
 
 	function handlerFormEditProd(prod) {
 		setTargetProd(prod);
+	}
+
+	function handlerFormEditFile(file) {
+		setTargetFile(file);
 	}
 
 	function handlerConfirmDeletedProd(prodUid, name) {
@@ -80,6 +84,7 @@ function Products() {
 						<FileCart
 							key={i}
 							file={elem}
+							handlerEditFile={() => handlerFormEditFile(elem)}
 							handlerDeleteFile={() => handlerConfirmDeleteFile(elem.uid, elem.name)}
 						/>
 					);
@@ -96,6 +101,7 @@ function Products() {
 			<AddProdForm isOpen={openAddForm} setIsOpen={openFormAddProd} />
 			<EditProdForm targetProd={targetProd} setTargetProd={setTargetProd} />
 			<AddFileForm targetFile={targetFile} setTargetFile={setTargetFile} />
+			<EditFileForm targetFile={targetFile} setTargetFile={setTargetFile} />
 			{prodCarts}
 		</div>
 	);

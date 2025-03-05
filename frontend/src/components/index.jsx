@@ -21,3 +21,4 @@ export * from './ErrorBoundary/ErrorBoundary'; // Компонент - пере�
 export * from './Forms/AddProdForm/AddProdForm'; // Компонент - форма создания нового продукта
 export * from './Forms/EditProdForm/EditProdForm'; // Компонент - форма изменения продукта
 export * from './Forms/AddFileForm/AddFileForm'; //  Компонент - форма добавления файла
+export * from './Forms/EditFileForm/EditFileForm'; // Компонент - форма изменения файла

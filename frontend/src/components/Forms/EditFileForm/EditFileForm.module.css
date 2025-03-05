@@ -1,0 +1,96 @@
+.block {
+	position: fixed;
+	top: 20%;
+	right: 10%;
+	left: 10%;
+
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+
+	min-width: 35rem;
+	padding: 2rem;
+
+	background: var(--grey-800);
+	border-radius: var(--rad-10);
+}
+
+.owerlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+	background: #001e6899;
+}
+
+.hide {
+	display: none;
+}
+
+.inps_block {
+	display: flex;
+	gap: 1.5rem;
+}
+
+.label {
+	display: flex;
+	flex-direction: column;
+	font-size: 0.8rem;
+	color: var(--white);
+}
+
+.grow {
+	flex-grow: 1;
+}
+
+.star {
+	color: var(--red);
+}
+
+.isError {
+	color: var(--red);
+}
+
+.inp {
+	height: 2rem;
+
+	font-size: 1rem;
+	font-weight: 500;
+	text-indent: 0.5rem;
+
+	border: 2px solid var(--white);
+	border-radius: 4px;
+	outline: none;
+}
+
+.inp:focus {
+	border: 2px solid var(--red);
+}
+
+.dis {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.hr {
+	border-color: var(--grey-400);
+}
+
+.buttons_block {
+	display: flex;
+	gap: 2rem;
+	align-items: center;
+	justify-content: center;
+}
+
+.button {
+	align-self: center;
+	min-width: 20rem;
+}
+
+.button_sec {
+	background: var(--grey-700);
+	border: 2px solid var(--grey-700);
+}

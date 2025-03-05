@@ -9,3 +9,4 @@ export * from './links/getLinks'; // Запрос за списком ссыло
 export * from './files/getFiles'; // Запрос за списком файлов и соответствующих продуктов
 export * from './files/deleteFile'; // Запрос на удаление файла
 export * from './files/addFile'; // Запрос на добавление файла к продукту
+export * from './files/updateFile'; // Запрос на обновление файла

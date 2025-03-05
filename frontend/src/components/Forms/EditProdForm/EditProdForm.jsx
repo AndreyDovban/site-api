@@ -7,13 +7,14 @@ import { Button } from '../..';
 import { updateProd, getProds } from '../../../api';
 import { prodsListState } from '../../../store';
 import { createPortal } from 'react-dom';
+import { useEffect } from 'react';
 
 const portal = document.querySelector('#portal');
 
 /**
  * Компонент - форма изменения продукта
- * @param {boolean} isOpen Состояние - скрыть/показать форму
- * @param {function} setIsOpen Функция изменения состояния скрыть/показать форму
+ * @param {Object} targetProd Состояние - объект изменяемй продукт
+ * @param {function} setTargetProd Функция изменения состояния - объект изменяемй продукт
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
  * @returns {JSXElement}
  */
@@ -24,23 +25,26 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 	const {
 		register,
 		handleSubmit,
-
-		formState: { errors },
+		setValue,
+		formState: { errors, isValid },
 		reset,
-	} = useForm({
-		mode: 'all',
-	});
+	} = useForm({ mode: 'all' });
+
+	useEffect(() => {
+		setValue('name', targetProd.name, { shouldValidate: true });
+		setValue('description', targetProd.description, { shouldValidate: true });
+	}, [setValue, targetProd.description, targetProd.name]);
 
 	/**  Обработчик отправки формы создания продукта */
-	async function handlerEditProd(uid, data) {
-		if (await updateProd(uid, data, reset, setNote)) {
+	async function handlerEditProd(data) {
+		if (await updateProd(targetProd.uid, data, () => {}, setNote)) {
 			await getProds(setProds, setNote);
 		}
 	}
 
 	function handlerReset() {
 		reset();
-		setTargetProd({});
+		setTargetProd({ mode: 'all' });
 	}
 
 	return createPortal(
@@ -51,7 +55,7 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 				})}
 			></div>
 			<form
-				onSubmit={handleSubmit(data => handlerEditProd(targetProd.uid, data))}
+				onSubmit={handleSubmit(handlerEditProd)}
 				className={cn(styles.block, {
 					[styles.hide]: !targetProd.uid,
 				})}
@@ -64,13 +68,8 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 						</span>
 						<input
 							className={styles.inp}
-							defaultValue={targetProd?.name}
 							{...register('name', {
-								required: 'Поле не заполнено',
-								maxLength: {
-									value: 30,
-									message: 'Превышено колличество символов 30',
-								},
+								required: true,
 							})}
 						/>
 						<span
@@ -88,7 +87,6 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 						</span>
 						<input
 							className={styles.inp}
-							defaultValue={targetProd?.description}
 							{...register('description', {
 								maxLength: {
 									value: 50,
@@ -110,7 +108,9 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 				<hr className={styles.hr} />
 				<hr className={styles.hr} />
 				<div className={styles.buttons_block}>
-					<Button className={styles.button}>Применить</Button>
+					<Button type="submit" disabled={!isValid} className={styles.button}>
+						Применить
+					</Button>
 					<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={handlerReset}>
 						Отмена
 					</Button>

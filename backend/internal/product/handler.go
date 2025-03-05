@@ -58,7 +58,7 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		response.Json(w, createdProd, http.StatusOK)
+		response.Json(w, createdProd.Name+" has been added successfully", http.StatusOK)
 
 	}
 }
@@ -102,7 +102,7 @@ func (handler *ProductHandler) Update() http.HandlerFunc {
 			return
 		}
 
-		response.Json(w, product, http.StatusOK)
+		response.Json(w, product.Name+" has been updated successfully", http.StatusOK)
 	}
 }
 
@@ -116,13 +116,13 @@ func (handler *ProductHandler) Delete() http.HandlerFunc {
 			return
 		}
 
-		_, err = handler.ProductRepository.Delete(uid)
+		err = handler.ProductRepository.Delete(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		response.Json(w, uid+" success deleted", http.StatusOK)
+		response.Json(w, "The product has been successfully removed", http.StatusOK)
 	}
 }
 

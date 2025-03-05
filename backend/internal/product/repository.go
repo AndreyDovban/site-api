@@ -61,23 +61,23 @@ func (repo *ProductRepository) Update(uid string, prod *Product) (*Product, erro
 	return prod, nil
 }
 
-func (repo *ProductRepository) Delete(uid string) (*Product, error) {
+func (repo *ProductRepository) Delete(uid string) error {
 	var product Product
 	var f file.File
 	result := repo.Db.
 		Table("products").
 		Delete(&product, "uid = ?", uid)
 	if result.Error != nil {
-		return nil, result.Error
+		return result.Error
 	}
 	resultFiles := repo.Db.
 		Table("files").
 		Delete(&f, "product_uid = ?", uid)
 	if resultFiles.Error != nil {
-		return nil, result.Error
+		return result.Error
 	}
 
-	return &product, nil
+	return nil
 }
 
 func (repo *ProductRepository) Count() (int64, error) {
@@ -132,7 +132,7 @@ func (repo *ProductRepository) GetProds(limit, offset int, columns []string) ([]
 	result := repo.Db.
 		Table("products").
 		Where("deleted_at is null").
-		Order("uid asc").
+		Order("created_at desc").
 		Limit(limit).
 		Offset(offset).
 		Scan(&products)
