@@ -67,16 +67,16 @@ func (repo *FileRepository) Update(uid string, prod *File) (*File, error) {
 	return prod, nil
 }
 
-func (repo *FileRepository) Delete(uid string) (*File, error) {
+func (repo *FileRepository) Delete(uid string) error {
 	var file File
 	result := repo.Db.
 		Table("files").
 		Unscoped().
 		Delete(&file, "uid = ?", uid)
 	if result.Error != nil {
-		return nil, result.Error
+		return result.Error
 	}
-	return &file, nil
+	return nil
 }
 
 func (repo *FileRepository) Count() (int64, error) {

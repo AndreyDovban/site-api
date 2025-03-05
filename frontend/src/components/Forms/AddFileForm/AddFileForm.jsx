@@ -34,6 +34,7 @@ export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 	/**  Обработчик отправки формы добавления файла */
 	async function handlerAddFile(prodUid, data) {
 		if (await addFile(prodUid, data, reset, setNote)) {
+			setTargetFile({});
 			await getFiles(setFiles, setNote);
 		}
 	}

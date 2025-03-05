@@ -8,6 +8,25 @@
 	padding: 2rem;
 }
 
-.add {
+.but {
+	cursor: pointer;
+
 	align-self: end;
+
+	margin-right: 1rem;
+
+	background: none;
+	border: none;
+}
+
+.but:hover svg,
+.but:focus svg {
+	fill: var(--red);
+}
+
+.but svg {
+	/* pointer-events: none; */
+	width: 2.5rem;
+	height: 2.5rem;
+	fill: var(--grey-400);
 }

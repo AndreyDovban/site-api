@@ -4,8 +4,8 @@ import { getProds, deleteProd, getFiles, deleteFile } from '../../api';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { prodsListState, filesListState, noteState, confirmState, targetProdState, targetFileState } from '../../store';
-// import { filesListState } from '../../store';
-import { ProdCart, Button, AddProdForm, EditProdForm, FileCart, AddFileForm, EditFileForm } from '../../components';
+import AddProd from '../../assets/svg/add-package.svg?react';
+import { ProdCart, AddProdForm, EditProdForm, FileCart, AddFileForm, EditFileForm } from '../../components';
 
 /**
  * Страница продукты
@@ -95,9 +95,9 @@ function Products() {
 
 	return (
 		<div className={styles.block}>
-			<Button className={styles.add} onClick={openFormAddProd}>
-				Создать продукт
-			</Button>
+			<button title="Создать продукт" className={styles.but} onClick={openFormAddProd}>
+				<AddProd />
+			</button>
 			<AddProdForm isOpen={openAddForm} setIsOpen={openFormAddProd} />
 			<EditProdForm targetProd={targetProd} setTargetProd={setTargetProd} />
 			<AddFileForm targetFile={targetFile} setTargetFile={setTargetFile} />

@@ -51,31 +51,6 @@
 	fill: var(--grey-400);
 }
 
-.add_file {
-	cursor: pointer;
-
-	align-self: end;
-
-	padding: 0.1rem 0.5rem;
-
-	font-size: 0.7rem;
-	font-weight: 400;
-	color: var(--white);
-	text-decoration: none;
-	text-transform: uppercase;
-
-	background: var(--red);
-	border: 2px solid var(--red);
-	border-radius: 0.3rem;
-
-	transition: var(--transition);
-}
-
-.add_file:hover {
-	color: var(--text);
-	background: var(--white);
-}
-
 .files {
 	display: flex;
 	flex-direction: column;

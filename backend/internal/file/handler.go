@@ -60,7 +60,7 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		response.Json(w, createdFile, http.StatusOK)
+		response.Json(w, createdFile.Name+" has been added successfully", http.StatusOK)
 
 	}
 }
@@ -118,13 +118,13 @@ func (handler *FileHandler) Delete() http.HandlerFunc {
 			return
 		}
 
-		_, err = handler.FileRepository.Delete(uid)
+		err = handler.FileRepository.Delete(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		response.Json(w, uid+" success deleted", http.StatusOK)
+		response.Json(w, "The File has been successfully removed", http.StatusOK)
 	}
 }
 

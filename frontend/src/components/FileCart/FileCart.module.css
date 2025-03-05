@@ -8,6 +8,10 @@
 	border-radius: var(--rad-10);
 }
 
+.block:hover {
+	background: var(--grey-100);
+}
+
 .name {
 	min-width: 9.5rem;
 }

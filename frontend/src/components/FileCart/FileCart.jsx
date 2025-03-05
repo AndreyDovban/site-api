@@ -17,10 +17,10 @@ export function FileCart({ file, handlerEditFile, handlerDeleteFile, ...props })
 			<hr />
 			<span>{file?.description}</span>
 			<span className={styles.graw}></span>
-			<button className={styles.but} onClick={handlerEditFile}>
+			<button className={styles.but} title="Редактировать файл" onClick={handlerEditFile}>
 				<Edite />
 			</button>
-			<button className={styles.but}>
+			<button title="Удалить файл" className={styles.but}>
 				<Delete onClick={handlerDeleteFile} />
 			</button>
 		</div>
