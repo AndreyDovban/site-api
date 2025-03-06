@@ -7,6 +7,7 @@ import { Button } from '../..';
 import { addFile, getFiles } from '../../../api';
 import { filesListState } from '../../../store';
 import { createPortal } from 'react-dom';
+import Upload from '../../../assets/svg/upload.svg?react';
 
 const portal = document.querySelector('#portal');
 
@@ -24,7 +25,6 @@ export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 	const {
 		register,
 		handleSubmit,
-
 		formState: { errors },
 		reset,
 	} = useForm({
@@ -44,6 +44,15 @@ export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 		setTargetFile({});
 	}
 
+	function chooseFile(e) {
+		const t = e.target.files;
+		if (t.length > 0) {
+			setTargetFile({ ...targetFile, name: t[0].name });
+		} else {
+			setTargetFile({});
+		}
+	}
+
 	return createPortal(
 		<>
 			<div
@@ -58,35 +67,11 @@ export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 				})}
 				{...props}
 			>
+				<div>Добавление файла в продукт</div>
 				<div className={styles.inps_block}>
-					!!!
 					<label className={styles.label}>
 						<span>
-							Название <span className={styles.star}>*</span>
-						</span>
-						<input
-							className={styles.inp}
-							defaultValue={targetFile?.name}
-							{...register('name', {
-								required: 'Поле не заполнено',
-								maxLength: {
-									value: 30,
-									message: 'Превышено колличество символов 30',
-								},
-							})}
-						/>
-						<span
-							role="alert"
-							className={cn(styles.error, {
-								[styles.isError]: errors.name,
-							})}
-						>
-							{errors.name && errors.name?.message}
-						</span>
-					</label>
-					<label className={cn(styles.label, styles.grow)}>
-						<span>
-							Описание <span className={styles.star}>*</span>
+							Описание файла <span className={styles.star}>*</span>
 						</span>
 						<input
 							className={styles.inp}
@@ -102,21 +87,40 @@ export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 						<span
 							role="alert"
 							className={cn(styles.error, {
-								[styles.isError]: errors.telephone,
+								[styles.isError]: errors.description,
 							})}
 						>
-							{errors.telephone && errors.telephone?.message}
+							{errors.description && errors.description?.message}
 						</span>
 					</label>
 				</div>
 				<hr className={styles.hr} />
+				<label className={styles.file_label} title="Выберите файл">
+					<input
+						type="file"
+						onInput={chooseFile}
+						className={styles.file}
+						{...register('file', { required: 'Файл не выбран' })}
+						accept=".lic, .deb, .pdf, .txt"
+					/>
+					<span className={styles.file_name}>{targetFile?.name}</span>
+					{errors.file && (
+						<span
+							role="alert"
+							className={cn({
+								[styles.isError]: errors.file,
+							})}
+						>
+							{errors.file?.message}
+						</span>
+					)}
+					<Upload className={styles.upload} />
+				</label>
 				<hr className={styles.hr} />
-				<div className={styles.buttons_block}>
-					<Button className={styles.button}>Применить</Button>
-					<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={handlerReset}>
-						Отмена
-					</Button>
-				</div>
+				<Button className={styles.button}>Применить</Button>
+				<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={handlerReset}>
+					Отмена
+				</Button>
 			</form>
 		</>,
 		portal,

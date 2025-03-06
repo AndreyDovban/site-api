@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { NavLink } from 'react-router-dom';
 
 /**
- * Компонент ссылка-кнопка
+ * Компонент навигация
  * @param {string} className Класс для стилизации
  * @param {...any} props Неопределённое количество прараметров для работы с HTML элементами
  * @returns {JSXElement}

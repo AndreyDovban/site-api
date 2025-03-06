@@ -2,7 +2,10 @@ package file
 
 import (
 	"fmt"
+	"io"
+	"log"
 	"net/http"
+	"os"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
 
@@ -32,12 +35,46 @@ func NewFileHandler(router *http.ServeMux, deps *FileHandlerDeps) {
 
 func (handler *FileHandler) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		body, err := request.HandleBody[FileCreateRequest](&w, r)
-		if err != nil {
+
+		if err := r.ParseMultipartForm(6666); err != nil { // Ограничение размера формы до 32 МБ
+			fmt.Println(w, "Ошибка анализа multipart формы: %v", err)
 			return
 		}
 
-		file := NewFile(body.Name, body.Description, body.ProductUid)
+		fileM, header, err := r.FormFile("file") // Поле файла называется "file"
+		if err != nil {
+			fmt.Println(w, "Не удалось получить файл: %v", err)
+			return
+		}
+		defer fileM.Close()
+
+		data, err := io.ReadAll(fileM)
+		if err != nil {
+			fmt.Fprintf(w, "Error reading data from file: %v\n", err)
+			return
+		}
+
+		f, err := os.Create("./files/" + header.Filename)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer f.Close()
+
+		f.Write(data)
+
+		filename := header.Filename
+		fmt.Println(w, "Файл '%s' успешно получен.\n", filename)
+
+		name := r.FormValue("name")
+		description := r.FormValue("description")
+		product_uid := r.FormValue("product_uid")
+		fmt.Println("!!!", name, description, product_uid)
+		// body, err := request.HandleBody[FileCreateRequest](&w, r)
+		// if err != nil {
+		// 	return
+		// }
+
+		file := NewFile(name, description, product_uid)
 
 		existedFile, _ := handler.FileRepository.FindByName(file.Name)
 		if existedFile != nil {
@@ -88,13 +125,13 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 
 		uid := r.PathValue("uid")
 
-		_, err = handler.FileRepository.FindByUid(uid)
+		oldFile, err := handler.FileRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		file, err := handler.FileRepository.Update(uid, &File{
+		_, err = handler.FileRepository.Update(uid, &File{
 			Model:       gorm.Model{},
 			Name:        body.Name,
 			Description: body.Description,
@@ -104,7 +141,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 			return
 		}
 
-		response.Json(w, file, http.StatusOK)
+		response.Json(w, oldFile.Name+" has been modified", http.StatusOK)
 	}
 }
 

@@ -31,6 +31,7 @@
 
 .inps_block {
 	display: flex;
+	flex-direction: column;
 	gap: 1.5rem;
 }
 
@@ -39,10 +40,6 @@
 	flex-direction: column;
 	font-size: 0.8rem;
 	color: var(--white);
-}
-
-.grow {
-	flex-grow: 1;
 }
 
 .star {
@@ -78,13 +75,6 @@
 	border-color: var(--grey-400);
 }
 
-.buttons_block {
-	display: flex;
-	gap: 2rem;
-	align-items: center;
-	justify-content: center;
-}
-
 .button {
 	align-self: center;
 	min-width: 20rem;
@@ -93,4 +83,40 @@
 .button_sec {
 	background: var(--grey-700);
 	border: 2px solid var(--grey-700);
+}
+
+.file_label {
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	font-size: 0.8rem;
+
+	/* background: red; */
+}
+
+.file_name {
+	font-size: 1rem;
+	color: var(--grey-400);
+}
+
+.file_label:hover {
+	color: var(--red);
+}
+
+.file_label:hover .upload {
+	fill: var(--red);
+}
+
+.upload {
+	pointer-events: none;
+	width: 2rem;
+	margin-right: 0.5rem;
+	fill: var(--grey-400);
+}
+
+.file {
+	display: none;
 }

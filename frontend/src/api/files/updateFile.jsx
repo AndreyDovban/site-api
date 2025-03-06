@@ -22,6 +22,13 @@ export async function updateFile(fileUid, data, reset, setNote) {
 		});
 		if (res.ok) {
 			reset();
+			let text = await res.json();
+			let mes = res.statusText + ', ' + res.status + (text ? ', ' + text : '');
+			setNote({
+				text: mes,
+				isSuccessful: true,
+				isOpen: true,
+			});
 			return true;
 		} else {
 			let text = await res.text();

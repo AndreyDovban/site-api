@@ -38,6 +38,7 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 	/**  Обработчик отправки формы создания продукта */
 	async function handlerEditProd(data) {
 		if (await updateFile(targetFile.uid, data, () => {}, setNote)) {
+			setTargetFile({});
 			await getFiles(setFiles, setNote);
 		}
 	}
@@ -54,6 +55,7 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 					[styles.hide]: !targetFile.uid,
 				})}
 			></div>
+
 			<form
 				onSubmit={handleSubmit(handlerEditProd)}
 				className={cn(styles.block, {
@@ -61,6 +63,7 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 				})}
 				{...props}
 			>
+				<div>Редактирование файла</div>
 				<div className={styles.inps_block}>
 					<label className={styles.label}>
 						<span>
@@ -81,7 +84,7 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 							{errors.name && errors.name?.message}
 						</span>
 					</label>
-					<label className={cn(styles.label, styles.grow)}>
+					<label className={styles.label}>
 						<span>
 							Описание <span className={styles.star}>*</span>
 						</span>
@@ -107,14 +110,12 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 				</div>
 				<hr className={styles.hr} />
 				<hr className={styles.hr} />
-				<div className={styles.buttons_block}>
-					<Button type="submit" disabled={!isValid} className={styles.button}>
-						Применить
-					</Button>
-					<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={handlerReset}>
-						Отмена
-					</Button>
-				</div>
+				<Button type="submit" disabled={!isValid} className={styles.button}>
+					Применить
+				</Button>
+				<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={handlerReset}>
+					Отмена
+				</Button>
 			</form>
 		</>,
 		portal,

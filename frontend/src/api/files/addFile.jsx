@@ -8,18 +8,28 @@
  */
 export async function addFile(prodUid, data, reset, setNote) {
 	data['product_uid'] = prodUid;
+	data['name'] = data.file[0].name;
+
+	const form = new FormData();
+
 	for (let key in data) {
 		if (typeof data[key] === 'string') {
 			data[key] = data[key].trim();
+		}
+
+		if (key === 'file') {
+			form.append('file', data[key][0]);
+		} else {
+			form.append(key, data[key]);
 		}
 	}
 	try {
 		let res = await fetch('/api/file', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
+				'Enc-Type': 'multipart/form-data',
 			},
-			body: JSON.stringify(data),
+			body: form,
 		});
 		if (res.ok) {
 			reset();

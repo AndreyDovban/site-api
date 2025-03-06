@@ -50,6 +50,7 @@ export function AddProdForm({ isOpen, setIsOpen, ...props }) {
 				})}
 				{...props}
 			>
+				<div>Создание нового продукта</div>
 				<div className={styles.inps_block}>
 					<label className={styles.label}>
 						<span>

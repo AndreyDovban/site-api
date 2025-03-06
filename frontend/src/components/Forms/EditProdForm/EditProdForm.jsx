@@ -61,6 +61,7 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 				})}
 				{...props}
 			>
+				<div>Редактирование продукта</div>
 				<div className={styles.inps_block}>
 					<label className={styles.label}>
 						<span>
@@ -107,14 +108,12 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 				</div>
 				<hr className={styles.hr} />
 				<hr className={styles.hr} />
-				<div className={styles.buttons_block}>
-					<Button type="submit" disabled={!isValid} className={styles.button}>
-						Применить
-					</Button>
-					<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={handlerReset}>
-						Отмена
-					</Button>
-				</div>
+				<Button type="submit" disabled={!isValid} className={styles.button}>
+					Применить
+				</Button>
+				<Button type="button" className={cn(styles.button, styles.button_sec)} onClick={handlerReset}>
+					Закрыть
+				</Button>
 			</form>
 		</>,
 		portal,
