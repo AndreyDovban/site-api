@@ -8,6 +8,7 @@ import { updateFile, getFiles } from '../../../api';
 import { filesListState } from '../../../store';
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
+import Upload from '../../../assets/svg/upload.svg?react';
 
 const portal = document.querySelector('#portal');
 
@@ -33,6 +34,7 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 	useEffect(() => {
 		setValue('name', targetFile.name, { shouldValidate: true });
 		setValue('description', targetFile.description, { shouldValidate: true });
+		setValue('file', null, { shouldValidate: true });
 	}, [setValue, targetFile.description, targetFile.name]);
 
 	/**  Обработчик отправки формы создания продукта */
@@ -45,7 +47,17 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 
 	function handlerReset() {
 		reset();
-		setTargetFile({ mode: 'all' });
+		setTargetFile({});
+	}
+
+	function chooseFile(e) {
+		const t = e.target.files;
+		if (t.length > 0) {
+			setTargetFile({ ...targetFile, name: t[0].name });
+			setValue('name', t[0].name, { shouldValidate: true });
+		} else {
+			setTargetFile({ ...targetFile, name: '' });
+		}
 	}
 
 	return createPortal(
@@ -72,7 +84,7 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 						<input
 							className={styles.inp}
 							{...register('name', {
-								required: true,
+								required: 'Поле не заполнено',
 							})}
 						/>
 						<span
@@ -101,14 +113,34 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 						<span
 							role="alert"
 							className={cn(styles.error, {
-								[styles.isError]: errors.telephone,
+								[styles.isError]: errors.description,
 							})}
 						>
-							{errors.telephone && errors.telephone?.message}
+							{errors.description && errors.description?.message}
 						</span>
 					</label>
 				</div>
 				<hr className={styles.hr} />
+				<label className={styles.file_label} title="Выберите файл">
+					<input
+						type="file"
+						onInput={chooseFile}
+						className={styles.file}
+						{...register('file', { required: 'Файл не выбран' })}
+						accept=".lic, .deb, .pdf, .txt"
+					/>
+					{
+						<span
+							role="alert"
+							className={cn({
+								[styles.isError]: errors.file,
+							})}
+						>
+							{errors.file && errors.file?.message}
+						</span>
+					}
+					<Upload className={styles.upload} />
+				</label>
 				<hr className={styles.hr} />
 				<Button type="submit" disabled={!isValid} className={styles.button}>
 					Применить

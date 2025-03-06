@@ -90,7 +90,7 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 							className={styles.inp}
 							{...register('description', {
 								maxLength: {
-									value: 50,
+									value: 100,
 									message: 'Превышено колличество символов 50',
 								},
 								required: 'Поле не заполнено',

@@ -18,6 +18,7 @@
 	--grey-900: #111827ff;
 	--grey-950: #030712ff;
 	--rad-10: 0.5rem;
+	--owerlay-gragient: radial-gradient(farthest-side at 50% 30%, #2d56bf60 35%, #001d68af 70%);
 }
 
 /* Стиль для тёмной темы */

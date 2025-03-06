@@ -26,6 +26,7 @@ export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setValue,
 		reset,
 	} = useForm({
 		mode: 'all',
@@ -48,8 +49,9 @@ export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 		const t = e.target.files;
 		if (t.length > 0) {
 			setTargetFile({ ...targetFile, name: t[0].name });
+			setValue('name', t[0].name, { shouldValidate: true });
 		} else {
-			setTargetFile({});
+			setTargetFile({ ...targetFile, name: '' });
 		}
 	}
 
@@ -69,6 +71,25 @@ export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 			>
 				<div>Добавление файла в продукт</div>
 				<div className={styles.inps_block}>
+					<label className={styles.label}>
+						<span>
+							Название <span className={styles.star}>*</span>
+						</span>
+						<input
+							className={styles.inp}
+							{...register('name', {
+								required: 'Поле не заполнено',
+							})}
+						/>
+						<span
+							role="alert"
+							className={cn(styles.error, {
+								[styles.isError]: errors.name,
+							})}
+						>
+							{errors.name && errors.name?.message}
+						</span>
+					</label>
 					<label className={styles.label}>
 						<span>
 							Описание файла <span className={styles.star}>*</span>
@@ -103,17 +124,16 @@ export function AddFileForm({ targetFile, setTargetFile, ...props }) {
 						{...register('file', { required: 'Файл не выбран' })}
 						accept=".lic, .deb, .pdf, .txt"
 					/>
-					<span className={styles.file_name}>{targetFile?.name}</span>
-					{errors.file && (
+					{
 						<span
 							role="alert"
 							className={cn({
 								[styles.isError]: errors.file,
 							})}
 						>
-							{errors.file?.message}
+							{errors.file && errors.file?.message}
 						</span>
-					)}
+					}
 					<Upload className={styles.upload} />
 				</label>
 				<hr className={styles.hr} />

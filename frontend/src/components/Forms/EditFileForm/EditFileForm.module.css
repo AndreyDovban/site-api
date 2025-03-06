@@ -22,7 +22,8 @@
 	bottom: 0;
 	left: 0;
 
-	background: #001e6899;
+	background: #001e68;
+	background: var(--owerlay-gragient);
 }
 
 .hide {
@@ -83,4 +84,41 @@
 .button_sec {
 	background: var(--grey-700);
 	border: 2px solid var(--grey-700);
+}
+
+.file_label {
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	font-size: 0.8rem;
+
+	border-radius: 0.5rem;
+}
+
+.file_name {
+	font-size: 1rem;
+	color: var(--grey-400);
+}
+
+.file_label:hover {
+	color: var(--red);
+	background: var(--grey-700);
+}
+
+.file_label:hover .upload {
+	fill: var(--red);
+}
+
+.upload {
+	pointer-events: none;
+	width: 2rem;
+	margin-right: 0.5rem;
+	fill: var(--grey-400);
+}
+
+.file {
+	display: none;
 }

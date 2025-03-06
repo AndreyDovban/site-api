@@ -36,7 +36,7 @@ func NewFileHandler(router *http.ServeMux, deps *FileHandlerDeps) {
 func (handler *FileHandler) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		if err := r.ParseMultipartForm(6666); err != nil { // Ограничение размера формы до 32 МБ
+		if err := r.ParseMultipartForm(1024); err != nil { // Ограничение размера формы до 32 МБ
 			fmt.Println(w, "Ошибка анализа multipart формы: %v", err)
 			return
 		}
@@ -48,13 +48,17 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 		}
 		defer fileM.Close()
 
+		name := r.FormValue("name")
+		description := r.FormValue("description")
+		product_uid := r.FormValue("product_uid")
+
 		data, err := io.ReadAll(fileM)
 		if err != nil {
 			fmt.Fprintf(w, "Error reading data from file: %v\n", err)
 			return
 		}
 
-		f, err := os.Create("./files/" + header.Filename)
+		f, err := os.Create("./files/" + name)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -65,10 +69,6 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 		filename := header.Filename
 		fmt.Println(w, "Файл '%s' успешно получен.\n", filename)
 
-		name := r.FormValue("name")
-		description := r.FormValue("description")
-		product_uid := r.FormValue("product_uid")
-		fmt.Println("!!!", name, description, product_uid)
 		// body, err := request.HandleBody[FileCreateRequest](&w, r)
 		// if err != nil {
 		// 	return
@@ -149,10 +149,15 @@ func (handler *FileHandler) Delete() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		uid := r.PathValue("uid")
 
-		_, err := handler.FileRepository.FindByUid(uid)
+		file, err := handler.FileRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
+		}
+
+		err = os.Remove("./files/" + file.Name)
+		if err != nil {
+			fmt.Println(err)
 		}
 
 		err = handler.FileRepository.Delete(uid)

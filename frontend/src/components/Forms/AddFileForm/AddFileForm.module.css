@@ -22,7 +22,10 @@
 	bottom: 0;
 	left: 0;
 
-	background: #001e6899;
+	/* background: #001e6899; */
+
+	background: #001e68;
+	background: var(--owerlay-gragient);
 }
 
 .hide {
@@ -94,7 +97,7 @@
 
 	font-size: 0.8rem;
 
-	/* background: red; */
+	border-radius: 0.5rem;
 }
 
 .file_name {
@@ -104,6 +107,7 @@
 
 .file_label:hover {
 	color: var(--red);
+	background: var(--grey-700);
 }
 
 .file_label:hover .upload {

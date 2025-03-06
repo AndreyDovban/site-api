@@ -8,7 +8,6 @@
  */
 export async function addFile(prodUid, data, reset, setNote) {
 	data['product_uid'] = prodUid;
-	data['name'] = data.file[0].name;
 
 	const form = new FormData();
 
