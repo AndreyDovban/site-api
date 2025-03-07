@@ -33,7 +33,8 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 	useEffect(() => {
 		setValue('name', targetProd.name, { shouldValidate: true });
 		setValue('description', targetProd.description, { shouldValidate: true });
-	}, [setValue, targetProd.description, targetProd.name]);
+		setValue('mail_instruction', targetProd.mail_instruction, { shouldValidate: true });
+	}, [setValue, targetProd.description, targetProd.mail_instruction, targetProd.name]);
 
 	/**  Обработчик отправки формы создания продукта */
 	async function handlerEditProd(data) {
@@ -70,7 +71,11 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 						<input
 							className={styles.inp}
 							{...register('name', {
-								required: true,
+								maxLength: {
+									value: 30,
+									message: 'Превышено колличество символов 30',
+								},
+								required: 'Поле не заполнено',
 							})}
 						/>
 						<span
@@ -91,7 +96,7 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 							{...register('description', {
 								maxLength: {
 									value: 100,
-									message: 'Превышено колличество символов 50',
+									message: 'Превышено колличество символов 100',
 								},
 								required: 'Поле не заполнено',
 							})}
@@ -103,6 +108,30 @@ export function EditProdForm({ targetProd, setTargetProd, ...props }) {
 							})}
 						>
 							{errors.telephone && errors.telephone?.message}
+						</span>
+					</label>
+					<label className={styles.label}>
+						<span>
+							Примечание для письма <span className={styles.star}>*</span>
+						</span>
+						<input
+							className={styles.inp}
+							// defaultValue={'jon'}
+							{...register('mail_instruction', {
+								required: 'Поле не заполнено',
+								maxLength: {
+									value: 150,
+									message: 'Превышено колличество символов 150',
+								},
+							})}
+						/>
+						<span
+							role="alert"
+							className={cn(styles.error, {
+								[styles.isError]: errors.mail_instruction,
+							})}
+						>
+							{errors.mail_instruction && errors.mail_instruction?.message}
 						</span>
 					</label>
 				</div>

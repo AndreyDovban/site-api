@@ -36,7 +36,7 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		product := NewProduct(body.Name, body.Description)
+		product := NewProduct(body.Name, body.Description, body.MailInstruction)
 
 		existedProd, _ := handler.ProductRepository.FindByName(product.Name)
 		if existedProd != nil {
@@ -93,9 +93,10 @@ func (handler *ProductHandler) Update() http.HandlerFunc {
 		}
 
 		product, err := handler.ProductRepository.Update(uid, &Product{
-			Model:       gorm.Model{},
-			Name:        body.Name,
-			Description: body.Description,
+			Model:           gorm.Model{},
+			Name:            body.Name,
+			Description:     body.Description,
+			MailInstruction: body.MailInstruction,
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)

@@ -15,10 +15,10 @@ import AddFile from '../../assets/svg/add-file.svg?react';
 export function ProdCart({ product, handlerDeleteProd, handlerEditProd, handlerAddFile, children, ...props }) {
 	return (
 		<div className={styles.block} {...props}>
-			<div className={styles.description}>
-				<span className={styles.name}>{product?.name}</span>
+			<div className={styles.item}>
+				<span className={styles.title}>Название продукта</span>
 				<hr />
-				<span>{product?.description}</span>
+				<span className={styles.name}>{product?.name}</span>
 				<span className={styles.graw}></span>
 				<button className={styles.but} title="Редактировать продукт" onClick={handlerEditProd}>
 					<Edite />
@@ -31,7 +31,19 @@ export function ProdCart({ product, handlerDeleteProd, handlerEditProd, handlerA
 				</button>
 			</div>
 			<hr />
+			<div className={styles.item}>
+				<span className={styles.title}>Краткое описание</span>
+				<hr />
+				<span>{product?.description}</span>
+			</div>
+			<hr />
+			<div className={styles.item}>
+				<span className={styles.title}>Примечание для письма</span>
+				<hr />
+				<span>{product?.mail_instruction}</span>
+			</div>
 
+			<hr />
 			{children.length ? <div className={styles.files}>{children}</div> : null}
 		</div>
 	);

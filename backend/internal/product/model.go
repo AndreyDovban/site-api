@@ -9,16 +9,18 @@ import (
 
 type Product struct {
 	gorm.Model
-	Uid         string       `json:"uid" gorm:"uniqueIndex"`
-	Name        string       `json:"name"`
-	Description string       `json:"decription"`
-	Files       []*file.File `gorm:"foreignKey:ProductUid;references:Uid"`
+	Uid             string       `json:"uid" gorm:"uniqueIndex"`
+	Name            string       `json:"name"`
+	Description     string       `json:"decription"`
+	MailInstruction string       `json:"mail_instruction"`
+	Files           []*file.File `gorm:"foreignKey:ProductUid;references:Uid"`
 }
 
-func NewProduct(name, description string) *Product {
+func NewProduct(name, description, mail_instruction string) *Product {
 	product := &Product{
-		Name:        name,
-		Description: description,
+		Name:            name,
+		Description:     description,
+		MailInstruction: mail_instruction,
 	}
 	product.GenerateHash()
 	return product

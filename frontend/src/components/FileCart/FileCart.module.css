@@ -4,16 +4,20 @@
 
 	padding: 0.5rem;
 
+	background: var(--white);
 	border: 1px solid var(--grey-400);
 	border-radius: var(--rad-10);
 }
 
 .block:hover {
-	background: var(--grey-100);
+	background: var(--grey-200);
 }
 
 .name {
-	min-width: 9.5rem;
+	overflow-x: hidden;
+	width: 14.5rem;
+	text-overflow: ellipsis;
+	text-wrap: nowrap;
 }
 
 .graw {

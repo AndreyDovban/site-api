@@ -58,7 +58,6 @@ export function AddProdForm({ isOpen, setIsOpen, ...props }) {
 						</span>
 						<input
 							className={styles.inp}
-							// defaultValue={'jon'}
 							{...register('name', {
 								required: 'Поле не заполнено',
 								maxLength: {
@@ -84,8 +83,8 @@ export function AddProdForm({ isOpen, setIsOpen, ...props }) {
 							className={styles.inp}
 							{...register('description', {
 								maxLength: {
-									value: 100,
-									message: 'Превышено колличество символов 50',
+									value: 150,
+									message: 'Превышено колличество символов 150',
 								},
 								required: 'Поле не заполнено',
 							})}
@@ -93,10 +92,34 @@ export function AddProdForm({ isOpen, setIsOpen, ...props }) {
 						<span
 							role="alert"
 							className={cn(styles.error, {
-								[styles.isError]: errors.telephone,
+								[styles.isError]: errors.description,
 							})}
 						>
-							{errors.telephone && errors.telephone?.message}
+							{errors.description && errors.description?.message}
+						</span>
+					</label>
+					<label className={styles.label}>
+						<span>
+							Примечание для письма <span className={styles.star}>*</span>
+						</span>
+						<input
+							className={styles.inp}
+							// defaultValue={'jon'}
+							{...register('mail_instruction', {
+								required: 'Поле не заполнено',
+								maxLength: {
+									value: 150,
+									message: 'Превышено колличество символов 150',
+								},
+							})}
+						/>
+						<span
+							role="alert"
+							className={cn(styles.error, {
+								[styles.isError]: errors.mail_instruction,
+							})}
+						>
+							{errors.mail_instruction && errors.mail_instruction?.message}
 						</span>
 					</label>
 				</div>

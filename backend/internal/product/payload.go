@@ -5,13 +5,15 @@ import (
 )
 
 type ProductCreateRequest struct {
-	Name        string `json:"name" validate:"required"`
-	Description string `json:"description" validate:"required"`
+	Name            string `json:"name" validate:"required"`
+	Description     string `json:"description" validate:"required"`
+	MailInstruction string `json:"mail_instruction" validate:"required"`
 }
 
 type ProductUpdateRequest struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name            string `json:"name"`
+	Description     string `json:"description"`
+	MailInstruction string `json:"mail_instruction"`
 }
 
 type GetProductsRequest struct {
@@ -21,11 +23,12 @@ type GetProductsRequest struct {
 }
 
 type ProductResponse struct {
-	Uid         string         `json:"uid"`
-	Name        string         `json:"name"`
-	Description string         `json:"description"`
-	CreatedAt   datatypes.Date `json:"created_at"`
-	UpdatedAt   datatypes.Date `json:"updated_at"`
+	Uid             string         `json:"uid"`
+	Name            string         `json:"name"`
+	Description     string         `json:"description"`
+	MailInstruction string         `json:"mail_instruction"`
+	CreatedAt       datatypes.Date `json:"created_at"`
+	UpdatedAt       datatypes.Date `json:"updated_at"`
 }
 
 type GetProductsResponse struct {

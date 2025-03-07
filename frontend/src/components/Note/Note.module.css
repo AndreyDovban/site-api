@@ -5,22 +5,25 @@
 	top: 6rem;
 	right: 4rem;
 
+	overflow-x: auto;
 	display: flex;
 	gap: 2rem;
 	align-items: center;
 
-	max-width: 30rem;
+	width: 30rem;
 	padding: 1rem 2rem;
 
 	color: var(--grey-600);
 
 	background: var(--grey-100);
 	border-radius: var(--rad-10);
+	outline: 1px solid var(--grey-400);
 
 	transition: all 0.3s ease;
 }
 
 .icon {
+	width: 2rem;
 	height: 2em;
 }
 
