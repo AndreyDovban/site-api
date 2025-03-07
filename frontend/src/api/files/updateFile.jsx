@@ -7,18 +7,41 @@
  * @param {Promise<true | undefined>}
  */
 export async function updateFile(fileUid, data, reset, setNote) {
+	const form = new FormData();
+
+	// console.log('DATA', data);
+
 	for (let key in data) {
 		if (typeof data[key] === 'string') {
 			data[key] = data[key].trim();
 		}
+
+		if (key === 'file') {
+			// console.log('1 Key "file" is exist');
+
+			if (data['file']) {
+				// console.log('1.1 Object "file" not null', data['file']);
+				// console.log('1.2 Length', data['file'].length);
+				// console.log('2 ');
+				form.append('file', data['file'][0]);
+			} else {
+				// console.log('3 Object "file" is null');
+				delete data['file'];
+			}
+		} else {
+			form.append(key, data[key]);
+		}
 	}
+
+	// console.log('DATA2', data);
+
 	try {
 		let res = await fetch(`/api/file/${fileUid}`, {
 			method: 'PATCH',
 			headers: {
-				'Content-Type': 'application/json',
+				'Enc-Type': 'multipart/form-data',
 			},
-			body: JSON.stringify(data),
+			body: form,
 		});
 		if (res.ok) {
 			reset();

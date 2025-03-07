@@ -35,7 +35,8 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 		setValue('name', targetFile.name, { shouldValidate: true });
 		setValue('description', targetFile.description, { shouldValidate: true });
 		setValue('file', null, { shouldValidate: true });
-	}, [setValue, targetFile.description, targetFile.name]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [setValue, targetFile.description]);
 
 	/**  Обработчик отправки формы создания продукта */
 	async function handlerEditProd(data) {
@@ -126,7 +127,7 @@ export function EditFileForm({ targetFile, setTargetFile, ...props }) {
 						type="file"
 						onInput={chooseFile}
 						className={styles.file}
-						{...register('file', { required: 'Файл не выбран' })}
+						{...register('file')}
 						accept=".lic, .deb, .pdf, .txt"
 					/>
 					{

@@ -36,12 +36,12 @@ func NewFileHandler(router *http.ServeMux, deps *FileHandlerDeps) {
 func (handler *FileHandler) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		if err := r.ParseMultipartForm(1024); err != nil { // Ограничение размера формы до 32 МБ
+		if err := r.ParseMultipartForm(1024); err != nil {
 			fmt.Println(w, "Ошибка анализа multipart формы: %v", err)
 			return
 		}
 
-		fileM, header, err := r.FormFile("file") // Поле файла называется "file"
+		fileM, _, err := r.FormFile("file")
 		if err != nil {
 			fmt.Println(w, "Не удалось получить файл: %v", err)
 			return
@@ -65,14 +65,6 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 		defer f.Close()
 
 		f.Write(data)
-
-		filename := header.Filename
-		fmt.Println(w, "Файл '%s' успешно получен.\n", filename)
-
-		// body, err := request.HandleBody[FileCreateRequest](&w, r)
-		// if err != nil {
-		// 	return
-		// }
 
 		file := NewFile(name, description, product_uid)
 
@@ -118,11 +110,6 @@ func (handler *FileHandler) Read() http.HandlerFunc {
 
 func (handler *FileHandler) Update() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		body, err := request.HandleBody[FileUpdateRequest](&w, r)
-		if err != nil {
-			return
-		}
-
 		uid := r.PathValue("uid")
 
 		oldFile, err := handler.FileRepository.FindByUid(uid)
@@ -131,10 +118,53 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 			return
 		}
 
+		name := r.FormValue("name")
+		description := r.FormValue("description")
+
+		if err := r.ParseMultipartForm(1024); err != nil {
+			fmt.Println(w, "Ошибка анализа multipart формы: %v", err)
+			return
+		}
+
+		r.Form.Get("file")
+
+		fileM, _, err := r.FormFile("file")
+		if err != nil {
+			fmt.Println(w, "Не удалось получить файл: %v", err)
+			err := os.Rename("./files/"+oldFile.Name, "./files/"+name)
+
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+		} else {
+			defer fileM.Close()
+
+			err := os.Remove("./files/" + oldFile.Name)
+
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			data, err := io.ReadAll(fileM)
+			if err != nil {
+				fmt.Fprintf(w, "Error reading data from file: %v\n", err)
+				return
+			}
+
+			f, err := os.Create("./files/" + name)
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer f.Close()
+
+			f.Write(data)
+		}
+
 		_, err = handler.FileRepository.Update(uid, &File{
 			Model:       gorm.Model{},
-			Name:        body.Name,
-			Description: body.Description,
+			Name:        name,
+			Description: description,
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)

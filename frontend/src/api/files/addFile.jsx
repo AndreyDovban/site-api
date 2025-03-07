@@ -16,12 +16,13 @@ export async function addFile(prodUid, data, reset, setNote) {
 			data[key] = data[key].trim();
 		}
 
-		if (key === 'file') {
+		if (key === 'file' && data[key]) {
 			form.append('file', data[key][0]);
 		} else {
 			form.append(key, data[key]);
 		}
 	}
+
 	try {
 		let res = await fetch('/api/file', {
 			method: 'POST',
