@@ -107,20 +107,3 @@ func (repo *LinkRepository) GetLinks(limit, offset int, columns []string) ([]Lin
 	}
 	return links, nil
 }
-
-func (repo *LinkRepository) GetMailLinks() ([]*LinkMailResponse, error) {
-	var links []*LinkMailResponse
-
-	result := repo.Db.
-		Table("links").
-		Select(`links.hash as hash,		 
-		files.name as file_name,
-		files.description as file_description`).
-		Joins("JOIN files ON links.file_uid = files.uid").
-		Find(&links)
-
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return links, nil
-}

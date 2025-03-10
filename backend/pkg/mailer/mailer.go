@@ -12,24 +12,15 @@ import (
 	"text/template"
 )
 
-type Config struct {
-	Sender   string
-	Password string
-	Domain   string
-	Protocol string
-	Host     string
-	Port     string
-}
+func Mailer(recipient string, sender, password, domain, protocol, host, port string, data interface{}) {
 
-func Mailer(recipient string, conf Config, data interface{}) {
-
-	address := fmt.Sprintf("%s:%s", conf.Host, conf.Port)
+	address := fmt.Sprintf("%s:%s", host, port)
 	tlsconfig := &tls.Config{
 		InsecureSkipVerify: true,
-		ServerName:         conf.Host,
+		ServerName:         host,
 	}
 
-	auth := smtp.PlainAuth("", conf.Sender, conf.Password, conf.Host)
+	auth := smtp.PlainAuth("", sender, password, host)
 
 	var body bytes.Buffer
 	t, err := template.ParseFiles("./pkg/mailer/email.html")
@@ -46,7 +37,7 @@ func Mailer(recipient string, conf Config, data interface{}) {
 	// fmt.Println(recipient)
 
 	//basic email headers
-	message += fmt.Sprintf("From: %s\r\n", (&mail.Address{Name: "Granulex", Address: conf.Sender}).String())
+	message += fmt.Sprintf("From: %s\r\n", (&mail.Address{Name: "Granulex", Address: sender}).String())
 	message += "Subject: Ссылки для скачивания\r\n"
 	message += "MIME-Version: 1.0\r\n"
 	message += fmt.Sprintf("Content-Type: multipart/mixed; boundary=\"%s\"\r\n", delimeter)
@@ -84,7 +75,7 @@ func Mailer(recipient string, conf Config, data interface{}) {
 		fmt.Println(err.Error())
 	}
 
-	if err = c.Mail(conf.Sender); err != nil {
+	if err = c.Mail(sender); err != nil {
 		fmt.Println(err.Error())
 		c.Close()
 	}

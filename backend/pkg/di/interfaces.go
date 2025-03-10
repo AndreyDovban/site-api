@@ -11,9 +11,9 @@ type IClientRepository interface {
 	Create(client *client.Client) (*client.Client, error)
 	FindByData(name, telephone, mail, company string) (*client.Client, error)
 }
+
 type ILinkRepository interface {
 	Create(link *link.Link) (*link.Link, error)
-	GetMailLinks() ([]*link.LinkMailResponse, error)
 }
 
 type IProductRepository interface {

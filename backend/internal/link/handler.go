@@ -92,6 +92,9 @@ func (handler *LinkHandler) Download() http.HandlerFunc {
 			return
 		}
 
-		response.Json(w, "download file", http.StatusOK)
+		w.Header().Set("File-Name", "Example")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("hello"))
+		// response.Json(w, "download file", http.StatusOK)
 	}
 }

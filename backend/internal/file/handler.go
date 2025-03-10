@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"site-api/configs"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
 
@@ -14,15 +15,18 @@ import (
 
 type FileHandlerDeps struct {
 	FileRepository *FileRepository
+	Config         *configs.Config
 }
 
 type FileHandler struct {
 	FileRepository *FileRepository
+	Config         *configs.Config
 }
 
 func NewFileHandler(router *http.ServeMux, deps *FileHandlerDeps) {
 	handler := &FileHandler{
 		FileRepository: deps.FileRepository,
+		Config:         deps.Config,
 	}
 	router.HandleFunc("POST /file", handler.Create())
 	router.HandleFunc("GET /file/{uid}", handler.Read())
@@ -58,7 +62,7 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		f, err := os.Create("./files/" + name)
+		f, err := os.Create(handler.Config.Db.FilesFolder + "/" + name)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -131,7 +135,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 		fileM, _, err := r.FormFile("file")
 		if err != nil {
 			fmt.Println(w, "Не удалось получить файл: %v", err)
-			err := os.Rename("./files/"+oldFile.Name, "./files/"+name)
+			err := os.Rename(handler.Config.Db.FilesFolder+"/"+oldFile.Name, handler.Config.Db.FilesFolder+"/"+name)
 
 			if err != nil {
 				fmt.Println(err)
@@ -140,7 +144,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 		} else {
 			defer fileM.Close()
 
-			err := os.Remove("./files/" + oldFile.Name)
+			err := os.Remove(handler.Config.Db.FilesFolder + "/" + oldFile.Name)
 
 			if err != nil {
 				fmt.Println(err)
@@ -152,7 +156,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 				return
 			}
 
-			f, err := os.Create("./files/" + name)
+			f, err := os.Create(handler.Config.Db.FilesFolder + "/" + name)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -185,7 +189,7 @@ func (handler *FileHandler) Delete() http.HandlerFunc {
 			return
 		}
 
-		err = os.Remove("./files/" + file.Name)
+		err = os.Remove(handler.Config.Db.FilesFolder + "/" + file.Name)
 		if err != nil {
 			fmt.Println(err)
 		}

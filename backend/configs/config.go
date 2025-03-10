@@ -13,13 +13,17 @@ type Config struct {
 }
 
 type DbConfig struct {
-	Dsn string
+	Dsn         string
+	FilesFolder string
 }
 
 type MailConfig struct {
 	Login    string
 	Password string
 	Host     string
+	Port     string
+	Protocol string
+	Domain   string
 }
 
 func LoadConfig() *Config {
@@ -29,12 +33,16 @@ func LoadConfig() *Config {
 	}
 	return &Config{
 		Db: DbConfig{
-			Dsn: os.Getenv("DSN"),
+			Dsn:         os.Getenv("DSN"),
+			FilesFolder: os.Getenv("FILES_FOLDER"),
 		},
 		Mail: MailConfig{
 			Login:    os.Getenv("LOGIN"),
 			Password: os.Getenv("PASSWORD"),
 			Host:     os.Getenv("HOST"),
+			Port:     os.Getenv("PORT"),
+			Protocol: os.Getenv("PROTOCOL"),
+			Domain:   os.Getenv("DOMAIN"),
 		},
 	}
 }
