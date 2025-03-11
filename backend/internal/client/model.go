@@ -26,8 +26,8 @@ func NewClient(name, telephone, mail, company string) *Client {
 	return client
 }
 
-func (product *Client) GenerateHash() {
-	product.Uid = RandStringRunes(20)
+func (client *Client) GenerateHash() {
+	client.Uid = RandStringRunes(20)
 }
 
 var letterRunes = []rune("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890")

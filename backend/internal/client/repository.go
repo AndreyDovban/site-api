@@ -17,14 +17,15 @@ func NewClientRepository(database *db.Db) *ClientRepository {
 	}
 }
 
-func (repo *ClientRepository) Create(Client *Client) (*Client, error) {
+func (repo *ClientRepository) Create(name, telephone, mail, company string) (*Client, error) {
+	client := NewClient(name, telephone, mail, company)
 	result := repo.Db.
 		Table("clients").
-		Create(Client)
+		Create(client)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return Client, nil
+	return client, nil
 }
 
 func (repo *ClientRepository) FindByName(name string) (*Client, error) {

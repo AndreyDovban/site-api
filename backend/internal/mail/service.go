@@ -2,11 +2,7 @@ package mail
 
 import (
 	"fmt"
-	"os"
 	"site-api/configs"
-	"site-api/internal/client"
-	"site-api/internal/link"
-	"site-api/internal/product"
 	"site-api/pkg/di"
 	"site-api/pkg/mailer"
 )
@@ -19,12 +15,19 @@ type MailService struct {
 	Config            *configs.Config
 }
 
-type MailResponse struct {
+type link struct {
+	Hash            string
+	FileName        string
+	FileDescription string
+	ProductUid      string
+}
+
+type templateData struct {
 	Name     string
 	Protocol string
 	Domain   string
-	Links    []*link.LinkMailResponse
-	Products []*product.Product
+	Links    []*link
+	Products interface{}
 }
 
 func NewMailService(
@@ -43,24 +46,25 @@ func NewMailService(
 	}
 }
 
-func (service *MailService) CreateLink(name, telephone, mail, company string, productUids []string) (string, error) {
+func (service *MailService) SendMail(name, telephone, mail, company string, productUids []string) (string, error) {
 
-	client := client.NewClient(name, telephone, mail, company)
+	var clientUid string
 	existedClient, _ := service.ClientRepository.FindByData(name, telephone, mail, company)
 	if existedClient == nil {
-		_, err := service.ClientRepository.Create(client)
+		client, err := service.ClientRepository.Create(name, telephone, mail, company)
 		if err != nil {
 			return "", err
 		}
+		clientUid = client.Uid
 	} else {
-		client.Uid = existedClient.Uid
+		clientUid = existedClient.Uid
 	}
 
-	var data MailResponse
+	var data templateData
 
 	data.Name = name
-	data.Protocol = os.Getenv("PROTOCOL")
-	data.Domain = os.Getenv("DOMAIN")
+	data.Protocol = service.Config.Mail.Protocol
+	data.Domain = service.Config.Mail.Domain
 
 	fmt.Println(data.Domain, data.Protocol)
 
@@ -70,17 +74,15 @@ func (service *MailService) CreateLink(name, telephone, mail, company string, pr
 	}
 
 	for _, file := range files {
-		l := link.NewLink(1, 0)
-		l.ClientUid = client.Uid
-		l.FileUid = file.Uid
-		l.ProductUid = file.ProductUid
-
-		_, err := service.LinkRepository.Create(l)
+		l, err := service.LinkRepository.Create(1, 0)
 		if err != nil {
 			return "", err
 		}
+		l.ClientUid = clientUid
+		l.FileUid = file.Uid
+		l.ProductUid = file.ProductUid
 
-		data.Links = append(data.Links, &link.LinkMailResponse{
+		data.Links = append(data.Links, &link{
 			Hash:            l.Hash,
 			FileName:        file.Name,
 			FileDescription: file.Description,
@@ -108,13 +110,3 @@ func (service *MailService) CreateLink(name, telephone, mail, company string, pr
 
 	return mail, nil
 }
-
-// func (service *MailService) SendMail(mail string) error {
-// 	fmt.Println("send mail")
-// 	links, _ := service.LinkRepository.GetMailLinks()
-// 	for _, v := range links {
-// 		fmt.Println(v.FileName, v.FileDescription)
-// 	}
-// 	mailer.Mailer(mail, links)
-// 	return nil
-// }

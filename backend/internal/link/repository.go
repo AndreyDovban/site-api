@@ -17,7 +17,8 @@ func NewLinkRepository(database *db.Db) *LinkRepository {
 	}
 }
 
-func (repo *LinkRepository) Create(link *Link) (*Link, error) {
+func (repo *LinkRepository) Create(valid int, count int) (*Link, error) {
+	link := NewLink(valid, count)
 	result := repo.Db.
 		Table("links").
 		Create(link)

@@ -53,7 +53,7 @@ func (handler *ClientHandler) Create() http.HandlerFunc {
 			client.GenerateHash()
 		}
 
-		createdClient, err := handler.ClientRepository.Create(client)
+		createdClient, err := handler.ClientRepository.Create(body.Name, body.Telephone, body.Mail, body.Company)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

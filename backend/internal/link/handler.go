@@ -4,20 +4,22 @@ import (
 	"net/http"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
-	"time"
 )
 
 type LinkHandlerDeps struct {
 	LinkRepository *LinkRepository
+	LinkService    *LinkService
 }
 
 type LinkHandler struct {
 	LinkRepository *LinkRepository
+	LinkService    *LinkService
 }
 
 func NewLinkHandler(router *http.ServeMux, deps *LinkHandlerDeps) {
 	handler := &LinkHandler{
 		LinkRepository: deps.LinkRepository,
+		LinkService:    deps.LinkService,
 	}
 
 	router.HandleFunc("POST /links", handler.GetLinks())
@@ -56,45 +58,18 @@ func (handler *LinkHandler) Download() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		hash := r.PathValue("hash")
 
-		link, err := handler.LinkRepository.FindByHash(hash)
+		result, err := handler.LinkService.Download(hash)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
-		link.Count++
-
-		if link.Valid == -1 {
-			response.Json(w, "ссылка не действительна", http.StatusForbidden)
-			return
-		}
-
-		if link.Count > 9 {
-			link.Valid = -1
-		}
-
-		created := link.CreatedAt
-		n := time.Now()
-		def := int(n.Sub(created) / time.Minute)
-
-		if def > 2880 {
-			link.Valid = -1
-			_, err = handler.LinkRepository.Update(hash, link)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
+			status := http.StatusBadRequest
+			if err.Error() == "ссылка не действительна" {
+				status = http.StatusForbidden
 			}
-		}
-
-		_, err = handler.LinkRepository.Update(hash, link)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			http.Error(w, err.Error(), status)
 			return
 		}
-
 		w.Header().Set("File-Name", "Example")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("hello"))
-		// response.Json(w, "download file", http.StatusOK)
+		w.Write([]byte(result))
+
 	}
 }
