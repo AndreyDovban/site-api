@@ -19,10 +19,13 @@ type Link struct {
 	Client     client.Client `gorm:"foreignKey:ClientUid;references:Uid"`
 }
 
-func NewLink(valid int, count int) *Link {
+func NewLink(valid, count int, product_uid, file_uid, client_uid string) *Link {
 	link := &Link{
-		Valid: valid,
-		Count: count,
+		Valid:      valid,
+		Count:      count,
+		ProductUid: product_uid,
+		FileUid:    file_uid,
+		ClientUid:  client_uid,
 	}
 	link.GenerateHash()
 	return link

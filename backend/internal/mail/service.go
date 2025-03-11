@@ -74,13 +74,10 @@ func (service *MailService) SendMail(name, telephone, mail, company string, prod
 	}
 
 	for _, file := range files {
-		l, err := service.LinkRepository.Create(1, 0)
+		l, err := service.LinkRepository.Create(1, 0, file.ProductUid, file.Uid, clientUid)
 		if err != nil {
 			return "", err
 		}
-		l.ClientUid = clientUid
-		l.FileUid = file.Uid
-		l.ProductUid = file.ProductUid
 
 		data.Links = append(data.Links, &link{
 			Hash:            l.Hash,

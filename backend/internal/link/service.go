@@ -2,30 +2,36 @@ package link
 
 import (
 	"errors"
+	"site-api/configs"
+	"site-api/internal/file"
 	"time"
 )
 
 type LinkService struct {
 	LinkRepository *LinkRepository
+	FileRepository *file.FileRepository
+	Config         *configs.Config
 }
 
-func NewLinkService(linkRepository *LinkRepository) *LinkService {
+func NewLinkService(linkRepository *LinkRepository, fileRepository *file.FileRepository, config *configs.Config) *LinkService {
 	return &LinkService{
 		LinkRepository: linkRepository,
+		FileRepository: fileRepository,
+		Config:         config,
 	}
 }
 
-func (service *LinkService) Download(hash string) (string, error) {
+func (service *LinkService) Download(hash string) (string, string, error) {
 
 	link, err := service.LinkRepository.FindByHash(hash)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	link.Count++
 
 	if link.Valid == -1 {
-		return "", errors.New("ссылка не действительна")
+		return "", "", errors.New("ссылка не действительна")
 	}
 
 	if link.Count > 9 {
@@ -40,18 +46,20 @@ func (service *LinkService) Download(hash string) (string, error) {
 		link.Valid = -1
 		_, err = service.LinkRepository.Update(hash, link)
 		if err != nil {
-			return "", err
+			return "", "", err
 		}
 	}
 
 	_, err = service.LinkRepository.Update(hash, link)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
-	return "ok", nil
+	file, err := service.FileRepository.FindByUid(link.FileUid)
+	if err != nil {
+		return "", "", err
+	}
 
-	// w.Header().Set("File-Name", "Example")
-	// w.WriteHeader(http.StatusOK)
-	// w.Write([]byte("hello"))
+	return service.Config.Db.FilesFolder + "/" + file.Name, file.Name, nil
+
 }

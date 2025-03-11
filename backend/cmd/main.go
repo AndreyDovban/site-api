@@ -41,7 +41,7 @@ func App() http.Handler {
 
 	// Services
 	mailService := mail.NewMailService(clientRepository, linkRepository, prodRepository, fileRepository, config)
-	linkService := link.NewLinkService(linkRepository)
+	linkService := link.NewLinkService(linkRepository, fileRepository, config)
 
 	// Handlers
 	product.NewProductHandler(router, &product.ProductHandlerDeps{

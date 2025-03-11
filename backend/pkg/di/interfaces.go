@@ -13,7 +13,7 @@ type IClientRepository interface {
 }
 
 type ILinkRepository interface {
-	Create(valid int, count int) (*link.Link, error)
+	Create(valid int, count int, product_uid, file_uid, client_uid string) (*link.Link, error)
 }
 
 type IProductRepository interface {

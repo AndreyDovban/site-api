@@ -2,6 +2,7 @@ package link
 
 import (
 	"net/http"
+	"os"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
 )
@@ -58,7 +59,7 @@ func (handler *LinkHandler) Download() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		hash := r.PathValue("hash")
 
-		result, err := handler.LinkService.Download(hash)
+		path, name, err := handler.LinkService.Download(hash)
 		if err != nil {
 			status := http.StatusBadRequest
 			if err.Error() == "ссылка не действительна" {
@@ -67,9 +68,16 @@ func (handler *LinkHandler) Download() http.HandlerFunc {
 			http.Error(w, err.Error(), status)
 			return
 		}
-		w.Header().Set("File-Name", "Example")
+
+		fileByte, err := os.ReadFile(path)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadGateway)
+
+		}
+
+		w.Header().Set("File-Name", name)
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(result))
+		w.Write([]byte(fileByte))
 
 	}
 }
