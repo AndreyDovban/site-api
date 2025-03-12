@@ -1,3 +1,5 @@
 .env
 base.db
 /files/*
+/dist
+/main

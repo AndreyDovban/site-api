@@ -4,7 +4,7 @@ import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
 	build: {
-		target: 'es5',
+		target: 'es6',
 		outDir: 'dist',
 	},
 	base: '',
@@ -17,7 +17,7 @@ export default defineConfig({
 				target: 'http://localhost:5000',
 				changeOrigin: true,
 				secure: false,
-				rewrite: path => path.replace(/^\/api/, ''),
+				// rewrite: path => path.replace(/^\/api/, ''),
 			},
 		},
 	},

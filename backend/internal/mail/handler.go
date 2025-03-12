@@ -19,7 +19,14 @@ func NewMailHandler(router *http.ServeMux, deps *MailHandlerDeps) {
 		MailService: deps.MailService,
 	}
 
-	router.HandleFunc("POST /mail", mail.SendMail())
+	router.HandleFunc("POST /api/mail", mail.SendMail())
+	router.HandleFunc("GET /api/check", mail.Check())
+}
+
+func (handler *MailHalndler) Check() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		response.Json(w, "all right", http.StatusOK)
+	}
 }
 
 func (handler *MailHalndler) SendMail() http.HandlerFunc {

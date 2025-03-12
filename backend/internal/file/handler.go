@@ -28,12 +28,12 @@ func NewFileHandler(router *http.ServeMux, deps *FileHandlerDeps) {
 		FileRepository: deps.FileRepository,
 		Config:         deps.Config,
 	}
-	router.HandleFunc("POST /file", handler.Create())
-	router.HandleFunc("GET /file/{uid}", handler.Read())
-	router.HandleFunc("PATCH /file/{uid}", handler.Update())
-	router.HandleFunc("DELETE /file/{uid}", handler.Delete())
+	router.HandleFunc("POST /api/file", handler.Create())
+	router.HandleFunc("GET /api/file/{uid}", handler.Read())
+	router.HandleFunc("PATCH /api/file/{uid}", handler.Update())
+	router.HandleFunc("DELETE /api/file/{uid}", handler.Delete())
 
-	router.HandleFunc("POST /files", handler.GetFiles())
+	router.HandleFunc("POST /api/files", handler.GetFiles())
 
 }
 

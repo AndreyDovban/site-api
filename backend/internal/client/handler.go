@@ -21,12 +21,12 @@ func NewClientHandler(router *http.ServeMux, deps *ClientHandlerDeps) {
 	handler := &ClientHandler{
 		ClientRepository: deps.ClientRepository,
 	}
-	router.HandleFunc("POST /client", handler.Create())
-	router.HandleFunc("GET /client/{name}", handler.Read())
-	router.HandleFunc("PATCH /client/{name}", handler.Update())
-	router.HandleFunc("DELETE /client/{name}", handler.Delete())
+	router.HandleFunc("POST /api/client", handler.Create())
+	router.HandleFunc("GET /api/client/{name}", handler.Read())
+	router.HandleFunc("PATCH /api/client/{name}", handler.Update())
+	router.HandleFunc("DELETE /api/client/{name}", handler.Delete())
 
-	router.HandleFunc("POST /clients", handler.GetClients())
+	router.HandleFunc("POST /api/clients", handler.GetClients())
 
 }
 

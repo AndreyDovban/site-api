@@ -20,12 +20,12 @@ func NewProductHandler(router *http.ServeMux, deps *ProductHandlerDeps) {
 	handler := &ProductHandler{
 		ProductRepository: deps.ProductRepository,
 	}
-	router.HandleFunc("POST /product", handler.Create())
-	router.HandleFunc("GET /product/{uid}", handler.Read())
-	router.HandleFunc("PATCH /product/{uid}", handler.Update())
-	router.HandleFunc("DELETE /product/{uid}", handler.Delete())
+	router.HandleFunc("POST /api/product", handler.Create())
+	router.HandleFunc("GET /api/product/{uid}", handler.Read())
+	router.HandleFunc("PATCH /api/product/{uid}", handler.Update())
+	router.HandleFunc("DELETE /api/product/{uid}", handler.Delete())
 
-	router.HandleFunc("POST /products", handler.GetProds())
+	router.HandleFunc("POST /api/products", handler.GetProds())
 
 }
 

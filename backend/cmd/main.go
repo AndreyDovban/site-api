@@ -13,25 +13,14 @@ import (
 	"site-api/pkg/middleware"
 )
 
-/**
-TODO
-[x] Прописать нужные поля таблицам
-[] Реализовать динамическое создание структур ответа
-[] Добавить связность
-[] Добавить сортировку по колонкам
-[] Добавить фильтрацию по значению полей
-[] Добавить выбор колонок
-[x] Изменить формат передачи параметров талицы на JSON
-[x] Добавить таблицу ссылок
-[] Добавить горутину слушатель события перехода по ссылке
-[] Добавить почтовый сервис
-*/
-
 func App() http.Handler {
 
 	config := configs.LoadConfig()
 	db := db.NewDb(config)
 	router := http.NewServeMux()
+
+	// Перенаправление на index.hmtl
+	router.HandleFunc("/", middleware.Rewrite)
 
 	// Repositories
 	prodRepository := product.NewProductRepository(db)
@@ -79,6 +68,7 @@ func main() {
 		Addr:    ":5000",
 		Handler: app,
 	}
+
 	fmt.Print("\033[H\033[2J")
 	fmt.Println("http://localhost:5000")
 	server.ListenAndServe()

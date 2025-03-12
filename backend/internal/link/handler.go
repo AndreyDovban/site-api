@@ -23,8 +23,8 @@ func NewLinkHandler(router *http.ServeMux, deps *LinkHandlerDeps) {
 		LinkService:    deps.LinkService,
 	}
 
-	router.HandleFunc("POST /links", handler.GetLinks())
-	router.HandleFunc("GET /link/{hash}", handler.Download())
+	router.HandleFunc("POST /api/links", handler.GetLinks())
+	router.HandleFunc("GET /api/link/{hash}", handler.Download())
 
 }
 

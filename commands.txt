@@ -1,0 +1,2 @@
+docker build -t admin-panel:latest .
+docker run -it --rm --name app admin-panel:latest
