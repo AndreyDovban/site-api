@@ -26,6 +26,6 @@ dist-ssr
 .env
 .env-dev
 base.db
-/pack
-/dist
-/main
+/backend/files
+/backend/ui
+/backend/main
