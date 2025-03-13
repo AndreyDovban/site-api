@@ -2,6 +2,7 @@ package product
 
 import (
 	"net/http"
+	"site-api/pkg/logger"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
 
@@ -33,6 +34,7 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := request.HandleBody[ProductCreateRequest](&w, r)
 		if err != nil {
+			logger.ERROR(err)
 			return
 		}
 
@@ -41,6 +43,7 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 		existedProd, _ := handler.ProductRepository.FindByName(product.Name)
 		if existedProd != nil {
 			http.Error(w, existedProd.Name+" is already exists", http.StatusBadRequest)
+			logger.ERROR(existedProd.Name+" is already exists", http.StatusBadRequest)
 			return
 		}
 
@@ -55,6 +58,7 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 		createdProd, err := handler.ProductRepository.Create(product)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -70,6 +74,7 @@ func (handler *ProductHandler) Read() http.HandlerFunc {
 		existedProd, err := handler.ProductRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -81,6 +86,7 @@ func (handler *ProductHandler) Update() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := request.HandleBody[ProductUpdateRequest](&w, r)
 		if err != nil {
+			logger.ERROR(err)
 			return
 		}
 
@@ -89,6 +95,7 @@ func (handler *ProductHandler) Update() http.HandlerFunc {
 		_, err = handler.ProductRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -100,6 +107,7 @@ func (handler *ProductHandler) Update() http.HandlerFunc {
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -114,12 +122,14 @@ func (handler *ProductHandler) Delete() http.HandlerFunc {
 		_, err := handler.ProductRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		err = handler.ProductRepository.Delete(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -131,18 +141,21 @@ func (handler *ProductHandler) GetProds() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := request.HandleBody[GetProductsRequest](&w, r)
 		if err != nil {
+			logger.ERROR(err)
 			return
 		}
 
 		count, err := handler.ProductRepository.Count()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		products, err := handler.ProductRepository.GetProds(body.Limit, body.Offset, body.Columns)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 

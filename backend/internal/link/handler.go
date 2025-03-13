@@ -3,6 +3,7 @@ package link
 import (
 	"net/http"
 	"os"
+	"site-api/pkg/logger"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
 )
@@ -32,18 +33,21 @@ func (handler *LinkHandler) GetLinks() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := request.HandleBody[GetLinksRequest](&w, r)
 		if err != nil {
+			logger.ERROR(err)
 			return
 		}
 
 		count, err := handler.LinkRepository.Count()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		links, err := handler.LinkRepository.GetLinks(body.Limit, body.Offset, body.Columns)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -66,12 +70,14 @@ func (handler *LinkHandler) Download() http.HandlerFunc {
 				status = http.StatusForbidden
 			}
 			http.Error(w, err.Error(), status)
+			logger.ERROR(err.Error(), status)
 			return
 		}
 
 		fileByte, err := os.ReadFile(path)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadGateway)
+			logger.ERROR(err.Error(), http.StatusBadGateway)
 
 		}
 

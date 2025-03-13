@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"site-api/configs"
+	"site-api/pkg/logger"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
 
@@ -41,13 +42,13 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		if err := r.ParseMultipartForm(1024); err != nil {
-			fmt.Println(w, "Ошибка анализа multipart формы: %v", err)
+			logger.ERROR("Ошибка анализа multipart формы: %v", err)
 			return
 		}
 
 		fileM, _, err := r.FormFile("file")
 		if err != nil {
-			fmt.Println(w, "Не удалось получить файл: %v", err)
+			logger.ERROR("Не удалось получить файл: %v", err)
 			return
 		}
 		defer fileM.Close()
@@ -58,12 +59,13 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 
 		data, err := io.ReadAll(fileM)
 		if err != nil {
-			fmt.Fprintf(w, "Error reading data from file: %v\n", err)
+			logger.ERROR("Error reading data from file: %v\n", err)
 			return
 		}
 
 		f, err := os.Create(handler.Config.Db.FilesFolder + "/" + name)
 		if err != nil {
+			logger.ERROR(err)
 			log.Fatal(err)
 		}
 		defer f.Close()
@@ -75,6 +77,7 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 		existedFile, _ := handler.FileRepository.FindByName(file.Name)
 		if existedFile != nil {
 			http.Error(w, existedFile.Name+" is already exists", http.StatusBadRequest)
+			logger.ERROR(existedFile.Name+" is already exists", http.StatusBadRequest)
 			return
 		}
 
@@ -90,6 +93,7 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 		createdFile, err := handler.FileRepository.Create(file)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -105,6 +109,7 @@ func (handler *FileHandler) Read() http.HandlerFunc {
 		existedFile, err := handler.FileRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -119,6 +124,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 		oldFile, err := handler.FileRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -126,7 +132,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 		description := r.FormValue("description")
 
 		if err := r.ParseMultipartForm(1024); err != nil {
-			fmt.Println(w, "Ошибка анализа multipart формы: %v", err)
+			logger.ERROR("Ошибка анализа multipart формы: %v", err)
 			return
 		}
 
@@ -134,11 +140,11 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 
 		fileM, _, err := r.FormFile("file")
 		if err != nil {
-			fmt.Println(w, "Не удалось получить файл: %v", err)
+			logger.ERROR("Не удалось получить файл: %v", err)
 			err := os.Rename(handler.Config.Db.FilesFolder+"/"+oldFile.Name, handler.Config.Db.FilesFolder+"/"+name)
 
 			if err != nil {
-				fmt.Println(err)
+				logger.ERROR(err)
 				return
 			}
 		} else {
@@ -147,17 +153,18 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 			err := os.Remove(handler.Config.Db.FilesFolder + "/" + oldFile.Name)
 
 			if err != nil {
-				fmt.Println(err)
+				logger.ERROR(err)
 				return
 			}
 			data, err := io.ReadAll(fileM)
 			if err != nil {
-				fmt.Fprintf(w, "Error reading data from file: %v\n", err)
+				logger.ERROR("Error reading data from file: %v\n", err)
 				return
 			}
 
 			f, err := os.Create(handler.Config.Db.FilesFolder + "/" + name)
 			if err != nil {
+				logger.ERROR(err)
 				log.Fatal(err)
 			}
 			defer f.Close()
@@ -172,6 +179,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -186,17 +194,19 @@ func (handler *FileHandler) Delete() http.HandlerFunc {
 		file, err := handler.FileRepository.FindByUid(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		err = os.Remove(handler.Config.Db.FilesFolder + "/" + file.Name)
 		if err != nil {
-			fmt.Println(err)
+			logger.ERROR(err)
 		}
 
 		err = handler.FileRepository.Delete(uid)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -208,18 +218,21 @@ func (handler *FileHandler) GetFiles() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := request.HandleBody[GetFilesRequest](&w, r)
 		if err != nil {
+			logger.ERROR(err)
 			return
 		}
 
 		count, err := handler.FileRepository.Count()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		files, err := handler.FileRepository.GetFiles(body.Limit, body.Offset, body.Columns)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 

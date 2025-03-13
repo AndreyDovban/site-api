@@ -1,2 +1,9 @@
 docker build -t admin-panel:latest .
-docker run -it --rm --name app admin-panel:latest
+docker run \
+    -it \
+    --rm \
+    --name app \
+    -v $(pwd)/pack:/opt/app/pack \
+    -v $(pwd)/base.db:/opt/app/base.db \
+    -p 127.0.0.1:5000:5000 \
+    admin-panel:latest

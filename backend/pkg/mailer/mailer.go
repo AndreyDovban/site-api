@@ -5,10 +5,9 @@ import (
 	"crypto/tls"
 	"encoding/base64"
 	"fmt"
-	"log"
 	"net/mail"
 	"net/smtp"
-	"os"
+	"site-api/pkg/logger"
 	"text/template"
 )
 
@@ -23,7 +22,7 @@ func Mailer(recipient string, sender, password, domain, protocol, host, port str
 	auth := smtp.PlainAuth("", sender, password, host)
 
 	var body bytes.Buffer
-	t, err := template.ParseFiles("./pkg/mailer/email.html")
+	t, err := template.ParseFiles("email.html")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -53,58 +52,58 @@ func Mailer(recipient string, sender, password, domain, protocol, host, port str
 	message += "Content-Type: text/plain; charset=\"utf-8\"\r\n"
 	message += "Content-Transfer-Encoding: base64\r\n"
 	message += "Content-Disposition: attachment;filename=ttt\r\n"
-	rawFile, fileErr := os.ReadFile("Example.txt")
-	if fileErr != nil {
-		log.Panic(fileErr)
-	}
-	message += "\r\n" + base64.StdEncoding.EncodeToString(rawFile)
+	// rawFile, fileErr := os.ReadFile("Example.txt")
+	// if fileErr != nil {
+	// 	log.Panic(fileErr)
+	// }
+	message += "\r\n" + base64.StdEncoding.EncodeToString([]byte("Example Text"))
 
 	// fmt.Println(message)
 
 	c, err := smtp.Dial(address)
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.ERROR(err.Error())
 	}
 
 	if err = c.StartTLS(tlsconfig); err != nil {
-		fmt.Println(err.Error())
+		logger.ERROR(err.Error())
 		c.Close()
 	}
 
 	if err = c.Auth(auth); err != nil {
-		fmt.Println(err.Error())
+		logger.ERROR(err.Error())
 	}
 
 	if err = c.Mail(sender); err != nil {
-		fmt.Println(err.Error())
+		logger.ERROR(err.Error())
 		c.Close()
 	}
 
 	if err = c.Rcpt(recipient); err != nil {
-		fmt.Println(err.Error())
+		logger.ERROR(err.Error())
 		c.Close()
 	}
 
 	w, err := c.Data()
 
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.ERROR(err.Error())
 		c.Close()
 	}
 
 	_, err = w.Write([]byte(message))
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.ERROR(err.Error())
 		c.Close()
 	}
 
 	err = w.Close()
 
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.ERROR(err.Error())
 		c.Close()
 	}
 
-	fmt.Println("Send mail success!")
+	logger.INFO("Send mail success!")
 	c.Quit()
 }

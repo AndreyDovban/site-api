@@ -1,8 +1,8 @@
 package client
 
 import (
-	"fmt"
 	"net/http"
+	"site-api/pkg/logger"
 	"site-api/pkg/request"
 	"site-api/pkg/response"
 
@@ -34,6 +34,7 @@ func (handler *ClientHandler) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := request.HandleBody[ClientCreateRequest](&w, r)
 		if err != nil {
+			logger.ERROR(err)
 			return
 		}
 
@@ -42,6 +43,7 @@ func (handler *ClientHandler) Create() http.HandlerFunc {
 		existedClient, _ := handler.ClientRepository.FindByName(client.Name)
 		if existedClient != nil {
 			http.Error(w, existedClient.Name+" is already exists", http.StatusBadRequest)
+			logger.ERROR(existedClient.Name+" is already exists", http.StatusBadRequest)
 			return
 		}
 
@@ -56,6 +58,7 @@ func (handler *ClientHandler) Create() http.HandlerFunc {
 		createdClient, err := handler.ClientRepository.Create(body.Name, body.Telephone, body.Mail, body.Company)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -71,10 +74,11 @@ func (handler *ClientHandler) Read() http.HandlerFunc {
 		existedClient, err := handler.ClientRepository.FindByName(name)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		fmt.Println(existedClient.CreatedAt.Format("02.01.2006/04:04:03"))
+		logger.INFO(existedClient.CreatedAt.Format("02.01.2006/04:04:03"))
 
 		response.Json(w, existedClient, http.StatusOK)
 	}
@@ -84,6 +88,7 @@ func (handler *ClientHandler) Update() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := request.HandleBody[ClientUpdateRequest](&w, r)
 		if err != nil {
+			logger.ERROR(err)
 			return
 		}
 
@@ -118,12 +123,14 @@ func (handler *ClientHandler) Delete() http.HandlerFunc {
 		_, err := handler.ClientRepository.FindByName(name)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		_, err = handler.ClientRepository.Delete(name)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -135,18 +142,21 @@ func (handler *ClientHandler) GetClients() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := request.HandleBody[GetClientsRequest](&w, r)
 		if err != nil {
+			logger.ERROR(err)
 			return
 		}
 
 		count, err := handler.ClientRepository.Count()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		clients, err := handler.ClientRepository.GetClients(body.Limit, body.Offset, body.Columns)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 

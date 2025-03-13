@@ -1,0 +1,11 @@
+services:
+    app:
+        container_name: app
+        image: admin-panel:latest
+        env_file: './backend/.env-dev'
+        volumes:
+            - ./backend/files:/opt/app/files
+            - ./backend/base.db:/opt/app/base.db
+            - ./backend/logs:/opt/app/logs
+        ports:
+            - '5000:5000'

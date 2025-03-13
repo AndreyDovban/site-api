@@ -10,6 +10,7 @@ import (
 	"site-api/internal/mail"
 	"site-api/internal/product"
 	"site-api/pkg/db"
+	"site-api/pkg/logger"
 	"site-api/pkg/middleware"
 )
 
@@ -56,7 +57,6 @@ func App() http.Handler {
 		middleware.CORS,
 		middleware.Logging,
 	)
-
 	return stack(router)
 }
 
@@ -70,6 +70,9 @@ func main() {
 	}
 
 	fmt.Print("\033[H\033[2J")
-	fmt.Println("http://localhost:5000")
-	server.ListenAndServe()
+	logger.INFO("http://localhost:5000")
+	err := server.ListenAndServe()
+	if err != nil {
+		logger.ERROR(err)
+	}
 }

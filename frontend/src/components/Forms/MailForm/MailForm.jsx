@@ -187,20 +187,24 @@ export function MailForm() {
 			</div>
 			<hr className={styles.hr} />
 			<div className={styles.check_block}>
-				{[...prods.data].map(el => {
-					return (
-						<label key={uuid()} className={styles.item}>
-							<input
-								type="checkbox"
-								value={el.uid}
-								className={styles.checkbox}
-								checked={choosedProds.includes(el.uid)}
-								onChange={handleChange}
-							/>
-							{el.name}
-						</label>
-					);
-				})}
+				{prods.data ? (
+					[...prods.data].map(el => {
+						return (
+							<label key={uuid()} className={styles.item}>
+								<input
+									type="checkbox"
+									value={el.uid}
+									className={styles.checkbox}
+									checked={choosedProds.includes(el.uid)}
+									onChange={handleChange}
+								/>
+								{el.name}
+							</label>
+						);
+					})
+				) : (
+					<span>Не найдены продукты</span>
+				)}
 			</div>
 			<hr className={styles.hr} />
 			<Button className={styles.but} disabled={!choosedProds.length}>

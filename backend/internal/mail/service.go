@@ -1,7 +1,6 @@
 package mail
 
 import (
-	"fmt"
 	"site-api/configs"
 	"site-api/pkg/di"
 	"site-api/pkg/mailer"
@@ -65,8 +64,6 @@ func (service *MailService) SendMail(name, telephone, mail, company string, prod
 	data.Name = name
 	data.Protocol = service.Config.Mail.Protocol
 	data.Domain = service.Config.Mail.Domain
-
-	fmt.Println(data.Domain, data.Protocol)
 
 	files, err := service.FileRepository.GetFilesByProdUid(productUids)
 	if err != nil {

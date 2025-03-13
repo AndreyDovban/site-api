@@ -5,7 +5,7 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
 	build: {
 		target: 'es6',
-		outDir: 'dist',
+		outDir: 'ui',
 	},
 	base: '',
 	server: {

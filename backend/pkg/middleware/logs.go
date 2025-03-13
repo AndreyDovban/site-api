@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"log"
 	"net/http"
+	"site-api/pkg/logger"
 	"time"
 )
 
@@ -16,6 +16,6 @@ func Logging(next http.Handler) http.Handler {
 		}
 
 		next.ServeHTTP(wrapper, r)
-		log.Println(wrapper.StatusCode, r.Method, r.URL.Path, time.Since(start))
+		logger.INFO(wrapper.StatusCode, r.Method, r.URL.Path, time.Since(start))
 	})
 }
