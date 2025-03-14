@@ -42,6 +42,12 @@ export function ProdCart({ product, handlerDeleteProd, handlerEditProd, handlerA
 				<hr />
 				<span>{product?.mail_instruction}</span>
 			</div>
+			<hr />
+			<div className={styles.item}>
+				<span className={styles.title}>Примечание для письма</span>
+				<hr />
+				<span>{product?.web_instruction}</span>
+			</div>
 
 			<hr />
 			{children.length ? <div className={styles.files}>{children}</div> : null}

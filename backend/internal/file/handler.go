@@ -42,13 +42,13 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		if err := r.ParseMultipartForm(1024); err != nil {
-			logger.ERROR("Ошибка анализа multipart формы: %v", err)
+			logger.ERROR("Ошибка анализа multipart формы: ", err)
 			return
 		}
 
 		fileM, _, err := r.FormFile("file")
 		if err != nil {
-			logger.ERROR("Не удалось получить файл: %v", err)
+			logger.ERROR("Не удалось получить файл: ", err)
 			return
 		}
 		defer fileM.Close()
@@ -59,7 +59,7 @@ func (handler *FileHandler) Create() http.HandlerFunc {
 
 		data, err := io.ReadAll(fileM)
 		if err != nil {
-			logger.ERROR("Error reading data from file: %v\n", err)
+			logger.ERROR("Error reading data from file: ", err)
 			return
 		}
 
@@ -132,7 +132,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 		description := r.FormValue("description")
 
 		if err := r.ParseMultipartForm(1024); err != nil {
-			logger.ERROR("Ошибка анализа multipart формы: %v", err)
+			logger.ERROR("Ошибка анализа multipart формы: ", err)
 			return
 		}
 
@@ -140,7 +140,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 
 		fileM, _, err := r.FormFile("file")
 		if err != nil {
-			logger.ERROR("Не удалось получить файл: %v", err)
+			logger.ERROR("Не удалось получить файл: ", err)
 			err := os.Rename(handler.Config.Db.FilesFolder+"/"+oldFile.Name, handler.Config.Db.FilesFolder+"/"+name)
 
 			if err != nil {
@@ -158,7 +158,7 @@ func (handler *FileHandler) Update() http.HandlerFunc {
 			}
 			data, err := io.ReadAll(fileM)
 			if err != nil {
-				logger.ERROR("Error reading data from file: %v\n", err)
+				logger.ERROR("Error reading data from file: ", err)
 				return
 			}
 

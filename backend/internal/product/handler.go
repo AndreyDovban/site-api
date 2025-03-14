@@ -38,7 +38,7 @@ func (handler *ProductHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		product := NewProduct(body.Name, body.Description, body.MailInstruction)
+		product := NewProduct(body.Name, body.Description, body.MailInstruction, body.WebInstruction)
 
 		existedProd, _ := handler.ProductRepository.FindByName(product.Name)
 		if existedProd != nil {
@@ -104,6 +104,7 @@ func (handler *ProductHandler) Update() http.HandlerFunc {
 			Name:            body.Name,
 			Description:     body.Description,
 			MailInstruction: body.MailInstruction,
+			WebInstruction:  body.WebInstruction,
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)

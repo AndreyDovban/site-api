@@ -56,7 +56,7 @@ export function MailForm() {
 				let mes = await res.json();
 				reset();
 				setNote({
-					text: mes,
+					text: mes?.mail,
 					isOpen: true,
 					isSuccessful: true,
 				});

@@ -93,35 +93,6 @@ func (repo *ProductRepository) Count() (int64, error) {
 
 }
 
-// func (repo *ProductRepository) GetProds(limit, offset int, columns []string) ([]ProductResponse, error) {
-// 	var products []ProductResponse
-
-// 	if len(columns) == 0 {
-// 		return products, nil
-// 	}
-
-// 	result := repo.Db.
-// 		Table("products").
-// 		Select(
-// 			`products.uid as uid,
-// 			products.name as name,
-// 			products.description as description,
-// 			products.created_at as created_at,
-// 			products.updated_at as updated_at,
-// 			files.name as file_name,
-// 			files.description as file_description`).
-// 		Where("products.deleted_at is null").
-// 		Joins("JOIN files ON products.uid = files.product_uid").
-// 		Order("uid asc").
-// 		Limit(limit).
-// 		Offset(offset).
-// 		Scan(&products)
-// 	if result.Error != nil {
-// 		return nil, result.Error
-// 	}
-// 	return products, nil
-// }
-
 func (repo *ProductRepository) GetProds(limit, offset int, columns []string) ([]ProductResponse, error) {
 	var products []ProductResponse
 

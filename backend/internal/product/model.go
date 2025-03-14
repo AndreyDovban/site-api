@@ -13,14 +13,16 @@ type Product struct {
 	Name            string       `json:"name"`
 	Description     string       `json:"decription"`
 	MailInstruction string       `json:"mail_instruction"`
+	WebInstruction  string       `json:"web_instruction"`
 	Files           []*file.File `gorm:"foreignKey:ProductUid;references:Uid"`
 }
 
-func NewProduct(name, description, mail_instruction string) *Product {
+func NewProduct(name, description, mail_instruction, web_instruction string) *Product {
 	product := &Product{
 		Name:            name,
 		Description:     description,
 		MailInstruction: mail_instruction,
+		WebInstruction:  web_instruction,
 	}
 	product.GenerateHash()
 	return product

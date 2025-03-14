@@ -8,12 +8,14 @@ type ProductCreateRequest struct {
 	Name            string `json:"name" validate:"required"`
 	Description     string `json:"description" validate:"required"`
 	MailInstruction string `json:"mail_instruction" validate:"required"`
+	WebInstruction  string `json:"web_instruction" validate:"required"`
 }
 
 type ProductUpdateRequest struct {
 	Name            string `json:"name"`
 	Description     string `json:"description"`
 	MailInstruction string `json:"mail_instruction"`
+	WebInstruction  string `json:"web_instruction"`
 }
 
 type GetProductsRequest struct {
@@ -27,6 +29,7 @@ type ProductResponse struct {
 	Name            string         `json:"name"`
 	Description     string         `json:"description"`
 	MailInstruction string         `json:"mail_instruction"`
+	WebInstruction  string         `json:"web_instruction"`
 	CreatedAt       datatypes.Date `json:"created_at"`
 	UpdatedAt       datatypes.Date `json:"updated_at"`
 }

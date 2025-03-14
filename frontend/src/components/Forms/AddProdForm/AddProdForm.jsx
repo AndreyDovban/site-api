@@ -122,6 +122,30 @@ export function AddProdForm({ isOpen, setIsOpen, ...props }) {
 							{errors.mail_instruction && errors.mail_instruction?.message}
 						</span>
 					</label>
+					<label className={styles.label}>
+						<span>
+							Примечание для ответа на сайте<span className={styles.star}>*</span>
+						</span>
+						<input
+							className={styles.inp}
+							// defaultValue={'jon'}
+							{...register('web_instruction', {
+								required: 'Поле не заполнено',
+								maxLength: {
+									value: 150,
+									message: 'Превышено колличество символов 150',
+								},
+							})}
+						/>
+						<span
+							role="alert"
+							className={cn(styles.error, {
+								[styles.isError]: errors.web_instruction,
+							})}
+						>
+							{errors.web_instruction && errors.web_instruction?.message}
+						</span>
+					</label>
 				</div>
 				<hr className={styles.hr} />
 				<hr className={styles.hr} />

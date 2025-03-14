@@ -1,6 +1,7 @@
 package mail
 
 import (
+	"encoding/json"
 	"net/http"
 	"site-api/pkg/logger"
 	"site-api/pkg/request"
@@ -43,13 +44,20 @@ func (handler *MailHalndler) SendMail() http.HandlerFunc {
 			return
 		}
 
-		mail, err := handler.MailService.SendMail(body.Name, body.Telephone, body.Mail, body.Company, body.ProductUids)
+		mail, data, err := handler.MailService.SendMail(body.Name, body.Telephone, body.Mail, body.Company, body.ProductUids)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			logger.ERROR(err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		response.Json(w, "send mail with links to "+mail, http.StatusOK)
+		data.Mail = "send mail with links to " + mail
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		b, _ := json.Marshal(data)
+		w.Write(b)
+
+		// response.Json(w, "send mail with links to "+mail, http.StatusOK)
 	}
 }

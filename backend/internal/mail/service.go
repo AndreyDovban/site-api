@@ -15,18 +15,27 @@ type MailService struct {
 }
 
 type link struct {
-	Hash            string
-	FileName        string
-	FileDescription string
-	ProductUid      string
+	Hash            string `json:"hash"`
+	FileName        string `json:"file_name"`
+	FileDescription string `json:"file_description"`
+	ProductUid      string `json:"product_uid"`
 }
 
-type templateData struct {
-	Name     string
-	Protocol string
-	Domain   string
-	Links    []*link
-	Products interface{}
+type Product struct {
+	Uid             string `json:"uid"`
+	Name            string `json:"name"`
+	Description     string `json:"description"`
+	MailInstruction string `json:"mail_instruction"`
+	WebInstruction  string `json:"web_instruction"`
+}
+
+type TemplateData struct {
+	Name     string     `json:"name"`
+	Protocol string     `json:"protocol"`
+	Domain   string     `json:"domain"`
+	Mail     string     `json:"mail"`
+	Links    []*link    `json:"links"`
+	Products []*Product `json:"products"`
 }
 
 func NewMailService(
@@ -45,21 +54,21 @@ func NewMailService(
 	}
 }
 
-func (service *MailService) SendMail(name, telephone, mail, company string, productUids []string) (string, error) {
+func (service *MailService) SendMail(name, telephone, mail, company string, productUids []string) (string, *TemplateData, error) {
+
+	var data = &TemplateData{}
 
 	var clientUid string
 	existedClient, _ := service.ClientRepository.FindByData(name, telephone, mail, company)
 	if existedClient == nil {
 		client, err := service.ClientRepository.Create(name, telephone, mail, company)
 		if err != nil {
-			return "", err
+			return "", data, err
 		}
 		clientUid = client.Uid
 	} else {
 		clientUid = existedClient.Uid
 	}
-
-	var data templateData
 
 	data.Name = name
 	data.Protocol = service.Config.Mail.Protocol
@@ -67,13 +76,13 @@ func (service *MailService) SendMail(name, telephone, mail, company string, prod
 
 	files, err := service.FileRepository.GetFilesByProdUid(productUids)
 	if err != nil {
-		return "", err
+		return "", data, err
 	}
 
 	for _, file := range files {
 		l, err := service.LinkRepository.Create(1, 0, file.ProductUid, file.Uid, clientUid)
 		if err != nil {
-			return "", err
+			return "", data, err
 		}
 
 		data.Links = append(data.Links, &link{
@@ -87,10 +96,18 @@ func (service *MailService) SendMail(name, telephone, mail, company string, prod
 
 	products, err := service.ProductRepository.CetProdsByUids(productUids)
 	if err != nil {
-		return "", err
+		return "", data, err
 	}
 
-	data.Products = products
+	for _, v := range products {
+		data.Products = append(data.Products, &Product{
+			Uid:             v.Uid,
+			Name:            v.Name,
+			Description:     v.Description,
+			MailInstruction: v.MailInstruction,
+			WebInstruction:  v.WebInstruction,
+		})
+	}
 
 	mailer.Mailer(
 		mail,
@@ -102,5 +119,5 @@ func (service *MailService) SendMail(name, telephone, mail, company string, prod
 		service.Config.Mail.Port,
 		data)
 
-	return mail, nil
+	return mail, data, nil
 }
